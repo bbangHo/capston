@@ -1,8 +1,8 @@
 ---
 name: 예외명 or 다음에 같은 이슈가 발생해도 알아볼 수 있는 제목
 about: 예외가 생긴 상황과 해결방법을 기록해주세요
-title: "[버그][해결여부] - "
-labels: "\U0001F41E 버그 수정"
+title: " "
+labels: ''
 assignees: ''
 
 ---
