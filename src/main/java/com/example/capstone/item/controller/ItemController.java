@@ -19,9 +19,10 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping
-    public ApiResponse<List<ItemResponseDTO.Item>> getItemList(@Valid @Positive @RequestParam(name = "category-id") Long categoryId,
-                                                               @Min(1) @RequestParam(name = "page") Integer page,
-                                                               @Positive @RequestParam(name = "size") Integer size) {
-        return ApiResponse.onSuccess(itemService.getItemList(categoryId, page, size));
+    public ApiResponse<ItemResponseDTO.ItemList> getItemList(@Valid @Positive @RequestParam(name = "category-id") Long categoryId,
+                                                             @Min(1) @RequestParam(name = "page") Integer page,
+                                                             @Positive @RequestParam(name = "size") Integer size) {
+
+        return ApiResponse.onSuccess(itemService.getItemList(categoryId, page - 1, size));
     }
 }

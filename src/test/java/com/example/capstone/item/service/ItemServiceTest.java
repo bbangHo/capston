@@ -6,20 +6,11 @@ import com.example.capstone.item.common.ItemType;
 import com.example.capstone.item.dto.ItemResponseDTO;
 import com.example.capstone.item.repository.CategoryRepository;
 import com.example.capstone.item.repository.ItemRepository;
-import com.example.capstone.member.Member;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -62,9 +53,9 @@ class ItemServiceTest {
     void getItemListTest() {
         setUp();
 
-        List<ItemResponseDTO.Item> itemList = itemService.getItemList(category1.getId(), 0, 10);
+        ItemResponseDTO.ItemList itemList = itemService.getItemList(category1.getId(), 0, 10);
 
-        for (ItemResponseDTO.Item item : itemList) {
+        for (ItemResponseDTO.Item item : itemList.getItemList()) {
             assertThat(item.getCategory()).isEqualTo(category1.getName());
         }
     }

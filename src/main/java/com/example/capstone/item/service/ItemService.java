@@ -25,7 +25,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final CategoryRepository categoryRepository;
 
-    public List<ItemResponseDTO.Item> getItemList(Long categoryId, Integer page, Integer size) {
+    public ItemResponseDTO.ItemList getItemList(Long categoryId, Integer page, Integer size) {
         Category category = categoryValid(categoryId);
         Page<Item> itemPage = itemRepository.findByCategoryId(category.getId(), PageRequest.of(page, size));
         return ItemConverter.toItemList(itemPage);
