@@ -15,7 +15,7 @@ import lombok.Getter;
 public class ApiResponse<T> {
 
     @JsonProperty("isSuccess")
-    private final boolean isSuccess;
+    private final Boolean isSuccess;
     private final String code;
     private final String message;
     @JsonInclude(JsonInclude.Include.NON_NULL)  // null인 데이터는 제외한다.
