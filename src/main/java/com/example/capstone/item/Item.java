@@ -5,12 +5,14 @@ import com.example.capstone.inquiry.Inquiry;
 import com.example.capstone.item.common.ItemType;
 import com.example.capstone.member.Member;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +59,10 @@ public class Item extends BaseEntity {
 
     @NotNull
     private String ItemDetailsImageUrl;
+
+    @NotNull
+    @Future
+    private LocalDateTime deadline;
 
     @OneToOne
     @JoinColumn(name = "group_purchase_item_id")
