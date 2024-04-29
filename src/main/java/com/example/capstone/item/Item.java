@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -62,7 +63,9 @@ public class Item extends BaseEntity {
 
     @NotNull
     @Future
-    private LocalDateTime deadline;
+    @ColumnDefault("2024-12-31T00:00:00.000000")
+    @Builder.Default
+    private LocalDateTime deadline = LocalDateTime.now();
 
     @OneToOne
     @JoinColumn(name = "group_purchase_item_id")
