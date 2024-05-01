@@ -47,11 +47,13 @@ class ItemServiceTest {
         }
     }
 
+
+
     static Category category1;
     @Test
     @DisplayName("카테고리 별로 아이템 리스트를 가져온다.")
     void getItemListTest() {
-        setUp();
+        //setUp();
 
         ItemResponseDTO.ItemList itemList = itemService.getItemList(category1.getId(), 0, 10);
 

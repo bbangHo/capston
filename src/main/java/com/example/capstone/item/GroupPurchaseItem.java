@@ -12,9 +12,9 @@ import lombok.*;
 public class GroupPurchaseItem extends BaseEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @MapsId
     @OneToOne(mappedBy = "groupPurchaseItem")
     private Item item;
 
