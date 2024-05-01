@@ -6,6 +6,7 @@ import com.example.capstone.item.common.ItemType;
 import com.example.capstone.member.Member;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -63,13 +64,14 @@ public class Item extends BaseEntity {
 
     @NotNull
     @Future
-    @ColumnDefault("2024-12-31T00:00:00.000000")
+    @ColumnDefault("'2024-12-31T00:00:00.000000'")
     @Builder.Default
     private LocalDateTime deadline = LocalDateTime.now();
 
     @OneToOne
     @JoinColumn(name = "group_purchase_item_id")
     private GroupPurchaseItem groupPurchaseItem;
+
 
     @OneToMany(mappedBy = "item")
     private List<ItemImage> itemImages = new ArrayList<>();

@@ -15,10 +15,11 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicInsert
 @DynamicUpdate
 public class Seller extends BaseEntity {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @MapsId
     @OneToOne(mappedBy = "seller")
     private Member member;
 
