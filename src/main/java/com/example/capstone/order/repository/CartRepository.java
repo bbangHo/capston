@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
+    @Query("select count(*) from Cart c where c.member.id = :memberId")
+    Integer countAllItemInCart(Long memberId);
 }

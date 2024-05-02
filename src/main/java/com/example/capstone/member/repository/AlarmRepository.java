@@ -10,4 +10,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AlarmRepository extends JpaRepository<Alarm, Long> {
 
+    @Query("SELECT a FROM Alarm a where a.member.id = :memberId and a.isConfirmed = false ORDER BY a.createdAt ASC ")
+    Page<Alarm> searchNotConfirmedAlarm(Long memberId , Pageable pageable);
+
+    @Query("select count(*) from Alarm a where a.member.id = :memberId and a.isConfirmed = false")
+    Integer countAllNotConfirmedAlarm(Long memberId);
+
 }
