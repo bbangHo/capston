@@ -12,11 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@Transactional
 class ItemServiceTest {
 
     @Autowired
@@ -28,34 +29,44 @@ class ItemServiceTest {
     @Autowired
     ItemRepository itemRepository;
 
-    // TODO : 리팩토링 필요
-/*
     void setUp() {
-        category1 = categoryRepository.saveAndFlush(new Category(1L, "과일"));
-        Category category2 = categoryRepository.saveAndFlush(new Category(2L, "야채"));
+        category1 = categoryRepository.save(new Category(1L, "과일"));
+        Category category2 = categoryRepository.save(new Category(2L, "야채"));
 
         for (int i = 0; i < 10; i++) {
-            Item item = itemRepository.saveAndFlush(new Item((long) i, null, category1, ItemType.COMMON,
-                    "item" + i, "item 설명", 10000 + i, 3000 + i, 10 + i,
-                    "url", null, null, null));
+            Item item = itemRepository.save(Item.builder()
+                    .category(category1)
+                    .type(ItemType.COMMON)
+                    .name("상품" + i)
+                    .price(i + 10000)
+                    .deliveryCharge(i + 1000)
+                    .stock(i)
+                    .deadline(LocalDateTime.parse("2024-12-31T00:00:00.000000"))
+                    .ItemDetailsImageUrl("img")
+                    .build());
         }
 
         for (int i = 10; i < 20; i++) {
-            Item item = itemRepository.saveAndFlush(new Item((long) i, null, category2, ItemType.COMMON,
-                    "item" + i, "item 설명", 10000 + i, 3000 + i, 10 + i,
-                    "url", null, null, null));
+            Item item = itemRepository.save(Item.builder()
+                    .category(category2)
+                    .type(ItemType.COMMON)
+                    .name("상품" + i)
+                    .price(i + 10000)
+                    .deliveryCharge(i + 1000)
+                    .stock(i)
+                    .deadline(LocalDateTime.parse("2024-12-31T00:00:00.000000"))
+                    .ItemDetailsImageUrl("img")
+                    .build());
         }
     }
 
- */
-
-
-
     static Category category1;
+
     @Test
     @DisplayName("카테고리 별로 아이템 리스트를 가져온다.")
+    @Transactional
     void getItemListTest() {
-        //setUp();
+        setUp();
 
         ItemResponseDTO.ItemList itemList = itemService.getItemList(category1.getId(), 0, 10);
 
