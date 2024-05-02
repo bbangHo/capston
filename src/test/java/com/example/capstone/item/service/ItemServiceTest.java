@@ -1,5 +1,6 @@
 package com.example.capstone.item.service;
 
+import com.example.capstone.exception.GeneralException;
 import com.example.capstone.item.Category;
 import com.example.capstone.item.Item;
 import com.example.capstone.item.common.ItemType;
@@ -15,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 class ItemServiceTest {
@@ -31,7 +32,7 @@ class ItemServiceTest {
 
     void setUp() {
         category1 = categoryRepository.save(new Category(1L, "과일"));
-        Category category2 = categoryRepository.save(new Category(2L, "야채"));
+        category2 = categoryRepository.save(new Category(2L, "야채"));
 
         for (int i = 0; i < 10; i++) {
             Item item = itemRepository.save(Item.builder()
@@ -61,9 +62,10 @@ class ItemServiceTest {
     }
 
     static Category category1;
+    static Category category2;
 
     @Test
-    @DisplayName("카테고리 별로 아이템 리스트를 가져온다.")
+    @DisplayName("성공 테스트 - 카테고리 별로 아이템 리스트를 가져온다.")
     @Transactional
     void getItemListTest() {
         setUp();
@@ -73,5 +75,15 @@ class ItemServiceTest {
         for (ItemResponseDTO.Item item : itemList.getItemList()) {
             assertThat(item.getCategory()).isEqualTo(category1.getName());
         }
+    }
+
+    @Test
+    @DisplayName("없는 카테고리를 요청하면 실패한다.")
+    @Transactional
+    void getItemListFailureTest() {
+        setUp();
+
+        assertThrows(GeneralException.class,
+                () -> itemService.getItemList(category1.getId() + category2.getId(), 0, 10));
     }
 }
