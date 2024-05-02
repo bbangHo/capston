@@ -1,17 +1,9 @@
 package com.example.capstone.item.service;
 
-import com.example.capstone.apiPayload.code.status.ErrorStatus;
-import com.example.capstone.exception.GeneralException;
-import com.example.capstone.item.Category;
 import com.example.capstone.item.GroupPurchaseItem;
-import com.example.capstone.item.Item;
 import com.example.capstone.item.converter.GroupItemConverter;
-import com.example.capstone.item.converter.ItemConverter;
 import com.example.capstone.item.dto.GroupItemResponseDTO;
-import com.example.capstone.item.dto.ItemResponseDTO;
-import com.example.capstone.item.repository.CategoryRepository;
 import com.example.capstone.item.repository.GroupPurchaseItemRepository;
-import com.example.capstone.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

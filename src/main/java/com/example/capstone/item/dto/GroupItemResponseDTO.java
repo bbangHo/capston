@@ -1,6 +1,5 @@
 package com.example.capstone.item.dto;
 
-import com.example.capstone.item.Item;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,6 +31,6 @@ public class GroupItemResponseDTO {
         private Long totalElement;
         private Boolean isFirst;
         private Boolean isLast;
-        private List<GroupItemResponseDTO.GroupItem> groupItemList;
+        private List<GroupItem> groupItemList;
     }
 }
