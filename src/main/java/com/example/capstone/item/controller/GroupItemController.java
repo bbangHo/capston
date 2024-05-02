@@ -2,9 +2,7 @@ package com.example.capstone.item.controller;
 
 import com.example.capstone.apiPayload.ApiResponse;
 import com.example.capstone.item.dto.GroupItemResponseDTO;
-import com.example.capstone.item.dto.ItemResponseDTO;
 import com.example.capstone.item.service.GroupPurchaseItemService;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;

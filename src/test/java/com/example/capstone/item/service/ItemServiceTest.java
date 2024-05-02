@@ -29,7 +29,7 @@ class ItemServiceTest {
     ItemRepository itemRepository;
 
     // TODO : 리팩토링 필요
-
+/*
     void setUp() {
         category1 = categoryRepository.saveAndFlush(new Category(1L, "과일"));
         Category category2 = categoryRepository.saveAndFlush(new Category(2L, "야채"));
@@ -46,6 +46,8 @@ class ItemServiceTest {
                     "url", null, null, null));
         }
     }
+
+ */
 
 
 
