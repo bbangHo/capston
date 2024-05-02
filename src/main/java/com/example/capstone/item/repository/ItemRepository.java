@@ -24,4 +24,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query("SELECT i FROM Item i JOIN Subscription sub ON i.member.id = sub.toMember.id where sub.fromMember.id = :fromMemberId ORDER BY i.createdAt DESC")
     Page<Item> searchSubscribedItem(Long fromMemberId , Pageable pageable);
 
+    Page<Item>findByNameContaining(String keyword, Pageable pageable);
 }
