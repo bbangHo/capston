@@ -74,9 +74,11 @@ public class Item extends BaseEntity {
 
 
     @OneToMany(mappedBy = "item")
+    @Builder.Default
     private List<ItemImage> itemImages = new ArrayList<>();
 
     @OneToMany(mappedBy = "item")
+    @Builder.Default
     private List<Inquiry> inquiries = new ArrayList<>();
 
     public void addItemImage(ItemImage itemImage) {
