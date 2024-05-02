@@ -23,15 +23,18 @@ import com.example.capstone.order.repository.OrderItemRepository;
 import com.example.capstone.order.repository.OrderRepository;
 import com.example.capstone.seller.Seller;
 import com.example.capstone.seller.repository.SellerRepository;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDateTime;
 
-
+@Transactional
+@Rollback(value = false)
 @SpringBootTest
 public class addDummyTest {
 
@@ -68,7 +71,7 @@ public class addDummyTest {
     @Test
     void addDummyData(){
 
-        for (int i = 200; i < 220; i++) {
+        for (int i = 1; i < 30; i++) {
 
 
             Category category = Category.builder()
