@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ItemResponseDTO {
@@ -21,6 +22,7 @@ public class ItemResponseDTO {
         private Integer price;
         private Integer discountPrice;
         private String imageUrl;
+        private LocalDateTime deadline;
     }
 
     @Builder
