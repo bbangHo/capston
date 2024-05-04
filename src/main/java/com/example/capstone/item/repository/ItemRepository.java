@@ -1,6 +1,5 @@
 package com.example.capstone.item.repository;
 
-import com.example.capstone.item.Category;
 import com.example.capstone.item.Item;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 
 @Repository
-public interface ItemRepository extends JpaRepository<Item, Long> {
+public interface ItemRepository extends JpaRepository<Item, Long>, ItemRepositoryCustom {
     Page<Item>findByCategoryId(Long categoryId, Pageable pageable);
 
     Page<Item> findAllBy(Pageable pageable);
