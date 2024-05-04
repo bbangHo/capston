@@ -16,7 +16,7 @@ public class PageResponseDTO {
     @AllArgsConstructor
     public static class Main {
         public Integer numberUnreadAlarms;
-        public Integer numberItems;
+        public Integer numberItemsInCart;
         public List<ItemResponseDTO.Item> imminentItemListPreview;
         public List<ItemResponseDTO.Item> popularItemListPreview;
         public List<ItemResponseDTO.Item> subscribedItemListPreview;
