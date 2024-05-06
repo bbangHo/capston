@@ -33,7 +33,7 @@ public class PageService {
 
         return PageResponseDTO.Main.builder()
                 .numberUnreadAlarms(numberUnreadAlarms)
-                .numberItems(numberItems)
+                .numberItemsInCart(numberItems)
                 .imminentItemListPreview(imminentItemList.getItemList())
                 .popularItemListPreview(popularItemList.getItemList())
                 .subscribedItemListPreview(subscribedItemList.getItemList())
