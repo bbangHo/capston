@@ -57,4 +57,12 @@ public class ItemController {
         return ApiResponse.onSuccess(itemQueryService.searchItemList(keyword, page - 1, size));
 
     }
+
+    @GetMapping("/{itemId}")
+    public ApiResponse<ItemResponseDTO.DetailsOfItem> searchDetailOfItem(@PathVariable Long itemId) {
+
+        return ApiResponse.onSuccess(itemService.getDetailOfItem(itemId));
+
+    }
+
 }

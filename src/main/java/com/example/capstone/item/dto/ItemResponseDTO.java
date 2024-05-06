@@ -50,7 +50,7 @@ public class ItemResponseDTO {
         private Integer price;
         private Integer discountPrice;
         private String ItemDetailsImageUrl;
-        private List<String> imageUrl;
+        private List<ItemImageResponseDTO.ItemImage> imageUrl;
         private LocalDateTime deadline;
     }
 }

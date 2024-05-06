@@ -6,6 +6,7 @@ import com.example.capstone.exception.handler.ErrorHandler;
 import com.example.capstone.item.Category;
 import com.example.capstone.item.Item;
 import com.example.capstone.item.converter.ItemConverter;
+import com.example.capstone.item.converter.ItemImageConverter;
 import com.example.capstone.item.dto.ItemResponseDTO;
 import com.example.capstone.item.repository.CategoryRepository;
 import com.example.capstone.item.repository.ItemRepository;
@@ -86,6 +87,12 @@ public class ItemService {
         Page<Item> allItemPage = itemRepository.findAllBy(pageable);
 
         return ItemConverter.toItemList(allItemPage);
+    }
+
+   public ItemResponseDTO.DetailsOfItem getDetailOfItem(Long ItemId){
+        Item item = itemRepository.findById(ItemId).orElseThrow(() -> new ErrorHandler(ErrorStatus.ITEM_NOT_FOUND));
+
+        return ItemConverter.toDetailsOfItemResponseDTO(item);
     }
 
 }
