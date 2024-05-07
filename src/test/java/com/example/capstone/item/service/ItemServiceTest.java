@@ -8,6 +8,7 @@ import com.example.capstone.item.converter.ItemConverter;
 import com.example.capstone.item.dto.ItemResponseDTO;
 import com.example.capstone.item.repository.CategoryRepository;
 import com.example.capstone.item.repository.ItemRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@Slf4j
 @SpringBootTest
 class ItemServiceTest {
 
@@ -123,6 +125,17 @@ class ItemServiceTest {
             assertThat(dslItem.getId()).isEqualTo(jpqlItem.getId());
             assertThat(dslItem.getName()).isEqualTo(jpqlItem.getName());
         }
+
+    }
+
+    @Test
+    void searchDetailOfItem(){
+
+        Long itemId = 3L;
+
+        ItemResponseDTO.DetailsOfItem detailOfItem = itemService.getDetailOfItem(itemId);
+
+        log.info(String.valueOf(detailOfItem.getImageUrl().size()));
 
     }
 }

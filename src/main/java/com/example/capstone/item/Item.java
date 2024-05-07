@@ -73,7 +73,10 @@ public class Item extends BaseEntity {
     private GroupPurchaseItem groupPurchaseItem;
 
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item",
+            cascade = {CascadeType.ALL},
+            fetch = FetchType.LAZY,
+            orphanRemoval = true)
     @Builder.Default
     private List<ItemImage> itemImages = new ArrayList<>();
 

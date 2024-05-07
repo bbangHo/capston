@@ -31,6 +31,6 @@ public class GroupItemResponseDTO {
         private Long totalElement;
         private Boolean isFirst;
         private Boolean isLast;
-        private List<GroupItem> groupItemList;
+        private List<GroupItemResponseDTO.GroupItem> groupItemList;
     }
 }
