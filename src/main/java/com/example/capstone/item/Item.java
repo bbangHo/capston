@@ -4,6 +4,7 @@ import com.example.capstone.common.BaseEntity;
 import com.example.capstone.inquiry.Inquiry;
 import com.example.capstone.item.common.ItemType;
 import com.example.capstone.member.Member;
+import com.example.capstone.order.OrderItem;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
@@ -83,6 +84,13 @@ public class Item extends BaseEntity {
     @OneToMany(mappedBy = "item")
     @Builder.Default
     private List<Inquiry> inquiries = new ArrayList<>();
+
+    @OneToMany(mappedBy = "item",
+            cascade = {CascadeType.ALL},
+            fetch = FetchType.LAZY,
+            orphanRemoval = true)
+    @Builder.Default
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     public void addItemImage(ItemImage itemImage) {
         itemImages.add(itemImage);

@@ -14,6 +14,7 @@ import java.util.List;
 import static com.example.capstone.item.QItem.item;
 import static com.example.capstone.order.QOrderItem.orderItem;
 
+
 /**
  * ItemRepositoryCustom에 정의한 메소드를 구현하는 클래스
  */
