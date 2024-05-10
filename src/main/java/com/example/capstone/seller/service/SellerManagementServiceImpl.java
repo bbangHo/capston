@@ -17,10 +17,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Transactional
 public class SellerManagementServiceImpl implements SellerManagementService {
-    private OrderItemRepository orderItemRepository;
+    private final OrderItemRepository orderItemRepository;
 
     @Override
-    public SellerResponseDTO.OrderStatusList getSellerOrderItemStatus(Integer page, Integer size, Long sellerId) {
+    public SellerResponseDTO.OrderStatusList getSellerOrderItemStatus(Long sellerId, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<OrderItem> sellerOrderItemStatusPage = orderItemRepository.getSellerOrderItemStatus(sellerId, pageable);
         return SellerManagementConverter.toOrderStatusList(sellerOrderItemStatusPage);

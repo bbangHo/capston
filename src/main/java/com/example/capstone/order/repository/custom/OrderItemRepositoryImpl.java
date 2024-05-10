@@ -15,7 +15,7 @@ import static com.example.capstone.item.QItem.item;
 
 @RequiredArgsConstructor
 public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
-    private JPAQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
 
     @Override
     public Page<OrderItem> getSellerOrderItemStatus(Long sellerId, Pageable pageable) {
