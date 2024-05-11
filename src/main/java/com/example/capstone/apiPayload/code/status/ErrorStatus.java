@@ -50,8 +50,8 @@ public enum ErrorStatus implements BaseErrorCode {
     // 카테고리
     ITEM_CATEGORY_NOT_FOUND(HttpStatus.BAD_REQUEST, "CATEGORY_400_1", "상품 카테고리 id는 1 이상 ? 이하입니다."),
 
-    //Item
-    ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ITEM_400_1", "해당 아이템을 찾을 수 없습니다.")
+    //item
+    ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ITEM_400_1", "해당되는 상품을 조회할 수 없습니다.")
     ;
 
 
