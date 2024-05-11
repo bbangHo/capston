@@ -39,4 +39,30 @@ public class SellerManagementConverter {
                 .orderItemStatusList(orderItemStatusList)
                 .build();
     }
+
+    public static SellerResponseDTO.SalesItem toSalesItem(Item item) {
+        return SellerResponseDTO.SalesItem.builder()
+                .itemName(item.getName())
+                .itemPreviewImageUrl(null)      // TODO: 어떤 이미지를 보여줘야할지
+                .categoryName(item.getCategory().getName())
+                .price(item.getPrice())
+                .stock(item.getStock())
+                .deadLine(item.getDeadline())
+                .build();
+    }
+
+    public static SellerResponseDTO.SalesItemList toSalesItemList(Page<Item> ItemPage) {
+        List<SellerResponseDTO.SalesItem> salesItemsList = ItemPage.getContent().stream()
+                .map(SellerManagementConverter::toSalesItem)
+                .collect(Collectors.toList());
+
+        return SellerResponseDTO.SalesItemList.builder()
+                .listSize(ItemPage.getSize())
+                .page(ItemPage.getTotalPages())
+                .totalElement(ItemPage.getTotalElements())
+                .isFirst(ItemPage.isFirst())
+                .isLast(ItemPage.isLast())
+                .orderItemStatusList(salesItemsList)
+                .build();
+    }
 }

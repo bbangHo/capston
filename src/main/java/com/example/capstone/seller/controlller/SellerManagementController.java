@@ -15,6 +15,7 @@ public class SellerManagementController {
 
     private final SellerManagementService sellerManagementService;
 
+    // TODO: (전체)Fiter기능, 동적쿼리 적용해줘야함, 로그인 완성후 진행
     @GetMapping("/order-status")
     public ApiResponse<SellerResponseDTO.OrderStatusList> getSellerOrderItemStatus(
             @RequestParam(name = "seller-id") Long sellerId,
@@ -22,5 +23,18 @@ public class SellerManagementController {
             @Positive @RequestParam(name = "size") Integer size
     ) {
         return ApiResponse.onSuccess(sellerManagementService.getSellerOrderItemStatus(sellerId, page - 1, size));
+    }
+
+    // TODO : 주문_상품 상태 변경 구체화
+//    @PatchMapping("/order-status/{order-number}")
+//    public ApiResponse<SellerResponseDTO.OrderStatusList>
+
+    @GetMapping("/items")
+    public ApiResponse<SellerResponseDTO.SalesItemList> getSalesItems(
+            @RequestParam(name = "seller-id") Long sellerId,
+            @Min(1) @RequestParam(name = "page") Integer page,
+            @Positive @RequestParam(name = "size") Integer size
+    ) {
+        return ApiResponse.onSuccess(sellerManagementService.getSalesItems(sellerId, page - 1, size));
     }
 }

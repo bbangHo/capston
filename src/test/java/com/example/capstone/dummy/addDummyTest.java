@@ -107,7 +107,7 @@ public class addDummyTest {
                     .price(1000)
                     .deliveryCharge(4000)
                     .stock(100)
-                    .ItemDetailsImageUrl("imageURL")
+                    .itemDetailsImageUrl("imageURL")
                     .deadline(LocalDateTime.parse("2024-12-31T00:00:00.000000"))
                     .member(member)
                     .build();
@@ -117,7 +117,7 @@ public class addDummyTest {
             Order order = Order.builder()
                     .id((long)i)
                     .member(member)
-                    .status(OrderStatus.SHIPPED)
+                    .status(OrderStatus.SHIPPING)
                     .build();
 
 

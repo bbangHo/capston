@@ -52,7 +52,7 @@ class ItemServiceTest {
                     .deliveryCharge(i + 1000)
                     .stock(i)
                     .deadline(LocalDateTime.parse("2024-12-31T00:00:00.000000"))
-                    .ItemDetailsImageUrl("img")
+                    .itemDetailsImageUrl("img")
                     .build());
         }
 
@@ -65,7 +65,7 @@ class ItemServiceTest {
                     .deliveryCharge(i + 1000)
                     .stock(i)
                     .deadline(LocalDateTime.parse("2024-12-31T00:00:00.000000"))
-                    .ItemDetailsImageUrl("img")
+                    .itemDetailsImageUrl("img")
                     .build());
         }
     }

@@ -7,7 +7,6 @@ import com.example.capstone.member.Member;
 import com.example.capstone.order.OrderItem;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -61,7 +60,7 @@ public class Item extends BaseEntity {
     private Integer stock;
 
     @NotNull
-    private String ItemDetailsImageUrl;
+    private String itemDetailsImageUrl;
 
     @NotNull
     @Future

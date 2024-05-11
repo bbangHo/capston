@@ -41,4 +41,30 @@ public class SellerResponseDTO {
         private Boolean isLast;
         private List<OrderItemStatus> orderItemStatusList;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SalesItem {
+        private String itemName;
+        private String itemPreviewImageUrl; // 상품 미리보기 이미지
+        private String categoryName;
+        private Integer stock;
+        private Integer price;
+        private LocalDateTime deadLine;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SalesItemList {
+        private Integer listSize;
+        private Integer page;
+        private Long totalElement;
+        private Boolean isFirst;
+        private Boolean isLast;
+        private List<SalesItem> orderItemStatusList;
+    }
 }
