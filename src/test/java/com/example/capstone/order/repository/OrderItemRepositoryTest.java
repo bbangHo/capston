@@ -6,6 +6,7 @@ import com.example.capstone.member.Member;
 import com.example.capstone.member.repository.MemberRepository;
 import com.example.capstone.order.Order;
 import com.example.capstone.order.OrderItem;
+import com.example.capstone.order.common.DateType;
 import com.example.capstone.order.common.OrderStatus;
 import com.example.capstone.seller.Seller;
 import com.example.capstone.seller.repository.SellerRepository;
@@ -105,6 +106,20 @@ class OrderItemRepositoryTest {
         // then
         for (Item i : itemList) {
             Assertions.assertThat(i).isEqualTo(item);
+        }
+    }
+
+    @Test
+    void 판매자의_상품_판매량_테스트() {
+        List<Integer> salesVolume = orderItemRepository.getSalesVolume(seller.getId(), DateType.DAY);
+
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        for (Integer i : salesVolume) {
+            System.out.println(i);
         }
     }
 }
