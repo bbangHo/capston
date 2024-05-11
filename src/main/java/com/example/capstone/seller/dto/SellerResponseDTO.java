@@ -1,5 +1,6 @@
 package com.example.capstone.seller.dto;
 
+import com.example.capstone.item.common.ItemType;
 import com.example.capstone.order.common.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,6 +49,7 @@ public class SellerResponseDTO {
     @AllArgsConstructor
     public static class SalesItem {
         private String itemName;
+        private ItemType itemType;
         private String itemPreviewImageUrl; // 상품 미리보기 이미지
         private String categoryName;
         private Integer stock;

@@ -43,6 +43,7 @@ public class SellerManagementConverter {
     public static SellerResponseDTO.SalesItem toSalesItem(Item item) {
         return SellerResponseDTO.SalesItem.builder()
                 .itemName(item.getName())
+                .itemType(item.getType())
                 .itemPreviewImageUrl(null)      // TODO: 어떤 이미지를 보여줘야할지
                 .categoryName(item.getCategory().getName())
                 .price(item.getPrice())
