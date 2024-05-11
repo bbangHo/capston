@@ -48,7 +48,10 @@ public enum ErrorStatus implements BaseErrorCode {
     PAGE_NUMBER_BAD_REQUEST(HttpStatus.BAD_REQUEST, "PAGENUMBER_400_1", "페이지 번호는 1 이상이어야 합니다."),
 
     // 카테고리
-    ITEM_CATEGORY_NOT_FOUND(HttpStatus.BAD_REQUEST, "CATEGORY_400_1", "상품 카테고리 id는 1 이상 ? 이하입니다.")
+    ITEM_CATEGORY_NOT_FOUND(HttpStatus.BAD_REQUEST, "CATEGORY_400_1", "상품 카테고리 id는 1 이상 ? 이하입니다."),
+
+    //Item
+    ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ITEM_400_1", "해당 아이템을 찾을 수 없습니다.")
     ;
 
 

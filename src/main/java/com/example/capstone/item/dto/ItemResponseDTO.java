@@ -37,4 +37,20 @@ public class ItemResponseDTO {
         private Boolean isLast;
         private List<Item> itemList;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DetailsOfItem {
+        private Long id;
+        private String name;
+        private String category;
+        private Integer stock;
+        private Integer price;
+        private Integer discountPrice;
+        private String ItemDetailsImageUrl;
+        private List<ItemImageResponseDTO.ItemImage> imageUrl;
+        private LocalDateTime deadline;
+    }
 }

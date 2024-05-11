@@ -1,6 +1,7 @@
 package com.example.capstone.item.repository;
 
 import com.example.capstone.item.Item;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @SpringBootTest
 public class ItemRepositoryTest {
 
@@ -23,7 +25,7 @@ public class ItemRepositoryTest {
         Page<Item> result = itemRepository.searchPopularItem(today, today.plusDays(1),PageRequest.of(0,6, Sort.by("createdAt").descending()));
 
         for (Item res : result) {
-            System.out.println(res.getId());
+            log.info("ItemId: " + res.getId());
         }
     }
 
@@ -33,7 +35,7 @@ public class ItemRepositoryTest {
         Page<Item> result = itemRepository.searchSubscribedItem(2L, PageRequest.of(0,6));
 
         for (Item res : result) {
-            System.out.println("여기요!!!!!!!!!!!!!!!!!"+res.getId());
+            log.info("ItemId: " + res.getId());
         }
     }
 
@@ -43,7 +45,9 @@ public class ItemRepositoryTest {
         Page<Item> result = itemRepository.findAllBy(PageRequest.of(0,6,Sort.by("createdAt").descending()));
 
         for (Item res : result) {
-            System.out.println("여기요!!!!!!!!!!!!!!!!!"+res.getId());
+            log.info("ItemId: " + res.getId());
         }
     }
+
+
 }
