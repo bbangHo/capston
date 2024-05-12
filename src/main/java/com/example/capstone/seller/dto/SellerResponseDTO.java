@@ -76,10 +76,10 @@ public class SellerResponseDTO {
     @AllArgsConstructor
     public static class Dashboard {
         private Integer todaySalesVolume;
-        private Double todaySalesVolumePercent;
+        private String todaySalesVolumePercent;
         private Integer dayBeforeSalesVolume;
         private Integer monthSalesVolume;
-        private Double monthSalesVolumePercent;
+        private String monthSalesVolumePercent;
         private Integer orderStatusNumber;    // 추가된 주문 현황 개수
     }
 }
