@@ -39,4 +39,43 @@ public class SellerManagementConverter {
                 .orderItemStatusList(orderItemStatusList)
                 .build();
     }
+
+    public static SellerResponseDTO.SalesItem toSalesItem(Item item) {
+        return SellerResponseDTO.SalesItem.builder()
+                .itemName(item.getName())
+                .itemType(item.getType())
+                .itemPreviewImageUrl(null)      // TODO: 어떤 이미지를 보여줘야할지
+                .categoryName(item.getCategory().getName())
+                .price(item.getPrice())
+                .stock(item.getStock())
+                .deadLine(item.getDeadline())
+                .build();
+    }
+
+    public static SellerResponseDTO.SalesItemList toSalesItemList(Page<Item> ItemPage) {
+        List<SellerResponseDTO.SalesItem> salesItemsList = ItemPage.getContent().stream()
+                .map(SellerManagementConverter::toSalesItem)
+                .collect(Collectors.toList());
+
+        return SellerResponseDTO.SalesItemList.builder()
+                .listSize(ItemPage.getSize())
+                .page(ItemPage.getTotalPages())
+                .totalElement(ItemPage.getTotalElements())
+                .isFirst(ItemPage.isFirst())
+                .isLast(ItemPage.isLast())
+                .orderItemStatusList(salesItemsList)
+                .build();
+    }
+
+    public static SellerResponseDTO.Dashboard toDashboard(Integer today, Integer dayBefore, Integer month, Integer lastMonth) {
+        return SellerResponseDTO.Dashboard
+                .builder()
+                .todaySalesVolume(today)
+                .todaySalesVolumePercent((double) (today / dayBefore))
+                .dayBeforeSalesVolume(dayBefore)
+                .monthSalesVolume(month)
+                .monthSalesVolumePercent((double) (month / lastMonth))
+                .orderStatusNumber(2)   //TODO: 구체화 필요 이슈 51
+                .build();
+    }
 }

@@ -39,7 +39,7 @@ public class groupPurchaseItemRepositoryTest {
                     .price(1000)
                     .deliveryCharge(4000)
                     .stock(100)
-                    .ItemDetailsImageUrl("imageURL")
+                    .itemDetailsImageUrl("imageURL")
                     .deadline(LocalDateTime.parse("2024-12-31T00:00:00.000000"))
                     .build();
 
