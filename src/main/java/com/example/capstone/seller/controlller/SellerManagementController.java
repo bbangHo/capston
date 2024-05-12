@@ -18,7 +18,7 @@ public class SellerManagementController {
     // TODO: (전체)Fiter기능, 동적쿼리 적용해줘야함, 로그인 완성후 진행
     @GetMapping("/order-status")
     public ApiResponse<SellerResponseDTO.OrderStatusList> getSellerOrderItemStatus(
-            @RequestParam(name = "seller-id") Long sellerId,
+            @Positive @RequestParam(name = "seller-id") Long sellerId,
             @Min(1) @RequestParam(name = "page") Integer page,
             @Positive @RequestParam(name = "size") Integer size
     ) {
@@ -31,12 +31,15 @@ public class SellerManagementController {
 
     @GetMapping("/items")
     public ApiResponse<SellerResponseDTO.SalesItemList> getSalesItems(
-            @RequestParam(name = "seller-id") Long sellerId,
+            @Positive @RequestParam(name = "seller-id") Long sellerId,
             @Min(1) @RequestParam(name = "page") Integer page,
             @Positive @RequestParam(name = "size") Integer size
     ) {
         return ApiResponse.onSuccess(sellerManagementService.getSalesItems(sellerId, page - 1, size));
     }
 
-
+    @GetMapping
+    public ApiResponse<SellerResponseDTO.Dashboard> getDashboard(@Positive @RequestParam(name = "seller-id") Long sellerId) {
+        return ApiResponse.onSuccess(sellerManagementService.getDashBoard(sellerId));
+    }
 }

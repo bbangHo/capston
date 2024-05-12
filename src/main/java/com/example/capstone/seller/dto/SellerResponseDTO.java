@@ -69,4 +69,17 @@ public class SellerResponseDTO {
         private Boolean isLast;
         private List<SalesItem> orderItemStatusList;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Dashboard {
+        private Integer todaySalesVolume;
+        private Double todaySalesVolumePercent;
+        private Integer dayBeforeSalesVolume;
+        private Integer monthSalesVolume;
+        private Double monthSalesVolumePercent;
+        private Integer orderStatusNumber;    // 추가된 주문 현황 개수
+    }
 }

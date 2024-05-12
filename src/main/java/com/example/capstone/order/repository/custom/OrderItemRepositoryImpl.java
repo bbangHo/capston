@@ -45,7 +45,7 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
     }
 
     /**
-     * 판매자가 특정기간 동안의 상품 판매량을 반환합니다.
+     * 판매자의 특정기간 동안의 상품 판매량을 반환합니다.
      *
      * @param sellerId
      * @param dateType

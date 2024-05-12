@@ -113,6 +113,7 @@ class OrderItemRepositoryTest {
     void 판매자의_상품_판매량_테스트() {
         List<Integer> salesVolume = orderItemRepository.getSalesVolume(seller.getId(), DateType.DAY);
 
+        //TODO: 값 넘어오는 거만 확인 했고 나중에 수정!
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");

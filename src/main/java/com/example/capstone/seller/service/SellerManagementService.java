@@ -6,4 +6,6 @@ public interface SellerManagementService {
     SellerResponseDTO.OrderStatusList getSellerOrderItemStatus(Long sellerId, Integer page, Integer size);
 
     SellerResponseDTO.SalesItemList getSalesItems(Long sellerId, Integer page, Integer size);
+
+    SellerResponseDTO.Dashboard getDashBoard(Long sellerId);
 }

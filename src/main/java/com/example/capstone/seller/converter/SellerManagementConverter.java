@@ -66,4 +66,16 @@ public class SellerManagementConverter {
                 .orderItemStatusList(salesItemsList)
                 .build();
     }
+
+    public static SellerResponseDTO.Dashboard toDashboard(Integer today, Integer dayBefore, Integer month, Integer lastMonth) {
+        return SellerResponseDTO.Dashboard
+                .builder()
+                .todaySalesVolume(today)
+                .todaySalesVolumePercent((double) (today / dayBefore))
+                .dayBeforeSalesVolume(dayBefore)
+                .monthSalesVolume(month)
+                .monthSalesVolumePercent((double) (month / lastMonth))
+                .orderStatusNumber(2)   //TODO: 구체화 필요 이슈 51
+                .build();
+    }
 }

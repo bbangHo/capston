@@ -3,6 +3,7 @@ package com.example.capstone.seller.service;
 import com.example.capstone.item.Item;
 import com.example.capstone.item.repository.ItemRepository;
 import com.example.capstone.order.OrderItem;
+import com.example.capstone.order.common.DateType;
 import com.example.capstone.order.repository.OrderItemRepository;
 import com.example.capstone.seller.converter.SellerManagementConverter;
 import com.example.capstone.seller.dto.SellerResponseDTO;
@@ -34,5 +35,21 @@ public class SellerManagementServiceImpl implements SellerManagementService {
         Pageable pageable = PageRequest.of(page, size);
         Page<Item> itemPage = itemRepository.findByMemberId(sellerId, pageable);
         return SellerManagementConverter.toSalesItemList(itemPage);
+    }
+
+    @Override
+    public SellerResponseDTO.Dashboard getDashBoard(Long sellerId) {
+        Integer today = getSalesVolume(sellerId, DateType.DAY);
+        Integer dayBefore = getSalesVolume(sellerId, DateType.DAY_BEFORE);
+        Integer month = getSalesVolume(sellerId, DateType.MONTH);
+        Integer lastMonth = getSalesVolume(sellerId, DateType.LAST_MONTH);
+
+        return SellerManagementConverter.toDashboard(today, dayBefore, month , lastMonth);
+    }
+
+    private Integer getSalesVolume(Long sellerId, DateType dateType) {
+        return orderItemRepository.getSalesVolume(sellerId, dateType).stream()
+                .mapToInt(i -> i)
+                .sum();
     }
 }
