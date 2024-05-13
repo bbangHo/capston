@@ -2,6 +2,7 @@ package com.example.capstone.order;
 
 import com.example.capstone.common.BaseEntity;
 import com.example.capstone.item.Item;
+import com.example.capstone.item.Review;
 import com.example.capstone.member.Member;
 import com.example.capstone.order.common.OrderStatus;
 import jakarta.persistence.*;
@@ -29,4 +30,7 @@ public class OrderItem extends BaseEntity {
 
     @Min(0)
     private Integer quantity;
+
+    @OneToOne(mappedBy = "orderItem")
+    private Review review;
 }
