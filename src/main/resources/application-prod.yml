@@ -11,5 +11,5 @@ logging:
 
 log:
   config:
-    path: /var/customlog
+    path: /var/log
     filename: custom
