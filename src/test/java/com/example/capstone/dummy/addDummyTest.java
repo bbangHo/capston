@@ -116,7 +116,6 @@ public class addDummyTest {
             Order order = Order.builder()
                     .id((long)i)
                     .member(member)
-                    .status(OrderStatus.SHIPPING)
                     .build();
 
             OrderItem orderItem = OrderItem.builder()
@@ -124,6 +123,7 @@ public class addDummyTest {
                     .order(order)
                     .item(item)
                     .quantity(i)
+                    .status(OrderStatus.SHIPPING)
                     .build();
 
             Member member2 = Member.builder()
