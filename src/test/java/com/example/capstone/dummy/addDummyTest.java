@@ -109,7 +109,7 @@ public class addDummyTest {
                     .stock(100)
                     .itemDetailsImageUrl("imageURL")
                     .deadline(LocalDateTime.parse("2024-12-31T00:00:00.000000"))
-                    .member(member)
+                    .seller(null)
                     .build();
 
 

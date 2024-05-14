@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long>, ItemRepositoryCustom {
@@ -29,12 +30,14 @@ public interface ItemRepository extends JpaRepository<Item, Long>, ItemRepositor
     Page<Item> searchPopularItem(LocalDateTime startDay, LocalDateTime endDay, Pageable pageable);
 
     @Query("SELECT i FROM Item i " +
-            "JOIN Subscription sub ON i.member.id = sub.toMember.id " +
+            "JOIN Subscription sub ON i.seller.id = sub.toMember.id " +
             "where sub.fromMember.id = :fromMemberId " +
             "ORDER BY i.createdAt DESC")
     Page<Item> searchSubscribedItem(Long fromMemberId, Pageable pageable);
 
     Page<Item> findByNameContaining(String keyword, Pageable pageable);
 
-    Page<Item> findByMemberId(Long sellerId, Pageable pageable);
+    Page<Item> findBySellerId(Long sellerId, Pageable pageable);
+
+    Optional<Item> findItemById(Long itemId);
 }

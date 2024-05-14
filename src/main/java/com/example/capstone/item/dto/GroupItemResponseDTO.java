@@ -33,4 +33,17 @@ public class GroupItemResponseDTO {
         private Boolean isLast;
         private List<GroupItemResponseDTO.GroupItem> groupItemList;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class GroupItemWithSellerAndRemains {
+        private Long id;
+        private Integer orderSum;
+        private ItemResponseDTO.DetailsOfItemWithSeller item;
+        private Integer targetQuantity;
+        private Integer discountPrice;
+
+    }
 }

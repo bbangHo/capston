@@ -55,6 +55,20 @@ public class ItemConverter {
                 .deadline(item.getDeadline())
                 .build();
     }
+    public static ItemResponseDTO.DetailsOfItemWithSeller toDetailsOfItemWithSellerResponseDTO(Item item) {
+        return ItemResponseDTO.DetailsOfItemWithSeller.builder()
+                .id(item.getId())
+                .name(item.getName())
+                .sellerId(item.getSeller().getId())
+                .category(item.getCategory().getName())
+                .stock(item.getStock())
+                .price(item.getPrice())
+                .discountPrice(0)   // TODO: 할인 어떻게?
+                .ItemDetailsImageUrl(item.getItemDetailsImageUrl())
+                .imageUrl(toItemImageList(item.getItemImages()))
+                .deadline(item.getDeadline())
+                .build();
+    }
 
 
 }
