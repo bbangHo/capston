@@ -83,7 +83,6 @@ class OrderItemRepositoryTest {
         order = orderRepository.save(
                 Order.builder()
                         .member(consumer)
-                        .status(OrderStatus.PENDING)
                         .build()
         );
 
@@ -92,6 +91,7 @@ class OrderItemRepositoryTest {
                         .item(item)
                         .order(order)
                         .quantity(10)
+                        .status(OrderStatus.SHIPPING)
                         .build()
         );
     }
