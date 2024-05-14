@@ -3,7 +3,6 @@ package com.example.capstone.item;
 import com.example.capstone.common.BaseEntity;
 import com.example.capstone.inquiry.Inquiry;
 import com.example.capstone.item.common.ItemType;
-import com.example.capstone.member.Member;
 import com.example.capstone.order.OrderItem;
 import com.example.capstone.seller.Seller;
 import jakarta.persistence.*;

@@ -31,7 +31,7 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
                 .from(orderItem)
                 .leftJoin(item)
                 .on(orderItem.item.id.eq(item.id))
-                .where(item.member.id.eq(sellerId))
+                .where(item.seller.id.eq(sellerId))
                 .fetch();
 
         JPAQuery<Long> count = queryFactory
@@ -39,10 +39,14 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
                 .from(orderItem)
                 .leftJoin(item)
                 .on(orderItem.item.id.eq(item.id))
-                .where(item.member.id.eq(sellerId));
+                .where(item.seller.id.eq(sellerId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
 
         return PageableExecutionUtils.getPage(orderItemJPAQuery, pageable, count::fetchOne);
     }
+
+//    private BooleanExpression orderBy
 
     /**
      * 판매자의 특정기간 동안의 상품 판매량을 반환합니다.
@@ -59,7 +63,7 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
                 .leftJoin(item)
                 .on(orderItem.item.id.eq(item.id))
                 .where(
-                        orderItem.item.member.id.eq(sellerId),
+                        orderItem.item.seller.id.eq(sellerId),
                         localDateTimeFilter(dateType)
                 )
                 .groupBy(item.id)

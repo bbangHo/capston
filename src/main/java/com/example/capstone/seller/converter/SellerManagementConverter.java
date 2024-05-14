@@ -21,7 +21,7 @@ public class SellerManagementConverter {
                 .consumerName(orderItem.getOrder().getMember().getName())
                 .price(item.getPrice())
                 .quantity(orderItem.getQuantity())
-                .status(orderItem.getOrder().getStatus())
+                .status(orderItem.getStatus())
                 .build();
     }
 
@@ -71,11 +71,25 @@ public class SellerManagementConverter {
         return SellerResponseDTO.Dashboard
                 .builder()
                 .todaySalesVolume(today)
-                .todaySalesVolumePercent((double) (today / dayBefore))
+                .todaySalesVolumePercent(calcPercent(today, dayBefore))
                 .dayBeforeSalesVolume(dayBefore)
                 .monthSalesVolume(month)
-                .monthSalesVolumePercent((double) (month / lastMonth))
+                .monthSalesVolumePercent(calcPercent(month, lastMonth))
                 .orderStatusNumber(2)   //TODO: 구체화 필요 이슈 51
                 .build();
+    }
+
+    private static String calcPercent(Integer now, Integer before) {
+        double p = 0;
+
+        if (now == 0 && before == 0) {
+            p = 0;
+        } else if (before == 0) {
+            p = 100;
+        } else {
+            p = (double) ((now - before) / before) * 100;
+        }
+
+        return p + "%";
     }
 }
