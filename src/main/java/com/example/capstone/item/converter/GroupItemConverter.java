@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
+import static com.example.capstone.item.converter.ItemConverter.toDetailsOfItemWithSellerResponseDTO;
 import static com.example.capstone.item.converter.ItemConverter.toItemResponseDTO;
 
 
@@ -36,4 +37,15 @@ public class GroupItemConverter {
                 .groupItemList(groupItemList)
                 .build();
     }
+
+    public static GroupItemResponseDTO.GroupItemWithSellerAndRemains toGroupItemSellerAndRemainsResponseDTO(Integer orderSum, GroupPurchaseItem groupPurchaseItem) {
+        return GroupItemResponseDTO.GroupItemWithSellerAndRemains.builder()
+                .id(groupPurchaseItem.getId())
+                .item(toDetailsOfItemWithSellerResponseDTO(groupPurchaseItem.getItem()))
+                .orderSum(orderSum)
+                .targetQuantity(groupPurchaseItem.getTargetQuantity())
+                .discountPrice(groupPurchaseItem.getDiscountPrice())
+                .build();
+    }
+
 }

@@ -4,4 +4,7 @@ import com.example.capstone.item.dto.GroupItemResponseDTO;
 
 public interface GroupPurchaseItemService {
     GroupItemResponseDTO.GroupItemList getGroupItemList(Integer page, Integer size);
-}
+
+    GroupItemResponseDTO.GroupItemWithSellerAndRemains getDetailOfGroupItem(Long groupItemId);
+
+    }

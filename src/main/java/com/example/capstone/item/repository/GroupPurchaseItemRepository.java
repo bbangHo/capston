@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface GroupPurchaseItemRepository extends JpaRepository<GroupPurchaseItem, Long> {
 
@@ -14,4 +16,9 @@ public interface GroupPurchaseItemRepository extends JpaRepository<GroupPurchase
     Page<GroupPurchaseItem> searchGroupPurchaseItem(Pageable pageable);
 
     Page<GroupPurchaseItem> findGroupPurchaseItemsBy(Pageable pageable);
+
+    Optional<GroupPurchaseItem> findGroupPurchaseItemsById(Long groupItemId);
+
+    @Query("select sum(oi.quantity) from OrderItem oi where oi.item.groupPurchaseItem.id =:groupItemId")
+    Integer searchOrderSum(Long groupItemId);
 }

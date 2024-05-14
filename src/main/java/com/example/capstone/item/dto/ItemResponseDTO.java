@@ -1,5 +1,6 @@
 package com.example.capstone.item.dto;
 
+import com.example.capstone.seller.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,6 +46,23 @@ public class ItemResponseDTO {
     public static class DetailsOfItem {
         private Long id;
         private String name;
+        private String category;
+        private Integer stock;
+        private Integer price;
+        private Integer discountPrice;
+        private String ItemDetailsImageUrl;
+        private List<ItemImageResponseDTO.ItemImage> imageUrl;
+        private LocalDateTime deadline;
+    }
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DetailsOfItemWithSeller {
+
+        private Long id;
+        private String name;
+        private Long sellerId;
         private String category;
         private Integer stock;
         private Integer price;

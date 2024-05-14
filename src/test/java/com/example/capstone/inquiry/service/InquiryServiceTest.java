@@ -11,10 +11,12 @@ import com.example.capstone.member.Member;
 import com.example.capstone.seller.Seller;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -32,7 +34,7 @@ import static org.mockito.Mockito.doReturn;
 public class InquiryServiceTest {
 
     @InjectMocks
-    private InquiryService inquiryService;
+    private InquiryServiceImpl inquiryService;
 
     @Mock
     private InquiryRepository inquiryRepository;

@@ -90,7 +90,7 @@ public class ItemService {
     }
 
    public ItemResponseDTO.DetailsOfItem getDetailOfItem(Long ItemId){
-        Item item = itemRepository.findById(ItemId).orElseThrow(() -> new ErrorHandler(ErrorStatus.ITEM_NOT_FOUND));
+        Item item = itemRepository.findItemById(ItemId).orElseThrow(() -> new ErrorHandler(ErrorStatus.ITEM_NOT_FOUND));
 
         return ItemConverter.toDetailsOfItemResponseDTO(item);
     }

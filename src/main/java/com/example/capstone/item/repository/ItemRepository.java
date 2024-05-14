@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long>, ItemRepositoryCustom {
@@ -37,4 +38,7 @@ public interface ItemRepository extends JpaRepository<Item, Long>, ItemRepositor
     Page<Item> findByNameContaining(String keyword, Pageable pageable);
 
     Page<Item> findBySellerId(Long sellerId, Pageable pageable);
+
+    Optional<Item> findItemById(Long itemId);
+
 }
