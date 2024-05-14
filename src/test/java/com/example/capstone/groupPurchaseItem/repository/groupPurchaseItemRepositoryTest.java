@@ -1,10 +1,9 @@
-package com.example.capstone.grouppurchaseitem.repository;
+package com.example.capstone.groupPurchaseItem.repository;
 
 import com.example.capstone.item.GroupPurchaseItem;
 import com.example.capstone.item.Item;
 import com.example.capstone.item.repository.GroupPurchaseItemRepository;
 import com.example.capstone.item.repository.ItemRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
