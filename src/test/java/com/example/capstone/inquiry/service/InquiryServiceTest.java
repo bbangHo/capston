@@ -21,17 +21,15 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.example.capstone.inquiry.converter.InquiryConverter.toInquiryResponseDTO;
 import static org.mockito.Mockito.doReturn;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
-public class inquiryServiceTest {
+public class InquiryServiceTest {
 
     @InjectMocks
     private InquiryService inquiryService;
