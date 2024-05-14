@@ -16,7 +16,7 @@ public interface ItemRepository extends JpaRepository<Item, Long>, ItemRepositor
     Page<Item> findAllBy(Pageable pageable);
 
     @Query("select i from Item i " +
-            "where (i.stock - ((select sum(oi.quantity) from OrderItem oi where oi.item.id = i.id and oi.order.status != com.example.capstone.order.common.OrderStatus.CANCELED )) <= (i.stock * 0.1)) " +
+            "where (i.stock - ((select sum(oi.quantity) from OrderItem oi where oi.item.id = i.id and oi.status != com.example.capstone.order.common.OrderStatus.CANCELED )) <= (i.stock * 0.1)) " +
             "OR i.deadline < :seven")
     Page<Item> searchImminentItem(LocalDateTime seven, Pageable pageable);
 
@@ -29,12 +29,12 @@ public interface ItemRepository extends JpaRepository<Item, Long>, ItemRepositor
     Page<Item> searchPopularItem(LocalDateTime startDay, LocalDateTime endDay, Pageable pageable);
 
     @Query("SELECT i FROM Item i " +
-            "JOIN Subscription sub ON i.member.id = sub.toMember.id " +
+            "JOIN Subscription sub ON i.seller.id = sub.toMember.id " +
             "where sub.fromMember.id = :fromMemberId " +
             "ORDER BY i.createdAt DESC")
     Page<Item> searchSubscribedItem(Long fromMemberId, Pageable pageable);
 
     Page<Item> findByNameContaining(String keyword, Pageable pageable);
 
-    Page<Item> findByMemberId(Long sellerId, Pageable pageable);
+    Page<Item> findBySellerId(Long sellerId, Pageable pageable);
 }

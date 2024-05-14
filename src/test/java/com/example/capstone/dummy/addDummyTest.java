@@ -70,10 +70,7 @@ public class addDummyTest {
 
     @Test
     void addDummyData(){
-
         for (int i = 1; i < 30; i++) {
-
-
             Category category = Category.builder()
                     .id((long)i)
                     .name("category" + i)
@@ -84,9 +81,6 @@ public class addDummyTest {
                     .targetQuantity(100)
                     .discountPrice(1000)
                     .build();
-
-
-
 
             Member member = Member.builder()
                     .id((long)i)
@@ -99,6 +93,13 @@ public class addDummyTest {
                     .status(MemberStatus.ACTIVITY)
                     .build();
 
+            Seller seller = Seller.builder()
+                    .id((long)i)
+                    .details("detail"+i)
+                    .imageUrl("imageURL"+i)
+                    .introduction("introduction"+i)
+                    .build();
+
             Item item = Item.builder()
                     .id((long)i)
                     .category(category)
@@ -109,33 +110,20 @@ public class addDummyTest {
                     .stock(100)
                     .itemDetailsImageUrl("imageURL")
                     .deadline(LocalDateTime.parse("2024-12-31T00:00:00.000000"))
-                    .member(member)
+                    .seller(seller)
                     .build();
-
-
 
             Order order = Order.builder()
                     .id((long)i)
                     .member(member)
-                    .status(OrderStatus.SHIPPING)
                     .build();
-
-
 
             OrderItem orderItem = OrderItem.builder()
                     .id((long)i)
                     .order(order)
                     .item(item)
                     .quantity(i)
-                    .build();
-
-
-
-            Seller seller = Seller.builder()
-                    .id((long)i)
-                    .details("detail"+i)
-                    .imageUrl("imageURL"+i)
-                    .introduction("introduction"+i)
+                    .status(OrderStatus.SHIPPING)
                     .build();
 
             Member member2 = Member.builder()
@@ -174,10 +162,10 @@ public class addDummyTest {
             categoryRepository.saveAndFlush(category);
             groupPurchaseItemRepository.saveAndFlush(groupPurchaseItem);
             memberRepository.saveAndFlush(member);
+            sellerRepository.saveAndFlush(seller);
             itemRepository.saveAndFlush(item);
             orderRepository.saveAndFlush(order);
             orderItemRepository.saveAndFlush(orderItem);
-            sellerRepository.saveAndFlush(seller);
             memberRepository.saveAndFlush(member2);
             subscriptionRepository.saveAndFlush(subscription);
             cartRepository.saveAndFlush(cart);
@@ -188,7 +176,6 @@ public class addDummyTest {
 
     @Test
     void testStockQuantity(){
-
         LocalDateTime today = LocalDateTime.now().plusDays(7);
         Page<Item> testList2 = itemRepository.searchImminentItem(today, PageRequest.of(0,6));
 

@@ -31,7 +31,7 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
                 .from(orderItem)
                 .leftJoin(item)
                 .on(orderItem.item.id.eq(item.id))
-                .where(item.member.id.eq(sellerId))
+                .where(item.seller.id.eq(sellerId))
                 .fetch();
 
         JPAQuery<Long> count = queryFactory
@@ -39,7 +39,7 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
                 .from(orderItem)
                 .leftJoin(item)
                 .on(orderItem.item.id.eq(item.id))
-                .where(item.member.id.eq(sellerId));
+                .where(item.seller.id.eq(sellerId));
 
         return PageableExecutionUtils.getPage(orderItemJPAQuery, pageable, count::fetchOne);
     }
@@ -59,7 +59,7 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
                 .leftJoin(item)
                 .on(orderItem.item.id.eq(item.id))
                 .where(
-                        orderItem.item.member.id.eq(sellerId),
+                        orderItem.item.seller.id.eq(sellerId),
                         localDateTimeFilter(dateType)
                 )
                 .groupBy(item.id)

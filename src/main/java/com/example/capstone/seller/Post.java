@@ -30,6 +30,7 @@ public class Post extends BaseEntity {
     private String content;
 
     @OneToMany(mappedBy = "post")
+    @Builder.Default
     private List<PostImage> postImages = new ArrayList<>();
 
     public void addItemImage(PostImage postImage) {

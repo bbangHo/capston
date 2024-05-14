@@ -21,7 +21,7 @@ public class SellerManagementConverter {
                 .consumerName(orderItem.getOrder().getMember().getName())
                 .price(item.getPrice())
                 .quantity(orderItem.getQuantity())
-                .status(orderItem.getOrder().getStatus())
+                .status(orderItem.getStatus())
                 .build();
     }
 
