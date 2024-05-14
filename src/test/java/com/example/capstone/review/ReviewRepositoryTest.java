@@ -97,14 +97,16 @@ public class ReviewRepositoryTest {
     @Test
     void searchAverageOfReviews() {
 
-
         //given
 
         // when
-        Double averageScore = reviewRepository.getAverageScore();
+        Double averageScore = reviewRepository.getAverageScore(itemsWithId.get(0).getId());
 
         // then
-        assertThat(averageScore).isEqualTo(reviews.stream().mapToDouble(Review::getScore).average().orElseThrow());
+        assertThat(averageScore).isEqualTo(reviews.stream()
+                .filter(review -> review.getItem().getId().equals(itemsWithId.get(0).getId()))
+                .mapToDouble(Review::getScore)
+                .average().orElseThrow());
     }
 
 
