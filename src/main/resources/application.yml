@@ -2,11 +2,6 @@ spring:
   sql:
     init:
       mode: never
-  datasource:
-    url: jdbc:mysql://${DB_URL}/capstoneDB
-    username: root
-    password: ${DB_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     properties:
       hibernate:
@@ -17,15 +12,8 @@ spring:
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 20
-
-logging:
-   level:
-     root: Info
-
-log:
-  config:
-    path: /log/custom
-    filename: custom
+  profiles:
+    active: ${ACTIVE_PROFILE}
 
 
 
