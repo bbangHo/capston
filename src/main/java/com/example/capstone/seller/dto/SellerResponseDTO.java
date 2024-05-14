@@ -67,7 +67,7 @@ public class SellerResponseDTO {
         private Long totalElement;
         private Boolean isFirst;
         private Boolean isLast;
-        private List<SalesItem> orderItemStatusList;
+        private List<SalesItem> salesItemList;
     }
 
     @Builder

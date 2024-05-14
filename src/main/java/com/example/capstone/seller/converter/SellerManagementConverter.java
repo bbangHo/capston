@@ -63,7 +63,7 @@ public class SellerManagementConverter {
                 .totalElement(ItemPage.getTotalElements())
                 .isFirst(ItemPage.isFirst())
                 .isLast(ItemPage.isLast())
-                .orderItemStatusList(salesItemsList)
+                .salesItemList(salesItemsList)
                 .build();
     }
 
