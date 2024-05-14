@@ -101,7 +101,7 @@ public class ReviewRepositoryTest {
         //given
 
         // when
-        Double averageScore = reviewRepository.getAverageScore();
+        Double averageScore = reviewRepository.getAverageScore(itemsWithId.get(0).getId());
 
         // then
         assertThat(averageScore).isEqualTo(reviews.stream().mapToDouble(Review::getScore).average().orElseThrow());

@@ -13,7 +13,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     Page<Review> findByItemId(Long itemId, Pageable pageable);
 
-    @Query("select avg(r.score) from Review r")
-    Double getAverageScore();
+    @Query("select avg(r.score) from Review r where r.item.id = :itemId")
+    Double getAverageScore(Long itemId);
 
 }

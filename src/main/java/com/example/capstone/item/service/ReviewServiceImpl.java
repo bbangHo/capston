@@ -33,7 +33,7 @@ public class ReviewServiceImpl implements ReviewService{
     public ReviewResponseDTO.ReviewListWithAVG searchReviews(Long itemId, Integer page, Integer size) {
         Long validatedItemId = validateItem(itemId).getId();
 
-        Double averageScore = reviewRepository.getAverageScore();
+        Double averageScore = reviewRepository.getAverageScore(itemId);
 
         Page<Review> reviewPage = reviewRepository.findByItemId(validatedItemId, PageRequest.of(page, size, Sort.by("createdAt").descending()));
         ReviewResponseDTO.ReviewList reviewList = ReviewConverter.toReviewList(reviewPage);
