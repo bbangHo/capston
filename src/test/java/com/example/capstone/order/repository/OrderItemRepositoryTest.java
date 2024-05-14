@@ -41,7 +41,8 @@ class OrderItemRepositoryTest {
     @Autowired
     OrderRepository orderRepository;
 
-    static Member seller;
+    static Member member;
+    static Seller seller;
     static Member consumer;
     static Item item;
     static Order order;
@@ -49,15 +50,15 @@ class OrderItemRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        seller = memberRepository.save(
+        member = memberRepository.save(
                 Member.builder()
                         .name("seller")
                         .build()
         );
 
-        sellerRepository.save(
+        seller = sellerRepository.save(
                 Seller.builder()
-                        .member(seller)
+                        .member(member)
                         .build()
         );
 
@@ -68,7 +69,7 @@ class OrderItemRepositoryTest {
                         .deliveryCharge(1000)
                         .stock(100)
                         .deadline(LocalDateTime.of(2024, 12, 31, 0, 0, 0))
-                        .member(seller)
+                        .seller(seller)
                         .itemDetailsImageUrl("null")
                         .build()
         );
@@ -101,7 +102,7 @@ class OrderItemRepositoryTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         // when
-        List<Item> itemList = itemRepository.findByMemberId(seller.getId(), pageable).getContent();
+        List<Item> itemList = itemRepository.findBySellerId(seller.getId(), pageable).getContent();
 
         // then
         for (Item i : itemList) {
@@ -113,14 +114,14 @@ class OrderItemRepositoryTest {
     void 판매자의_상품_판매량_테스트() {
         List<Integer> salesVolume = orderItemRepository.getSalesVolume(seller.getId(), DateType.DAY);
 
-        //TODO: 값 넘어오는 거만 확인 했고 나중에 수정!
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        for (Integer i : salesVolume) {
-            System.out.println(i);
-        }
+//        //TODO: 값 넘어오는 거만 확인 했고 나중에 수정!
+//        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+//        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+//        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+//        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+//        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+//        for (Integer i : salesVolume) {
+//            System.out.println(i);
+//        }
     }
 }
