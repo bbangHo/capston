@@ -24,7 +24,7 @@ logging:
 
 log:
   config:
-    path: /Users/seongsiyeong/Desktop/logs
+    path: /log/custom
     filename: custom
 
 
