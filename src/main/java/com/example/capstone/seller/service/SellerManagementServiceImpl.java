@@ -33,7 +33,7 @@ public class SellerManagementServiceImpl implements SellerManagementService {
     @Override
     public SellerResponseDTO.SalesItemList getSalesItems(Long sellerId, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Item> itemPage = itemRepository.findByMemberId(sellerId, pageable);
+        Page<Item> itemPage = itemRepository.findBySellerId(sellerId, pageable);
         return SellerManagementConverter.toSalesItemList(itemPage);
     }
 

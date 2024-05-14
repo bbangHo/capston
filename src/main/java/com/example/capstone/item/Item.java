@@ -3,8 +3,8 @@ package com.example.capstone.item;
 import com.example.capstone.common.BaseEntity;
 import com.example.capstone.inquiry.Inquiry;
 import com.example.capstone.item.common.ItemType;
-import com.example.capstone.member.Member;
 import com.example.capstone.order.OrderItem;
+import com.example.capstone.seller.Seller;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
@@ -32,8 +32,8 @@ public class Item extends BaseEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "seller_id")
+    private Seller seller;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
