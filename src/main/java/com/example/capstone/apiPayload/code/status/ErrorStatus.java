@@ -27,6 +27,10 @@ public enum ErrorStatus implements BaseErrorCode {
     // 카테고리
     ITEM_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "CATEGORY_400_1", "상품 카테고리 id는 1 이상 ? 이하입니다."),
 
+    // 구독
+    ALREADY_SUBSCRIBED(HttpStatus.BAD_REQUEST, "SUBSCRIBED_400_1", "이미 구독한 사용자입니다."),
+    ALREADY_UNSUBSCRIBED(HttpStatus.BAD_REQUEST, "SUBSCRIBED_400_2", "이미 구독을 취소한 사용자입니다."),
+
     //item
     ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ITEM_400_1", "해당되는 상품을 조회할 수 없습니다.")
     ;

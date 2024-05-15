@@ -41,4 +41,8 @@ public class Member extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "seller_id")
     private Seller seller;
+
+    public void addSeller(Seller seller) {
+        this.seller = seller;
+    }
 }
