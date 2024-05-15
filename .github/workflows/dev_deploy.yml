@@ -22,8 +22,8 @@ jobs:
 
       - name: Generate log files
         run: |
-          touch /var/log/custom.log
-          touch /var/log/err_log.log
+          touch ~/log/custom.log
+          touch ~/log/err_log.log
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
