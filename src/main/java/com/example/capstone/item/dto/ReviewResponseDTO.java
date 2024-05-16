@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ReviewResponseDTO {
@@ -17,6 +19,7 @@ public class ReviewResponseDTO {
         private Long orderItemId;
         private Double score;
         private String content;
+        private LocalDateTime createAt;
     }
 
     @Builder
