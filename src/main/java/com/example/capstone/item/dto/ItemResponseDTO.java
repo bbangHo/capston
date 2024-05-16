@@ -64,7 +64,6 @@ public class ItemResponseDTO {
         private String name;
         private Long sellerId;
         private String category;
-        private Integer stock;
         private Integer price;
         private Integer discountPrice;
         private String ItemDetailsImageUrl;
