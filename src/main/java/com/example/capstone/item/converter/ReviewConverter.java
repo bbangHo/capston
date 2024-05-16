@@ -16,6 +16,7 @@ public class ReviewConverter {
                 .orderItemId(review.getOrderItem().getId())
                 .score(review.getScore())
                 .content(review.getContent())
+                .createAt(review.getCreatedAt())
                 .build();
     }
 
