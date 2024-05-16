@@ -19,8 +19,6 @@ public class ItemImageResponseDTO {
     public static class ItemImage {
         private Long id;
 
-        private Long itemId;
-
         @NotNull
         private String imageUrl;
 

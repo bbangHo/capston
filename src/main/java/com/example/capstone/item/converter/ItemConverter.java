@@ -61,7 +61,6 @@ public class ItemConverter {
                 .name(item.getName())
                 .sellerId(item.getSeller().getId())
                 .category(item.getCategory().getName())
-                .stock(item.getStock())
                 .price(item.getPrice())
                 .discountPrice(0)   // TODO: 할인 어떻게?
                 .ItemDetailsImageUrl(item.getItemDetailsImageUrl())
