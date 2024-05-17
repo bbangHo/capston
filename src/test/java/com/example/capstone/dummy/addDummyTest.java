@@ -70,7 +70,7 @@ public class addDummyTest {
 
     @Test
     void addDummyData(){
-        for (int i = 1; i < 30; i++) {
+        for (int i = 10000; i < 10000 + 300; i++) {
             Category category = Category.builder()
                     .id((long)i)
                     .name("category" + i)
