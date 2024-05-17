@@ -50,4 +50,8 @@ public class AmazonS3Util {
     public String generateItemPreviewImagePath(UUID uuid) {
         return amazonConfig.getItemPreviewDir() + '/' + uuid;
     }
+
+    public String generateTestImagePath(UUID uuid) {
+        return "/test" + '/' + uuid;
+    }
 }
