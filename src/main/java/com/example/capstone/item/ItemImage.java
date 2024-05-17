@@ -22,6 +22,12 @@ public class ItemImage extends BaseEntity {
     @NotNull
     private String imageUrl;
 
+    @NotNull
+    private String originFileName;
+
+    @Column(unique = true)
+    private String uuid;
+
     public void setItem(Item item) {
         this.item = item;
     }
