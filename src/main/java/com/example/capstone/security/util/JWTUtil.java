@@ -35,7 +35,7 @@ public class JWTUtil {
         Map<String, Object> payloads = new HashMap<>();
         payloads.putAll(valueMap);
 
-        int time = (1) * days;
+        int time = (60 * 24) * days;
 
         SecretKey secretKey = Keys.hmacShaKeyFor(key.getBytes(StandardCharsets.UTF_8));
 

@@ -33,7 +33,7 @@ public class MemberDetailsService implements UserDetailsService {
         log.info("MemberDetailsService Member-------------------");
 
 
-        return new MemberSecurityDTO(member.getId(),
+        return new MemberSecurityDTO(
                 member.getLoginId(),
                 member.getPassword(),
                 List.of(new SimpleGrantedAuthority(member.getType().toString())));

@@ -1,8 +1,11 @@
 package com.example.capstone.config;
 
 import com.example.capstone.security.filter.LoginFilter;
+import com.example.capstone.security.filter.RefreshTokenFilter;
+import com.example.capstone.security.filter.TokenCheckFilter;
 import com.example.capstone.security.handler.LoginSuccessHandler;
 import com.example.capstone.security.service.MemberDetailsService;
+import com.example.capstone.security.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -32,6 +35,7 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final JWTUtil jwtUtil;
     private final MemberDetailsService memberDetailsService;
 
     @Bean
@@ -65,10 +69,12 @@ public class SecurityConfig {
         LoginFilter loginFilter = new LoginFilter("/generateToken");
         loginFilter.setAuthenticationManager(authenticationManager);
 
-        LoginSuccessHandler loginSuccessHandler = new LoginSuccessHandler();
+        LoginSuccessHandler loginSuccessHandler = new LoginSuccessHandler(jwtUtil);
         loginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
 
         httpSecurity.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(tokenCheckFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(new RefreshTokenFilter("/refreshToken", jwtUtil),TokenCheckFilter.class);
 
 
         httpSecurity
@@ -87,6 +93,10 @@ public class SecurityConfig {
 
         return httpSecurity.build();
 
+    }
+
+    private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil){
+        return new TokenCheckFilter(jwtUtil);
     }
 
 

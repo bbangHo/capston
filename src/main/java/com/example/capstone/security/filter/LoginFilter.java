@@ -33,11 +33,14 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
         }
 
         Map<String, String> jsonData = parseRequestJSON(request);
-        log.info(jsonData.toString());
 
+        /**
+         * 예외처리!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         */
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 jsonData.get("loginId"),
                 jsonData.get("password"));
+
 
         return getAuthenticationManager().authenticate(authenticationToken);
     }

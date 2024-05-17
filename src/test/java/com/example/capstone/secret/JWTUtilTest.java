@@ -33,4 +33,18 @@ public class JWTUtilTest {
 
         log.info(claim.toString());
     }
+
+    @Test
+    public void testAll() {
+
+       String jwtStr = jwtUtil.generateToken(Map.of("id","testId","email","testEmail"),1);
+
+        log.info(jwtStr);
+
+        Map<String, Object> claim = jwtUtil.validateToken(jwtStr);
+
+        log.info("ID: " + claim.get("id"));
+        log.info("email: " + claim.get("email"));
+
+    }
 }
