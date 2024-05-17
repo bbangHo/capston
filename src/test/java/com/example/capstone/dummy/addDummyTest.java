@@ -24,11 +24,13 @@ import com.example.capstone.order.repository.OrderRepository;
 import com.example.capstone.seller.Seller;
 import com.example.capstone.seller.repository.SellerRepository;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDateTime;
@@ -37,6 +39,8 @@ import java.time.LocalDateTime;
 @Rollback(value = false)
 @SpringBootTest
 public class addDummyTest {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -174,11 +178,24 @@ public class addDummyTest {
         }
     }
 
+    @DisplayName("비밀번호 암호화")
     @Test
     void testStockQuantity(){
-        LocalDateTime today = LocalDateTime.now().plusDays(7);
-        Page<Item> testList2 = itemRepository.searchImminentItem(today, PageRequest.of(0,6));
+        for (int i = 1; i < 30; i++) {
 
+            Member member = Member.builder()
+                    .id((long) i)
+                    .loginId("loginId" + i)
+                    .password(passwordEncoder.encode("password" + i))
+                    .name("name" + i)
+                    .nickName("nickname" + i)
+                    .phone("phone" + i)
+                    .type(MemberType.CONSUMER)
+                    .status(MemberStatus.ACTIVITY)
+                    .build();
+            memberRepository.saveAndFlush(member);
+
+        }
     }
 
 }
