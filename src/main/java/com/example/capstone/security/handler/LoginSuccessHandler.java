@@ -1,5 +1,6 @@
 package com.example.capstone.security.handler;
 
+import com.example.capstone.apiPayload.ApiResponse;
 import com.example.capstone.security.util.JWTUtil;
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
@@ -29,24 +30,24 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         log.info("Login Success Handler...................");
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("utf-8");
+
 
         log.info(authentication.toString());
-        //log.info(authentication.getDetails().toString());
 
-        Map<String, Object> claim = Map.of("id",authentication.getName());
+        Map<String, Object> claim = Map.of("loginId",authentication.getName());
 
         //access Token의 유효기간을 하루로 설정
         String accessToken = jwtUtil.generateToken(claim,1);
         //refresh Token의 유효기간 30일
         String refreshToken = jwtUtil.generateToken(claim,30);
 
-
         Map<String, String> tokens = Map.of("accessToken", accessToken,"refreshToken", refreshToken);
 
         Gson gson = new Gson();
 
-        String jsonStr =gson.toJson(tokens);
+        String responseStr = gson.toJson(ApiResponse.onSuccess(tokens));
 
-        response.getWriter().println(jsonStr);
+        response.getWriter().println(responseStr);
     }
 }

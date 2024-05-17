@@ -1,6 +1,7 @@
 package com.example.capstone.security.filter;
 
 
+import com.example.capstone.apiPayload.ApiResponse;
 import com.example.capstone.security.util.JWTUtil;
 import com.google.gson.Gson;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -87,7 +88,7 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
         log.info("expTime: " + expTime);
         log.info("gap: " + gapTime );
 
-        String loginId = (String)refreshClaims.get("loginId");
+        String loginId = (String)refreshClaims.get("id");
 
         String accessTokenValue = jwtUtil.generateToken(Map.of("loginId", loginId), 1);
 
@@ -155,14 +156,16 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
 
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("utf-8");
 
         Gson gson = new Gson();
 
-        String jsonStr = gson.toJson(Map.of("accessToken", accessTokenValue,
-                "refreshToken", refreshTokenValue));
+        Map<String, String> tokens = Map.of("accessToken", accessTokenValue, "refreshToken", refreshTokenValue);
+
+        String responseStr = gson.toJson(ApiResponse.onSuccess(tokens));
 
         try {
-            response.getWriter().println(jsonStr);
+            response.getWriter().println(responseStr);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
