@@ -64,39 +64,42 @@ public class SecurityConfig {
 
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
-        httpSecurity.authenticationManager(authenticationManager);
-
         LoginFilter loginFilter = new LoginFilter("/generateToken");
         loginFilter.setAuthenticationManager(authenticationManager);
 
         LoginSuccessHandler loginSuccessHandler = new LoginSuccessHandler(jwtUtil);
         loginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
 
-        httpSecurity.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.addFilterBefore(tokenCheckFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.addFilterBefore(new RefreshTokenFilter("/refreshToken", jwtUtil),TokenCheckFilter.class);
 
 
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
+                .authenticationManager(authenticationManager)
                 .authorizeHttpRequests(authorizeRequest ->
                         authorizeRequest
                                 .requestMatchers(
-                                        "/h2-console/**", "/health"
-                                ).permitAll())
+                                        "/seller"
+                                ).hasRole("SELLER"))
+                .authorizeHttpRequests(authorizeRequest ->
+                        authorizeRequest
+                                .anyRequest().permitAll())
+                .addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(tokenCheckFilter(jwtUtil,memberDetailsService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new RefreshTokenFilter("/refreshToken", jwtUtil),TokenCheckFilter.class)
                 .headers((headers)->
                         headers.contentTypeOptions(contentTypeOptionsConfig ->
                                 headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)))
                 .sessionManagement((sessionManagement) ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // disable session
 
+
         return httpSecurity.build();
 
     }
 
-    private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil){
-        return new TokenCheckFilter(jwtUtil);
+    private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil, MemberDetailsService memberDetailsService){
+        return new TokenCheckFilter(jwtUtil, memberDetailsService);
     }
 
 

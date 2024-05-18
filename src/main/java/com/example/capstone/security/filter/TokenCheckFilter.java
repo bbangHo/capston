@@ -1,5 +1,8 @@
 package com.example.capstone.security.filter;
 
+import com.example.capstone.apiPayload.code.status.ErrorStatus;
+import com.example.capstone.exception.handler.ErrorHandler;
+import com.example.capstone.security.service.MemberDetailsService;
 import com.example.capstone.security.util.JWTUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -10,6 +13,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -19,7 +25,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TokenCheckFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
-
+    private final MemberDetailsService memberDetailsService;
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -34,7 +40,12 @@ public class TokenCheckFilter extends OncePerRequestFilter {
         log.info("Token Check Filter............................");
 
         try{
-            validateAccessToken(request);
+            Map<String, Object> payload = validateAccessToken(request);
+            String loginId = (String)payload.get("loginId");
+            UserDetails userDetails = memberDetailsService.loadUserByUsername(loginId);
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
             filterChain.doFilter(request,response);
         }catch (Exception e ){//원래는 (AccessTokenException accessTokenException
             //            accessTokenException.sendResponseError(response);
@@ -45,13 +56,12 @@ public class TokenCheckFilter extends OncePerRequestFilter {
      *
      * throws AccessTokenException 대신할 만한 조치가 필요
      */
+
     private Map<String, Object> validateAccessToken(HttpServletRequest request) {
         String headerStr = request.getHeader("Authorization");
 
         if(headerStr == null || headerStr.length() < 8){
-            /**
-             * throw new AccessTokenException(A~~~~) 토큰 없다는 에러
-             */
+            throw new ErrorHandler(ErrorStatus.Token_NOT_ACCEPTED);
         }
 
         String tokenType = headerStr.substring(0,6);
@@ -60,10 +70,8 @@ public class TokenCheckFilter extends OncePerRequestFilter {
         //대소문자를 구분하지 않고 비교
         if(!tokenType.equalsIgnoreCase("Bearer")){
             log.error("BadType error..................");
+            throw new ErrorHandler(ErrorStatus.Token_BADTYPE);
 
-            /**
-             * badtype에러
-             */
         }
 
         try {
@@ -71,18 +79,15 @@ public class TokenCheckFilter extends OncePerRequestFilter {
             return values;
         }catch(MalformedJwtException malformedJwtException){
             log.error("MalformedJwtException.................");
-            //throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.MALFORM);
-            throw new RuntimeException();
+            throw new ErrorHandler(ErrorStatus.Malformed_ToKEN);
 
         }catch(SignatureException signatureException){
             log.error("SignatureException.................");
-            //throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.BADSIGN);
-            throw new RuntimeException();
+            throw new ErrorHandler(ErrorStatus.BAD_SIGNED_ToKEN);
 
         }catch(ExpiredJwtException expiredJwtException){
             log.error("ExpiredJwtException.................");
-            //throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.EXPIRED);
-            throw new RuntimeException();
+            throw new ErrorHandler(ErrorStatus.EXPIRED_ToKEN);
         }
 
 

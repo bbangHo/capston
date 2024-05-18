@@ -32,8 +32,16 @@ public enum ErrorStatus implements BaseErrorCode {
     ALREADY_UNSUBSCRIBED(HttpStatus.BAD_REQUEST, "SUBSCRIBED_400_2", "이미 구독을 취소한 사용자입니다."),
 
     //item
-    ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ITEM_400_1", "해당되는 상품을 조회할 수 없습니다.")
-    ;
+    ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ITEM_400_1", "해당되는 상품을 조회할 수 없습니다."),
+
+    //security
+    Token_NOT_ACCEPTED(HttpStatus.UNAUTHORIZED, "jwt_400_1", "JWT 토큰이 존재하지 않습니다."),
+    Token_BADTYPE(HttpStatus.UNAUTHORIZED, "jwt_400_2", "JWT 토큰의 타입이 bearer가 아닙니다."),
+    Malformed_ToKEN(HttpStatus.FORBIDDEN, "JWT_400_3", "토큰의 값이 올바르게 설정되지 않았습니다. "),
+    BAD_SIGNED_ToKEN(HttpStatus.FORBIDDEN, "JWT_400_4", "토큰의 서명이 올바르지 않습니다."),
+    EXPIRED_ToKEN(HttpStatus.FORBIDDEN, "JWT_400_5", "토큰이 만료되었습니다.")
+
+            ;
 
 
     private final HttpStatus httpStatus;

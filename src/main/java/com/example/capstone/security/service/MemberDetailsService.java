@@ -32,10 +32,9 @@ public class MemberDetailsService implements UserDetailsService {
         Member member = result.orElseThrow(() -> new ErrorHandler(MEMBER_NOT_FOUND));
         log.info("MemberDetailsService Member-------------------");
 
-
         return new MemberSecurityDTO(
                 member.getLoginId(),
                 member.getPassword(),
-                List.of(new SimpleGrantedAuthority(member.getType().toString())));
+                List.of(new SimpleGrantedAuthority("ROLE"+member.getType().toString())));
     }
 }
