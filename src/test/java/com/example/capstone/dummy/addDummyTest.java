@@ -68,7 +68,7 @@ public class addDummyTest {
     @Autowired
     AlarmRepository alarmRepository;
 
-    @Test
+//    @Test
     void addDummyData(){
         for (int i = 1; i < 30; i++) {
             Category category = Category.builder()
