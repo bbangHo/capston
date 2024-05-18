@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PageController {
     private final PageService pageService;
 
-    @GetMapping("/")
+    @GetMapping("/main")
     public ApiResponse<PageResponseDTO.Main> getMainPage() {
         return ApiResponse.onSuccess(pageService.getMainPage(1L));     // TODO: 로그인 구현되어야함
     }
