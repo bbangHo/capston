@@ -76,11 +76,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authenticationManager(authenticationManager)
+                /*
                 .authorizeHttpRequests(authorizeRequest ->
                         authorizeRequest
                                 .requestMatchers(
                                         "/seller"
                                 ).hasRole("SELLER"))
+                */
                 .authorizeHttpRequests(authorizeRequest ->
                         authorizeRequest
                                 .anyRequest().permitAll())
