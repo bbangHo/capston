@@ -34,13 +34,15 @@ public enum ErrorStatus implements BaseErrorCode {
     //item
     ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ITEM_400_1", "해당되는 상품을 조회할 수 없습니다."),
 
-    //security
-    Token_NOT_ACCEPTED(HttpStatus.UNAUTHORIZED, "jwt_400_1", "JWT 토큰이 존재하지 않습니다."),
-    Token_BADTYPE(HttpStatus.UNAUTHORIZED, "jwt_400_2", "JWT 토큰의 타입이 bearer가 아닙니다."),
-    Malformed_ToKEN(HttpStatus.FORBIDDEN, "JWT_400_3", "토큰의 값이 올바르게 설정되지 않았습니다. "),
-    BAD_SIGNED_ToKEN(HttpStatus.FORBIDDEN, "JWT_400_4", "토큰의 서명이 올바르지 않습니다."),
-    EXPIRED_ToKEN(HttpStatus.FORBIDDEN, "JWT_400_5", "토큰이 만료되었습니다.")
-
+    //Token
+    ACCESS_TOKEN_NOT_ACCEPTED(HttpStatus.UNAUTHORIZED, "Jwt_400_1", "Access Token이 존재하지 않습니다."),
+    ACCESS_TOKEN_BADTYPE(HttpStatus.UNAUTHORIZED, "Jwt_400_2", "Access Token의 타입이 bearer가 아닙니다."),
+    MALFORMED_ACCESS_TOKEN(HttpStatus.FORBIDDEN, "JWT_400_3", "Access Token의 값이 올바르게 설정되지 않았습니다. "),
+    BAD_SIGNED_ACCESS_TOKEN(HttpStatus.FORBIDDEN, "JWT_400_4", "Access Token의 서명이 올바르지 않습니다."),
+    EXPIRED_ACCESS_TOKEN(HttpStatus.FORBIDDEN, "JWT_400_5", "Access Token이 만료되었습니다."),
+    REFRESH_TOKEN_NOT_ACCEPTED(HttpStatus.UNAUTHORIZED, "Jwt_400_6", "Refresh Token이 존재하지 않습니다."),
+    MALFORMED_REFRESH_TOKEN(HttpStatus.FORBIDDEN, "JWT_400_7", "Refresh Token의 값이 올바르게 설정되지 않았습니다. "),
+    EXPIRED_REFRESH_TOKEN(HttpStatus.FORBIDDEN, "JWT_400_8", "Refresh Token이 만료되었습니다.")
             ;
 
 

@@ -1,13 +1,10 @@
 package com.example.capstone.item.service;
 
 import com.example.capstone.apiPayload.code.status.ErrorStatus;
-import com.example.capstone.exception.handler.ErrorHandler;
+import com.example.capstone.exception.handler.ExceptionHandler;
 import com.example.capstone.item.GroupPurchaseItem;
-import com.example.capstone.item.Item;
 import com.example.capstone.item.converter.GroupItemConverter;
-import com.example.capstone.item.converter.ItemConverter;
 import com.example.capstone.item.dto.GroupItemResponseDTO;
-import com.example.capstone.item.dto.ItemResponseDTO;
 import com.example.capstone.item.repository.GroupPurchaseItemRepository;
 import com.example.capstone.order.repository.OrderItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +31,7 @@ public class GroupPurchaseItemServiceImpl implements GroupPurchaseItemService {
     public GroupItemResponseDTO.GroupItemWithSellerAndRemains getDetailOfGroupItem(Long groupItemId){
 
         Integer orderSum = groupPurchaseItemRepository.searchOrderSum(groupItemId);
-        GroupPurchaseItem groupPurchaseItem = groupPurchaseItemRepository.findGroupPurchaseItemsById(groupItemId).orElseThrow(() -> new ErrorHandler(ErrorStatus.ITEM_NOT_FOUND));
+        GroupPurchaseItem groupPurchaseItem = groupPurchaseItemRepository.findGroupPurchaseItemsById(groupItemId).orElseThrow(() -> new ExceptionHandler(ErrorStatus.ITEM_NOT_FOUND));
 
         return GroupItemConverter.toGroupItemSellerAndRemainsResponseDTO(orderSum ,groupPurchaseItem);
     }

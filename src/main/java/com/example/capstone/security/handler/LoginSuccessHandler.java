@@ -29,8 +29,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException, ServletException{
         log.info("Login Success Handler...................");
 
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setCharacterEncoding("utf-8");
 
 
         log.info(authentication.toString());
@@ -45,6 +43,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         Map<String, String> tokens = Map.of("accessToken", accessToken,"refreshToken", refreshToken);
 
         Gson gson = new Gson();
+
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("utf-8");
 
         String responseStr = gson.toJson(ApiResponse.onSuccess(tokens));
 

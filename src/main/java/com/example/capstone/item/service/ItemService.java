@@ -2,11 +2,10 @@ package com.example.capstone.item.service;
 
 import com.example.capstone.apiPayload.code.status.ErrorStatus;
 import com.example.capstone.exception.GeneralException;
-import com.example.capstone.exception.handler.ErrorHandler;
+import com.example.capstone.exception.handler.ExceptionHandler;
 import com.example.capstone.item.Category;
 import com.example.capstone.item.Item;
 import com.example.capstone.item.converter.ItemConverter;
-import com.example.capstone.item.converter.ItemImageConverter;
 import com.example.capstone.item.dto.ItemResponseDTO;
 import com.example.capstone.item.repository.CategoryRepository;
 import com.example.capstone.item.repository.ItemRepository;
@@ -18,12 +17,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static com.example.capstone.apiPayload.code.status.ErrorStatus.MEMBER_NOT_FOUND;
 
@@ -78,7 +75,7 @@ public class ItemService {
 
     private Member validateMember(Long memberId) {
         return memberRepository.findById(memberId)
-                .orElseThrow(() -> new ErrorHandler(MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new ExceptionHandler(MEMBER_NOT_FOUND));
     }
 
     public ItemResponseDTO.ItemList getAllItemList(Integer page, Integer size) {
@@ -91,7 +88,7 @@ public class ItemService {
     }
 
    public ItemResponseDTO.DetailsOfItem getDetailOfItem(Long ItemId){
-        Item item = itemRepository.findItemById(ItemId).orElseThrow(() -> new ErrorHandler(ErrorStatus.ITEM_NOT_FOUND));
+        Item item = itemRepository.findItemById(ItemId).orElseThrow(() -> new ExceptionHandler(ErrorStatus.ITEM_NOT_FOUND));
 
         return ItemConverter.toDetailsOfItemResponseDTO(item);
     }

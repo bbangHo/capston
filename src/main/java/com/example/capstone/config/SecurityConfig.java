@@ -86,14 +86,19 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequest ->
                         authorizeRequest
                                 .anyRequest().permitAll())
-                .addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(tokenCheckFilter(jwtUtil,memberDetailsService), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new RefreshTokenFilter("/refreshToken", jwtUtil),TokenCheckFilter.class)
                 .headers((headers)->
                         headers.contentTypeOptions(contentTypeOptionsConfig ->
                                 headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)))
                 .sessionManagement((sessionManagement) ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // disable session
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // disable session
+                /*
+                .exceptionHandling((exceptionHandling)->exceptionHandling
+                        .accessDeniedHandler(AccessDeniedHandler)
+                        .authenticationEntryPoint(AuthenticationEntryPoint))
+                 */
+                .addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(tokenCheckFilter(jwtUtil,memberDetailsService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new RefreshTokenFilter("/refreshToken", jwtUtil),TokenCheckFilter.class);
 
 
         return httpSecurity.build();

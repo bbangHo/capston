@@ -1,12 +1,11 @@
 package com.example.capstone.security.service;
 
-import com.example.capstone.exception.handler.ErrorHandler;
+import com.example.capstone.exception.handler.ExceptionHandler;
 import com.example.capstone.member.Member;
 import com.example.capstone.member.repository.MemberRepository;
 import com.example.capstone.security.dto.MemberSecurityDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,7 +28,7 @@ public class MemberDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Member> result = memberRepository.findMemberByLoginId(username);
 
-        Member member = result.orElseThrow(() -> new ErrorHandler(MEMBER_NOT_FOUND));
+        Member member = result.orElseThrow(() -> new ExceptionHandler(MEMBER_NOT_FOUND));
         log.info("MemberDetailsService Member-------------------");
 
         return new MemberSecurityDTO(
