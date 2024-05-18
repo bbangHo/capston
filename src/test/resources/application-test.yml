@@ -1,17 +1,24 @@
 spring:
-  sql:
-    init:
-      mode: never
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  datasource:
+    url: jdbc:h2:mem:test;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
   jpa:
+    defer-datasource-initialization: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-        show_sql: true
-        format_sql: true
-        use_sql_comments: true
-        hbm2ddl:
-          auto: update
-        default_batch_fetch_size: 20
+        globally_quoted_identifiers: true
+    hibernate:
+      ddl-auto: create
+
   cloud:
     aws:
       s3:
@@ -26,9 +33,3 @@ spring:
       credentials:
         accessKey: ${S3_ACCESS_KEY}
         secretKey: ${S3_SECRET_KEY}
-  profiles:
-    active: ${ACTIVE_PROFILE}
-
-
-
-
