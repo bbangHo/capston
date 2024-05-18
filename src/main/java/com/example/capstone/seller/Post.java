@@ -1,7 +1,7 @@
 package com.example.capstone.seller;
 
 import com.example.capstone.common.BaseEntity;
-import com.example.capstone.item.ItemImage;
+import com.example.capstone.member.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -24,8 +24,8 @@ public class Post extends BaseEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "seller_id")
-    private Seller seller;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     private String content;
 
@@ -36,5 +36,9 @@ public class Post extends BaseEntity {
     public void addItemImage(PostImage postImage) {
         postImages.add(postImage);
         postImage.setItem(this);
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
     }
 }
