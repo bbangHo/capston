@@ -17,7 +17,7 @@ public class MemberSecurityDTO extends User {
     private String loginId;
     private String passwd;
 
-    public MemberSecurityDTO(String loginId, String passwd, Collection<GrantedAuthority> authorities) {
+    public MemberSecurityDTO( String loginId, String passwd, Collection<GrantedAuthority> authorities) {
         super(loginId,passwd,authorities);
         this.loginId = loginId;
         this.passwd = passwd;

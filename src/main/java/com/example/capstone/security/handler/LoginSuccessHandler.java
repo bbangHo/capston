@@ -35,6 +35,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         Map<String, Object> claim = Map.of("loginId",authentication.getName());
 
+
         //access Token의 유효기간을 하루로 설정
         String accessToken = jwtUtil.generateToken(claim,1);
         //refresh Token의 유효기간 30일
