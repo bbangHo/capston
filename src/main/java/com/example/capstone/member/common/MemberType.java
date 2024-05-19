@@ -1,5 +1,5 @@
 package com.example.capstone.member.common;
 
 public enum MemberType {
-    SELLER, CONSUMER
+    ROLE_SELLER, ROLE_CONSUMER
 }

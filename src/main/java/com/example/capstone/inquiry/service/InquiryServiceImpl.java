@@ -1,6 +1,6 @@
 package com.example.capstone.inquiry.service;
 
-import com.example.capstone.exception.handler.ErrorHandler;
+import com.example.capstone.exception.handler.ExceptionHandler;
 import com.example.capstone.inquiry.Inquiry;
 import com.example.capstone.inquiry.converter.InquiryConverter;
 import com.example.capstone.inquiry.dto.InquiryResponseDTO;
@@ -37,6 +37,6 @@ public class InquiryServiceImpl implements InquiryService{
 
     private Item validateItem(Long itemId) {
         return itemRepository.findById(itemId)
-                .orElseThrow(() -> new ErrorHandler(ITEM_NOT_FOUND));
+                .orElseThrow(() -> new ExceptionHandler(ITEM_NOT_FOUND));
     }
 }

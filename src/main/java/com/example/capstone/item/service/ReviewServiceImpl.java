@@ -1,8 +1,6 @@
 package com.example.capstone.item.service;
 
-import com.example.capstone.exception.handler.ErrorHandler;
-import com.example.capstone.inquiry.Inquiry;
-import com.example.capstone.inquiry.converter.InquiryConverter;
+import com.example.capstone.exception.handler.ExceptionHandler;
 import com.example.capstone.item.Item;
 import com.example.capstone.item.Review;
 import com.example.capstone.item.converter.ReviewConverter;
@@ -43,6 +41,6 @@ public class ReviewServiceImpl implements ReviewService{
 
     private Item validateItem(Long itemId) {
         return itemRepository.findById(itemId)
-                .orElseThrow(() -> new ErrorHandler(ITEM_NOT_FOUND));
+                .orElseThrow(() -> new ExceptionHandler(ITEM_NOT_FOUND));
     }
 }

@@ -24,19 +24,23 @@ import com.example.capstone.order.repository.OrderRepository;
 import com.example.capstone.seller.Seller;
 import com.example.capstone.seller.repository.SellerRepository;
 import jakarta.transaction.Transactional;
+import org.hibernate.annotations.BatchSize;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDateTime;
 
-@Transactional
-@Rollback(value = false)
+
 @SpringBootTest
 public class addDummyTest {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -68,13 +72,16 @@ public class addDummyTest {
     @Autowired
     AlarmRepository alarmRepository;
 
+
 //    @Test
     void addDummyData(){
-        for (int i = 1; i < 30; i++) {
+        for (int i = 1; i < 501; i++) {
+
             Category category = Category.builder()
                     .id((long)i)
                     .name("category" + i)
                     .build();
+            categoryRepository.saveAndFlush(category);
 
             GroupPurchaseItem groupPurchaseItem = GroupPurchaseItem.builder()
                     .id((long)i)
@@ -82,16 +89,33 @@ public class addDummyTest {
                     .discountPrice(1000)
                     .build();
 
+            groupPurchaseItemRepository.saveAndFlush(groupPurchaseItem);
+
+
             Member member = Member.builder()
                     .id((long)i)
                     .loginId("loginId"+i)
-                    .password("password"+i)
+                    .password(passwordEncoder.encode("password" + i))
                     .name("name"+i)
                     .nickName("nickname"+i)
                     .phone("phone"+i)
-                    .type(MemberType.CONSUMER)
+                    .type(MemberType.ROLE_CONSUMER)
                     .status(MemberStatus.ACTIVITY)
                     .build();
+            memberRepository.saveAndFlush(member);
+
+
+
+            Order order = Order.builder()
+                    .id((long)i)
+                    .member(member)
+                    .build();
+
+            orderRepository.saveAndFlush(order);
+
+
+
+
 
             Seller seller = Seller.builder()
                     .id((long)i)
@@ -100,11 +124,19 @@ public class addDummyTest {
                     .introduction("introduction"+i)
                     .build();
 
+            sellerRepository.saveAndFlush(seller);
+
+            if((i%2) ==0){
+                member.addSeller(seller);
+            }
+
+            memberRepository.saveAndFlush(member);
+
             Item item = Item.builder()
                     .id((long)i)
                     .category(category)
                     .groupPurchaseItem(groupPurchaseItem)
-                    .name("item"+(i+40))
+                    .name("item"+(i+500))
                     .price(1000)
                     .deliveryCharge(4000)
                     .stock(100)
@@ -113,10 +145,8 @@ public class addDummyTest {
                     .seller(seller)
                     .build();
 
-            Order order = Order.builder()
-                    .id((long)i)
-                    .member(member)
-                    .build();
+            itemRepository.saveAndFlush(item);
+
 
             OrderItem orderItem = OrderItem.builder()
                     .id((long)i)
@@ -126,30 +156,25 @@ public class addDummyTest {
                     .status(OrderStatus.SHIPPING)
                     .build();
 
-            Member member2 = Member.builder()
-                    .id((long)(i+20))
-                    .seller(seller)
-                    .loginId("loginId"+(i+10))
-                    .password("password"+(i+10))
-                    .name("name"+(i+10))
-                    .nickName("nickname"+(i+10))
-                    .phone("phone"+(i+10))
-                    .type(MemberType.SELLER)
-                    .status(MemberStatus.ACTIVITY)
-                    .build();
+            orderItemRepository.saveAndFlush(orderItem);
+
 
             Subscription subscription = Subscription.builder()
-                    .id((long)(i+20))
+                    .id((long) i)
                     .fromMember(member)
                     .toMember(seller)
                     .build();
+
+            subscriptionRepository.saveAndFlush(subscription);
 
             Cart cart = Cart.builder()
                     .id((long)i)
                     .item(item)
                     .member(member)
-                    .quantity((i%3)+1)
+                    .quantity((i%4)+1)
                     .build();
+
+            cartRepository.saveAndFlush(cart);
 
             Alarm alarm = Alarm.builder()
                     .id((long)i)
@@ -159,26 +184,29 @@ public class addDummyTest {
                     .member(member)
                     .build();
 
-            categoryRepository.saveAndFlush(category);
-            groupPurchaseItemRepository.saveAndFlush(groupPurchaseItem);
-            memberRepository.saveAndFlush(member);
-            sellerRepository.saveAndFlush(seller);
-            itemRepository.saveAndFlush(item);
-            orderRepository.saveAndFlush(order);
-            orderItemRepository.saveAndFlush(orderItem);
-            memberRepository.saveAndFlush(member2);
-            subscriptionRepository.saveAndFlush(subscription);
-            cartRepository.saveAndFlush(cart);
             alarmRepository.saveAndFlush(alarm);
 
         }
     }
 
+    @DisplayName("비밀번호 암호화")
     @Test
     void testStockQuantity(){
-        LocalDateTime today = LocalDateTime.now().plusDays(7);
-        Page<Item> testList2 = itemRepository.searchImminentItem(today, PageRequest.of(0,6));
+        for (int i = 1; i < 30; i++) {
 
+            Member member = Member.builder()
+                    .id((long) i)
+                    .loginId("loginId" + i)
+                    .password(passwordEncoder.encode("password" + i))
+                    .name("name" + i)
+                    .nickName("nickname" + i)
+                    .phone("phone" + i)
+                    .type(MemberType.ROLE_CONSUMER)
+                    .status(MemberStatus.ACTIVITY)
+                    .build();
+            memberRepository.saveAndFlush(member);
+
+        }
     }
 
 }
