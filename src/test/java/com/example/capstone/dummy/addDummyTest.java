@@ -93,7 +93,7 @@ public class addDummyTest {
                     .name("name"+i)
                     .nickName("nickname"+i)
                     .phone("phone"+i)
-                    .type(MemberType.CONSUMER)
+                    .type(MemberType.ROLE_CONSUMER)
                     .status(MemberStatus.ACTIVITY)
                     .build();
 
@@ -138,7 +138,7 @@ public class addDummyTest {
                     .name("name"+(i+10))
                     .nickName("nickname"+(i+10))
                     .phone("phone"+(i+10))
-                    .type(MemberType.SELLER)
+                    .type(MemberType.ROLE_SELLER)
                     .status(MemberStatus.ACTIVITY)
                     .build();
 
@@ -190,7 +190,7 @@ public class addDummyTest {
                     .name("name" + i)
                     .nickName("nickname" + i)
                     .phone("phone" + i)
-                    .type(MemberType.CONSUMER)
+                    .type(MemberType.ROLE_CONSUMER)
                     .status(MemberStatus.ACTIVITY)
                     .build();
             memberRepository.saveAndFlush(member);
