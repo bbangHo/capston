@@ -28,6 +28,4 @@ public class Seller extends BaseEntity {
     private String details;
 
     private String imageUrl;
-
-
 }

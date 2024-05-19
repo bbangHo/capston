@@ -72,8 +72,8 @@ public class addDummyTest {
     @Autowired
     AlarmRepository alarmRepository;
 
-    @Test
-    @BatchSize(size = 1000)
+
+//    @Test
     void addDummyData(){
         for (int i = 1; i < 501; i++) {
 

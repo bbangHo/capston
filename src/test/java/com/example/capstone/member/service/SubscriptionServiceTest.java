@@ -47,7 +47,7 @@ class SubscriptionServiceTest {
         when(validateUtil.validMember(fromMember.getId())).thenReturn(fromMember);
         when(validateUtil.validMember(toMember.getId())).thenReturn(toMember);
 
-        when(subscriptionRepository.findByFromMemberIdAndToMemberMemberId(fromMember.getId(), toMember.getId())).thenReturn(null);
+//        when(subscriptionRepository.findByFromMemberIdAndToMemberMemberId(fromMember.getId(), toMember.getId())).thenReturn(null);
         when(subscriptionRepository.save(any(Subscription.class))).thenReturn(subscription);
 
         // when

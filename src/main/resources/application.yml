@@ -12,6 +12,20 @@ spring:
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 20
+  cloud:
+    aws:
+      s3:
+        bucket: capstone-image-s3
+        path:
+          items: items      # 상품 이미지가 저장되는 경로
+          item_previews: item_previews  # 상품의 미리보기 이미지가 저장되는 경로
+      region:
+        static: ap-northeast-2
+      stack:
+        auto: false
+      credentials:
+        accessKey: ${S3_ACCESS_KEY}
+        secretKey: ${S3_SECRET_KEY}
   profiles:
     active: ${ACTIVE_PROFILE}
   jackson:
@@ -19,7 +33,7 @@ spring:
 com:
   example:
     jwt:
-      secret: ${JWT_KEY}
+
 
 
 

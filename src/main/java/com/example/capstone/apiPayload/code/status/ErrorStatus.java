@@ -31,6 +31,9 @@ public enum ErrorStatus implements BaseErrorCode {
     ALREADY_SUBSCRIBED(HttpStatus.BAD_REQUEST, "SUBSCRIBED_400_1", "이미 구독한 사용자입니다."),
     ALREADY_UNSUBSCRIBED(HttpStatus.BAD_REQUEST, "SUBSCRIBED_400_2", "이미 구독을 취소한 사용자입니다."),
 
+    // image
+    IMAGE_UPLOAD_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "IMAGE_500_1", "이미지 업로드에 실패했습니다.."),
+
     //item
     ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ITEM_400_1", "해당되는 상품을 조회할 수 없습니다."),
 
