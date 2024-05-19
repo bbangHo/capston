@@ -33,7 +33,7 @@ public class TokenCheckFilter extends OncePerRequestFilter  {
                                     FilterChain filterChain) throws ServletException, IOException{
         String path = request.getRequestURI();
 
-        if(!path.endsWith("/auth")) {
+        if(!path.startsWith("/auth")) {
             filterChain.doFilter(request,response);
             return;
         }

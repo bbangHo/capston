@@ -1,4 +1,4 @@
-package com.example.capstone.secret;
+package com.example.capstone.security;
 
 import com.example.capstone.security.util.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.Map;
 
 @SpringBootTest
