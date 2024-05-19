@@ -40,11 +40,9 @@ public enum ErrorStatus implements BaseErrorCode {
     MALFORMED_ACCESS_TOKEN(HttpStatus.FORBIDDEN, "JWT_400_3", "Access Token의 값이 올바르게 설정되지 않았습니다. "),
     BAD_SIGNED_ACCESS_TOKEN(HttpStatus.FORBIDDEN, "JWT_400_4", "Access Token의 서명이 올바르지 않습니다."),
     EXPIRED_ACCESS_TOKEN(HttpStatus.FORBIDDEN, "JWT_400_5", "Access Token이 만료되었습니다."),
-    REFRESH_TOKEN_NOT_ACCEPTED(HttpStatus.UNAUTHORIZED, "Jwt_400_6", "Refresh Token이 존재하지 않습니다."),
     MALFORMED_REFRESH_TOKEN(HttpStatus.FORBIDDEN, "JWT_400_7", "Refresh Token의 값이 올바르게 설정되지 않았습니다. "),
     EXPIRED_REFRESH_TOKEN(HttpStatus.FORBIDDEN, "JWT_400_8", "Refresh Token이 만료되었습니다."),
     TOKENS_NOT_ACCEPTED(HttpStatus.UNAUTHORIZED, "Jwt_400_9", "Access Token과 refresh Token이 존재하지 않습니다."),
-    MALFORMED_TOKENS(HttpStatus.FORBIDDEN, "JWT_400_10", "Access Token과 refresh Token 값이 올바르게 설정되지 않았습니다. "),
 
 
 

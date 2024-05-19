@@ -6,6 +6,7 @@ import com.example.capstone.apiPayload.code.ErrorReasonDTO;
 import com.example.capstone.exception.GeneralException;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -32,6 +33,7 @@ public class TokenException extends GeneralException {
 
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setCharacterEncoding("utf-8");
+            response.setStatus(errorReason.getHttpStatus().value());
 
             String responseStr = gson.toJson(body);
 

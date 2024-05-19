@@ -3,9 +3,11 @@ package com.example.capstone.config;
 import com.example.capstone.security.filter.LoginFilter;
 import com.example.capstone.security.filter.RefreshTokenFilter;
 import com.example.capstone.security.filter.TokenCheckFilter;
+import com.example.capstone.security.handler.CustomAccessDeniedHandler;
 import com.example.capstone.security.handler.LoginSuccessHandler;
 import com.example.capstone.security.service.MemberDetailsService;
 import com.example.capstone.security.util.JWTUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -64,23 +66,23 @@ public class SecurityConfig {
 
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
-        LoginFilter loginFilter = new LoginFilter("/generateToken");
+        LoginFilter loginFilter = new LoginFilter("/login");
         loginFilter.setAuthenticationManager(authenticationManager);
 
         LoginSuccessHandler loginSuccessHandler = new LoginSuccessHandler(jwtUtil);
         loginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
 
+        CustomAccessDeniedHandler customAccessDeniedHandler = new CustomAccessDeniedHandler();
+
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authenticationManager(authenticationManager)
-                /*
                 .authorizeHttpRequests(authorizeRequest ->
                         authorizeRequest
                                 .requestMatchers(
-                                        "/seller"
+                                        "/seller/***/auth"
                                 ).hasRole("SELLER"))
-                */
                 .authorizeHttpRequests(authorizeRequest ->
                         authorizeRequest
                                 .anyRequest().permitAll())
@@ -89,11 +91,8 @@ public class SecurityConfig {
                                 headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)))
                 .sessionManagement((sessionManagement) ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // disable session
-                /*
                 .exceptionHandling((exceptionHandling)->exceptionHandling
-                        .accessDeniedHandler(AccessDeniedHandler)
-                        .authenticationEntryPoint(AuthenticationEntryPoint))
-                 */
+                        .accessDeniedHandler(customAccessDeniedHandler))
                 .addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(tokenCheckFilter(jwtUtil,memberDetailsService), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new RefreshTokenFilter("/refreshToken", jwtUtil),TokenCheckFilter.class);

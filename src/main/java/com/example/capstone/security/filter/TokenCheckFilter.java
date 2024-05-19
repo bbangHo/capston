@@ -33,7 +33,7 @@ public class TokenCheckFilter extends OncePerRequestFilter  {
                                     FilterChain filterChain) throws ServletException, IOException{
         String path = request.getRequestURI();
 
-        if(!path.endsWith("/check")) {
+        if(!path.endsWith("/auth")) {
             filterChain.doFilter(request,response);
             return;
         }
@@ -52,11 +52,6 @@ public class TokenCheckFilter extends OncePerRequestFilter  {
             TokenException.sendResponseError(response);
         }
     }
-
-    /***
-     *
-     * throws AccessTokenException 대신할 만한 조치가 필요
-     */
 
     private Map<String, Object> validateAccessToken(HttpServletRequest request) throws TokenException{
         String headerStr = request.getHeader("Authorization");
@@ -89,8 +84,6 @@ public class TokenCheckFilter extends OncePerRequestFilter  {
             log.error("ExpiredJwtException.................");
             throw new TokenException(ErrorStatus.EXPIRED_ACCESS_TOKEN);
         }
-
-
     }
 
 

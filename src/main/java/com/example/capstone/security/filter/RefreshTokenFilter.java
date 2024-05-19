@@ -50,11 +50,10 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
             tokens = parseRequestJSON(request);
         } catch (TokenException tokenException) {
             tokenException.sendResponseError(response);
+            return;
+
         }
 
-        /**
-         * 에러처리 필요
-         */
         String accessToken = tokens.get("accessToken");
         String refreshToken = tokens.get("refreshToken");
 
@@ -63,6 +62,7 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
             checkAccessToken(accessToken);
         }catch(TokenException TokenException){
             TokenException.sendResponseError(response);
+            return;
         }
 
         Map<String, Object> refreshClaims = null;
@@ -74,7 +74,7 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
 
         }catch(TokenException TokenException){
             TokenException.sendResponseError(response);
-
+            return;
         }
 
         //Refresh Token의 유효시간이 얼마 남지 않은 경우
@@ -120,19 +120,15 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
 
             tokens = gson.fromJson(reader, Map.class);
 
+
         } catch(Exception e){
             log.error(e.getMessage());
             throw new RuntimeException();
         }
 
-        try{
-            if(!tokens.keySet().containsAll(Set.of("loginId","password"))){
-                log.info("test................");
-                throw new TokenException(ErrorStatus.MALFORMED_TOKENS);
-            }
-        } catch (NullPointerException nullPointerException){
+        if(tokens == null)
             throw new TokenException(ErrorStatus.TOKENS_NOT_ACCEPTED);
-        }
+
         return tokens;
     }
 
@@ -143,7 +139,7 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
         }catch (ExpiredJwtException expiredJwtException){
             log.info("Access Token has expired");
         }catch(Exception exception){
-            throw new TokenException(ErrorStatus.MALFORMED_REFRESH_TOKEN);
+            throw new TokenException(ErrorStatus.MALFORMED_ACCESS_TOKEN);
         }
     }
 
@@ -156,7 +152,7 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
         }catch(ExpiredJwtException expiredJwtException){
             throw new TokenException(ErrorStatus.EXPIRED_REFRESH_TOKEN);
         }catch(Exception exception){
-            throw new TokenException(ErrorStatus.REFRESH_TOKEN_NOT_ACCEPTED);
+            throw new TokenException(ErrorStatus.MALFORMED_REFRESH_TOKEN);
         }
     }
 
