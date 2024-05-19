@@ -1,7 +1,7 @@
 package com.example.capstone.security.filter;
 
 import com.example.capstone.apiPayload.code.status.ErrorStatus;
-import com.example.capstone.security.exception.AccessTokenException;
+import com.example.capstone.security.exception.TokenException;
 import com.example.capstone.security.service.MemberDetailsService;
 import com.example.capstone.security.util.JWTUtil;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -30,7 +30,7 @@ public class TokenCheckFilter extends OncePerRequestFilter  {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws AccessTokenException,ServletException, IOException{
+                                    FilterChain filterChain) throws ServletException, IOException{
         String path = request.getRequestURI();
 
         if(!path.endsWith("/check")) {
@@ -48,8 +48,8 @@ public class TokenCheckFilter extends OncePerRequestFilter  {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             filterChain.doFilter(request,response);
-        }catch (AccessTokenException accessTokenException){
-            accessTokenException.sendResponseError(response);
+        }catch (TokenException TokenException){
+            TokenException.sendResponseError(response);
         }
     }
 
@@ -58,11 +58,11 @@ public class TokenCheckFilter extends OncePerRequestFilter  {
      * throws AccessTokenException 대신할 만한 조치가 필요
      */
 
-    private Map<String, Object> validateAccessToken(HttpServletRequest request) throws AccessTokenException{
+    private Map<String, Object> validateAccessToken(HttpServletRequest request) throws TokenException{
         String headerStr = request.getHeader("Authorization");
 
         if(headerStr == null || headerStr.length() < 8){
-            throw new AccessTokenException(ErrorStatus.ACCESS_TOKEN_NOT_ACCEPTED);
+            throw new TokenException(ErrorStatus.ACCESS_TOKEN_NOT_ACCEPTED);
         }
 
         String tokenType = headerStr.substring(0,6);
@@ -71,24 +71,23 @@ public class TokenCheckFilter extends OncePerRequestFilter  {
         //대소문자를 구분하지 않고 비교
         if(!tokenType.equalsIgnoreCase("Bearer")){
             log.error("BadType error..................");
-            throw new AccessTokenException(ErrorStatus.ACCESS_TOKEN_BADTYPE);
+            throw new TokenException(ErrorStatus.ACCESS_TOKEN_BADTYPE);
 
         }
 
         try {
-            Map<String, Object> values = jwtUtil.validateToken(tokenStr);
-            return values;
+            return jwtUtil.validateToken(tokenStr);
         }catch(MalformedJwtException malformedJwtException){
             log.error("MalformedJwtException.................");
-            throw new AccessTokenException(ErrorStatus.MALFORMED_ACCESS_TOKEN);
+            throw new TokenException(ErrorStatus.MALFORMED_ACCESS_TOKEN);
 
         }catch(SignatureException signatureException){
             log.error("SignatureException.................");
-            throw new AccessTokenException(ErrorStatus.BAD_SIGNED_ACCESS_TOKEN);
+            throw new TokenException(ErrorStatus.BAD_SIGNED_ACCESS_TOKEN);
 
         }catch(ExpiredJwtException expiredJwtException){
             log.error("ExpiredJwtException.................");
-            throw new AccessTokenException(ErrorStatus.EXPIRED_ACCESS_TOKEN);
+            throw new TokenException(ErrorStatus.EXPIRED_ACCESS_TOKEN);
         }
 
 

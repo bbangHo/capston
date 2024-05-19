@@ -3,7 +3,7 @@ package com.example.capstone.security.filter;
 
 import com.example.capstone.apiPayload.ApiResponse;
 import com.example.capstone.apiPayload.code.status.ErrorStatus;
-import com.example.capstone.security.exception.RefreshTokenException;
+import com.example.capstone.security.exception.TokenException;
 import com.example.capstone.security.util.JWTUtil;
 import com.google.gson.Gson;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
@@ -22,6 +21,7 @@ import java.io.Reader;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -45,7 +45,12 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
         log.info("Refresh Token Filter.......................1");
 
         //accessToken과 refreshToken을 얻어온다.
-        Map<String, String> tokens = parseRequestJSON(request);
+        Map<String, String> tokens = null;
+        try {
+            tokens = parseRequestJSON(request);
+        } catch (TokenException tokenException) {
+            tokenException.sendResponseError(response);
+        }
 
         /**
          * 에러처리 필요
@@ -56,8 +61,8 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
 
         try{
             checkAccessToken(accessToken);
-        }catch(RefreshTokenException refreshTokenException){
-            refreshTokenException.sendResponseError(response);
+        }catch(TokenException TokenException){
+            TokenException.sendResponseError(response);
         }
 
         Map<String, Object> refreshClaims = null;
@@ -67,8 +72,8 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
             refreshClaims = checkRefreshToken(refreshToken);
             log.info(refreshClaims);
 
-        }catch(RefreshTokenException refreshTokenException){
-            refreshTokenException.sendResponseError(response);
+        }catch(TokenException TokenException){
+            TokenException.sendResponseError(response);
 
         }
 
@@ -105,42 +110,53 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
 
     }
 
-    private Map<String,String> parseRequestJSON(HttpServletRequest request) {
+    private Map<String,String> parseRequestJSON(HttpServletRequest request) throws TokenException{
 
+        Map<String,String> tokens = null;
         //JSON 데이터를 id와 password의 Map으로 변환
         try(Reader reader = new InputStreamReader(request.getInputStream())){
 
             Gson gson = new Gson();
 
-            return gson.fromJson(reader, Map.class);
+            tokens = gson.fromJson(reader, Map.class);
 
-        }catch(Exception e){
+        } catch(Exception e){
             log.error(e.getMessage());
+            throw new RuntimeException();
         }
-        return null;
+
+        try{
+            if(!tokens.keySet().containsAll(Set.of("loginId","password"))){
+                log.info("test................");
+                throw new TokenException(ErrorStatus.MALFORMED_TOKENS);
+            }
+        } catch (NullPointerException nullPointerException){
+            throw new TokenException(ErrorStatus.TOKENS_NOT_ACCEPTED);
+        }
+        return tokens;
     }
 
-    private void checkAccessToken(String accessToken) throws RefreshTokenException {
+    private void checkAccessToken(String accessToken) throws TokenException {
 
         try{
             jwtUtil.validateToken(accessToken);
         }catch (ExpiredJwtException expiredJwtException){
             log.info("Access Token has expired");
         }catch(Exception exception){
-            throw new RefreshTokenException(ErrorStatus.MALFORMED_REFRESH_TOKEN);
+            throw new TokenException(ErrorStatus.MALFORMED_REFRESH_TOKEN);
         }
     }
 
-    private Map<String, Object> checkRefreshToken(String refreshToken) throws RefreshTokenException{
+    private Map<String, Object> checkRefreshToken(String refreshToken) throws TokenException{
 
         try {
 
             return jwtUtil.validateToken(refreshToken);
 
         }catch(ExpiredJwtException expiredJwtException){
-            throw new RefreshTokenException(ErrorStatus.EXPIRED_REFRESH_TOKEN);
+            throw new TokenException(ErrorStatus.EXPIRED_REFRESH_TOKEN);
         }catch(Exception exception){
-            throw new RefreshTokenException(ErrorStatus.REFRESH_TOKEN_NOT_ACCEPTED);
+            throw new TokenException(ErrorStatus.REFRESH_TOKEN_NOT_ACCEPTED);
         }
     }
 

@@ -70,8 +70,6 @@ public class SecurityConfig {
         LoginSuccessHandler loginSuccessHandler = new LoginSuccessHandler(jwtUtil);
         loginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
 
-
-
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)

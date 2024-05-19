@@ -7,12 +7,14 @@ import com.example.capstone.exception.GeneralException;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.io.IOException;
 
-public class RefreshTokenException extends GeneralException {
 
-    public RefreshTokenException (BaseErrorCode errorCode) {
+public class TokenException extends GeneralException {
+
+    public TokenException (BaseErrorCode errorCode) {
         super(errorCode);
     }
 
