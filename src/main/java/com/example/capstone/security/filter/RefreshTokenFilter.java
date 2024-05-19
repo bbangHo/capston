@@ -78,7 +78,7 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
         }
 
         //Refresh Token의 유효시간이 얼마 남지 않은 경우
-        Integer exp = (Integer)refreshClaims.get("exp");
+        Long exp = (Long)refreshClaims.get("exp");
 
         Date expTime = new Date(Instant.ofEpochMilli(exp).toEpochMilli() * 1000);
 
@@ -92,7 +92,7 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
         log.info("expTime: " + expTime);
         log.info("gap: " + gapTime );
 
-        String loginId = (String)refreshClaims.get("id");
+        String loginId = (String)refreshClaims.get("loginId");
 
         String accessTokenValue = jwtUtil.generateToken(Map.of("loginId", loginId), 1);
 
