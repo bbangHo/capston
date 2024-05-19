@@ -19,7 +19,7 @@ import java.util.Map;
 @Slf4j
 public class JWTUtil {
 
-    @Value("${com.example.jwt.secret}")
+    @Value("${JWT_KEY}")
     private String key;
 
     public String generateToken(Map<String, Object> valueMap, int days){

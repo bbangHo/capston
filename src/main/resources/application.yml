@@ -30,10 +30,6 @@ spring:
     active: ${ACTIVE_PROFILE}
   jackson:
     time-zone: Asia/Seoul
-com:
-  example:
-    jwt:
-
 
 
 
