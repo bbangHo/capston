@@ -81,7 +81,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequest ->
                         authorizeRequest
                                 .requestMatchers(
-                                        "/seller/***/auth"
+                                        "/auth/seller/**"
                                 ).hasRole("SELLER"))
                 .authorizeHttpRequests(authorizeRequest ->
                         authorizeRequest
