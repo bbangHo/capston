@@ -14,11 +14,13 @@ import java.util.Collection;
 @ToString
 public class MemberSecurityDTO extends User {
 
+    private Long id;
     private String loginId;
     private String passwd;
 
-    public MemberSecurityDTO( String loginId, String passwd, Collection<GrantedAuthority> authorities) {
+    public MemberSecurityDTO(Long id, String loginId, String passwd, Collection<GrantedAuthority> authorities) {
         super(loginId,passwd,authorities);
+        this.id = id;
         this.loginId = loginId;
         this.passwd = passwd;
     }
