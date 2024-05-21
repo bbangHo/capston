@@ -35,7 +35,26 @@ public enum ErrorStatus implements BaseErrorCode {
     IMAGE_UPLOAD_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "IMAGE_500_1", "이미지 업로드에 실패했습니다.."),
 
     //item
-    ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ITEM_400_1", "해당되는 상품을 조회할 수 없습니다.")
+    ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ITEM_400_1", "해당되는 상품을 조회할 수 없습니다."),
+
+    //Token
+    ACCESS_TOKEN_NOT_ACCEPTED(HttpStatus.UNAUTHORIZED, "Jwt_400_1", "Access Token이 존재하지 않습니다."),
+    ACCESS_TOKEN_BADTYPE(HttpStatus.UNAUTHORIZED, "Jwt_400_2", "Access Token의 타입이 bearer가 아닙니다."),
+    MALFORMED_ACCESS_TOKEN(HttpStatus.FORBIDDEN, "JWT_400_3", "Access Token의 값이 올바르게 설정되지 않았습니다. "),
+    BAD_SIGNED_ACCESS_TOKEN(HttpStatus.FORBIDDEN, "JWT_400_4", "Access Token의 서명이 올바르지 않습니다."),
+    EXPIRED_ACCESS_TOKEN(HttpStatus.FORBIDDEN, "JWT_400_5", "Access Token이 만료되었습니다."),
+    MALFORMED_REFRESH_TOKEN(HttpStatus.FORBIDDEN, "JWT_400_7", "Refresh Token의 값이 올바르게 설정되지 않았습니다. "),
+    EXPIRED_REFRESH_TOKEN(HttpStatus.FORBIDDEN, "JWT_400_8", "Refresh Token이 만료되었습니다."),
+    TOKENS_NOT_ACCEPTED(HttpStatus.UNAUTHORIZED, "Jwt_400_9", "Access Token과 refresh Token이 존재하지 않습니다."),
+
+
+
+    //Login
+    ID_AND_PASSWORD_NOT_MATCH(HttpStatus.FORBIDDEN,"LOGIN_400_1","ID 또는 비밀번호가 잘못되었습니다."),
+    LOGIN_DATA_NOT_ACCEPTED(HttpStatus.UNAUTHORIZED,"LOGIN_400_2","로그인 ID와 비밀번호가 비어있습니다."),
+    MALFORMED_LOGIN_DATA(HttpStatus.UNAUTHORIZED,"LOGIN_400_3","로그인 ID와 비밀번호을 전달하는 JSON 형식에 문제가 있습니다.")
+;
+
     ;
 
 
