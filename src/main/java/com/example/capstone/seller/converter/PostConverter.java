@@ -16,9 +16,7 @@ public class PostConverter {
         return PostResponseDTO.Post.builder()
                 .postId(post.getId())
                 .createdAt(LocalDate.from(post.getCreatedAt()))
-                .imageList(post.getPostImages().stream()
-                        .map(PostImage::getImageUrl)
-                        .toList())
+                .imageUrlList(post.getPostImages().stream().map(PostImage::getImageUrl).toList())
                 .content(post.getContent())
                 .build();
     }

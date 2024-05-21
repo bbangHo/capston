@@ -43,15 +43,15 @@ public class AmazonS3Util {
         return amazonS3.getUrl(amazonConfig.getBucket(), path).toString();
     }
 
-    public String generateItemImagePath(UUID uuid) {
-        return amazonConfig.getItemDir() + '/' + uuid;
+    public String generateItemImagePath() {
+        return amazonConfig.getItemDir() + '/' + UUID.randomUUID();
     }
 
     public String generateItemPreviewImagePath(UUID uuid) {
-        return amazonConfig.getItemPreviewDir() + '/' + uuid;
+        return amazonConfig.getItemPreviewDir() + '/' + UUID.randomUUID();
     }
 
     public String generateTestImagePath(UUID uuid) {
-        return "/test" + '/' + uuid;
+        return "/test" + '/' + UUID.randomUUID();
     }
 }

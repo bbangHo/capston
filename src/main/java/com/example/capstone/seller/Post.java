@@ -33,12 +33,12 @@ public class Post extends BaseEntity {
     @Builder.Default
     private List<PostImage> postImages = new ArrayList<>();
 
-    public void addSeller(Seller seller) {
-        this.seller = seller;
-        seller.getPostList().add(this);
+    public void addMember(Member member) {
+        this.member = member;
+        member.getSeller().getPostList().add(this);
     }
 
-    public void addItemImage(PostImage postImage) {
+    public void addImage(PostImage postImage) {
         postImages.add(postImage);
         postImage.setItem(this);
     }

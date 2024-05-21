@@ -37,6 +37,10 @@ public enum ErrorStatus implements BaseErrorCode {
     //item
     ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ITEM_400_1", "해당되는 상품을 조회할 수 없습니다."),
 
+    // post
+    POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "POST_400_1", "게시글이 존재하지 않습니다."),
+    POST_FORBIDDEN(HttpStatus.FORBIDDEN, "POST_403_1", "게시글을 수정할 권한이 없습니다."),
+
     //Token
     ACCESS_TOKEN_NOT_ACCEPTED(HttpStatus.UNAUTHORIZED, "Jwt_400_1", "Access Token이 존재하지 않습니다."),
     ACCESS_TOKEN_BADTYPE(HttpStatus.UNAUTHORIZED, "Jwt_400_2", "Access Token의 타입이 bearer가 아닙니다."),

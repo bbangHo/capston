@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class PostResponseDTO {
@@ -17,7 +16,7 @@ public class PostResponseDTO {
     @AllArgsConstructor
     public static class Post {
         private Long postId;
-        private List<String> imageList;
+        private List<String> imageUrlList;
         private LocalDate createdAt;
         private String content;
     }
