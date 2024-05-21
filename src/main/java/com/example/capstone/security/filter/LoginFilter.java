@@ -42,7 +42,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
         }
 
 
-        Map<String, String> jsonData = null;
+        Map<String, String> jsonData;
         try {
             jsonData = parseRequestJSON(request);
         } catch (TokenException tokenException) {
@@ -65,7 +65,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
 
     private Map<String, String> parseRequestJSON(HttpServletRequest request) throws TokenException{
-        Map<String, String> loginData = null;
+        Map<String, String> loginData;
 
         try (Reader reader = new InputStreamReader(request.getInputStream())) {
             Gson gson = new Gson();

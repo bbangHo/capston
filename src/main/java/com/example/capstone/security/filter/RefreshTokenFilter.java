@@ -93,15 +93,16 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
         log.info("gap: " + gapTime );
 
         String loginId = (String)refreshClaims.get("loginId");
+        Long id = Long.valueOf(String.valueOf(refreshClaims.get("id")));
 
-        String accessTokenValue = jwtUtil.generateToken(Map.of("loginId", loginId), 1);
+        String accessTokenValue = jwtUtil.generateToken(Map.of("loginId", loginId,"id",id), 1);
 
         String refreshTokenValue = tokens.get("refreshToken");
 
         //RefrshToken이 3일 이내에 만료된다면
         if(gapTime < (1000 * 60 * 60 * 24 * 3  ) ){
             log.info("new Refresh Token required...  ");
-            refreshTokenValue = jwtUtil.generateToken(Map.of("loginId", loginId), 30);
+            refreshTokenValue = jwtUtil.generateToken(Map.of("loginId", loginId,"id",id), 30);
         }
 
         log.info("Refresh Token result....................");
