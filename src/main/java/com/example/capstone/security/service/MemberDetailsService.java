@@ -34,6 +34,7 @@ public class MemberDetailsService implements UserDetailsService {
         return new MemberSecurityDTO(
                 member.getLoginId(),
                 member.getPassword(),
-                List.of(new SimpleGrantedAuthority(member.getType().toString())));
+                List.of(new SimpleGrantedAuthority(member.getType().toString())),
+                member.getId());
     }
 }
