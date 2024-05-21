@@ -45,7 +45,7 @@ public class PostController {
     }
 
     @DeleteMapping("/{post-id}")
-    public ApiResponse<> deletePost(@AuthenticationPrincipal MemberSecurityDTO memberSecurityDTO,
+    public ApiResponse<Boolean> deletePost(@AuthenticationPrincipal MemberSecurityDTO memberSecurityDTO,
                                     @PathVariable(name = "post-id") Long postId) {
         Long memberId = memberSecurityDTO.getMemberId();
         postService.deletePost(memberId, postId);
