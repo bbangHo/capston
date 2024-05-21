@@ -4,27 +4,28 @@ import com.example.capstone.apiPayload.ApiResponse;
 import com.example.capstone.member.dto.AlarmResponseDTO;
 import com.example.capstone.member.service.AlarmService;
 import com.example.capstone.security.dto.MemberSecurityDTO;
-import com.example.capstone.util.AuthenticatedMemberId;
+import com.example.capstone.util.AuthenticatedMemberUtil;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth/alarm")
+@RequestMapping("/alarm")
 public class AlarmController {
 
     private final AlarmService alarmService;
 
     @GetMapping
     public ApiResponse<AlarmResponseDTO.AlarmList> getAlarmList(@RequestParam(name = "type") Integer type,
+                                                                @RequestParam(name = "memberId") Long memberId,
                                                                 @Min(1) @RequestParam(name = "page") Integer page,
                                                                 @Positive @RequestParam(name = "size") Integer size) {
 
-        Long memberId = AuthenticatedMemberId.getMemberId();
+        //인증 합의 후 추가
+        //Long memberId = AuthenticatedMemberUtil.getMemberId();
         if (type == 0)
             return ApiResponse.onSuccess(alarmService.getAlarmList(memberId, page - 1, size));
         else
