@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class ItemServiceTest {
 
     @Autowired
-    ItemService itemService;
+    ItemService itemServiceImpl;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -73,7 +73,7 @@ class ItemServiceTest {
     void getItemListTest() {
         setUp();
 
-        ItemResponseDTO.ItemList itemList = itemService.getItemList(category1.getId(), 0, 10);
+        ItemResponseDTO.ItemList itemList = itemServiceImpl.getItemList(category1.getId(), 0, 10);
 
         for (ItemResponseDTO.Item item : itemList.getItemList()) {
             assertThat(item.getCategory()).isEqualTo(category1.getName());
@@ -86,7 +86,7 @@ class ItemServiceTest {
     void getItemListFailureTest() {
         setUp();
         assertThrows(GeneralException.class,
-                () -> itemService.getItemList(Long.MAX_VALUE, 0, 10));
+                () -> itemServiceImpl.getItemList(Long.MAX_VALUE, 0, 10));
 
     }
 
@@ -95,7 +95,7 @@ class ItemServiceTest {
 
         Long itemId = 3L;
 
-        ItemResponseDTO.DetailsOfItem detailOfItem = itemService.getDetailOfItem(itemId);
+        ItemResponseDTO.DetailsOfItem detailOfItem = itemServiceImpl.getDetailOfItem(itemId);
 
         log.info(String.valueOf(detailOfItem.getImageUrl().size()));
 
