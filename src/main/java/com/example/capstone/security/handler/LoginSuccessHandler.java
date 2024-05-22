@@ -1,6 +1,7 @@
 package com.example.capstone.security.handler;
 
 import com.example.capstone.apiPayload.ApiResponse;
+import com.example.capstone.security.dto.MemberSecurityDTO;
 import com.example.capstone.security.util.JWTUtil;
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
@@ -30,16 +31,16 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         log.info("Login Success Handler...................");
 
 
+        MemberSecurityDTO memberSecurityDTO = (MemberSecurityDTO)authentication.getPrincipal();
 
-        log.info(authentication.toString());
 
-        Map<String, Object> claim = Map.of("loginId",authentication.getName());
+        Map<String, Object> claims = Map.of("loginId",authentication.getName(),"id",memberSecurityDTO.getId());
 
 
         //access Token의 유효기간을 하루로 설정
-        String accessToken = jwtUtil.generateToken(claim,1);
+        String accessToken = jwtUtil.generateToken(claims,1);
         //refresh Token의 유효기간 30일
-        String refreshToken = jwtUtil.generateToken(claim,30);
+        String refreshToken = jwtUtil.generateToken(claims,30);
 
         Map<String, String> tokens = Map.of("accessToken", accessToken,"refreshToken", refreshToken);
 

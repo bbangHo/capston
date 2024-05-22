@@ -3,9 +3,12 @@ package com.example.capstone.member.controller;
 import com.example.capstone.apiPayload.ApiResponse;
 import com.example.capstone.member.dto.AlarmResponseDTO;
 import com.example.capstone.member.service.AlarmService;
+import com.example.capstone.security.dto.MemberSecurityDTO;
+import com.example.capstone.util.AuthenticatedMemberUtil;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,10 +20,12 @@ public class AlarmController {
 
     @GetMapping
     public ApiResponse<AlarmResponseDTO.AlarmList> getAlarmList(@RequestParam(name = "type") Integer type,
-                                                                @RequestParam(name = "memberId",required = false) Long memberId,
+                                                                @RequestParam(name = "memberId") Long memberId,
                                                                 @Min(1) @RequestParam(name = "page") Integer page,
                                                                 @Positive @RequestParam(name = "size") Integer size) {
 
+        //인증 합의 후 추가
+        //Long memberId = AuthenticatedMemberUtil.getMemberId();
         if (type == 0)
             return ApiResponse.onSuccess(alarmService.getAlarmList(memberId, page - 1, size));
         else
@@ -31,5 +36,9 @@ public class AlarmController {
     public ApiResponse<Integer> getAllNotConfirmedAlarmNum(@PathVariable Long memberId) {
 
         return ApiResponse.onSuccess(alarmService.countAllNotConfirmedAlarm(memberId));
+    }
+
+    public Long getMemberId (){
+        return ((MemberSecurityDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
     }
 }
