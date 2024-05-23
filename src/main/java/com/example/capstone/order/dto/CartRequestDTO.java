@@ -1,9 +1,28 @@
 package com.example.capstone.order.dto;
 
 
+
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+
 public class CartRequestDTO {
 
-    private Long itemId;
 
-    private Integer quantity;
+    @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class requestedCart {
+
+        @NotNull
+        private Long itemId;
+
+        private Long memberId;
+
+        @NotNull
+        private Integer quantity;
+
+    }
+
+
 }

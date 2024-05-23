@@ -11,6 +11,11 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Table(uniqueConstraints = {
+        @UniqueConstraint(
+                name = "test",
+                columnNames = {"memberId"}
+        )})
 public class Cart {
 
     @Id

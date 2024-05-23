@@ -11,7 +11,10 @@ import org.springframework.http.HttpStatus;
 public enum SuccessStatus implements BaseCode {
     _OK(HttpStatus.OK, "200", "정상적인 요청."),
     _OK_SUBSCRIBE(HttpStatus.OK, "SUBSCRIBE_200", "정상적으로 구독이 되었습니다."),
-    _OK_UNSUBSCRIBE(HttpStatus.OK, "UNSUBSCRIBE_200", "정상적으로 구독이 취소 되었습니다.")
+    _OK_UNSUBSCRIBE(HttpStatus.OK, "UNSUBSCRIBE_200", "정상적으로 구독이 취소 되었습니다."),
+
+    //CART
+    _OK_ADD_ITEM_IN_CART(HttpStatus.OK, "CART_200_1", "정상적으로 장바구니에 추가되었습니다.")
     ;
 
     private final HttpStatus httpStatus;
