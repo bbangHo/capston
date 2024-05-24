@@ -31,7 +31,6 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
         LocalDateTime thisYear = YearMonth.now().atEndOfMonth().atTime(23, 59, 59);
         LocalDateTime lastYear = thisYear.minusYears(1).withDayOfMonth(1).toLocalDate().atStartOfDay();
 
-        BooleanExpression oneYear = orderItem.createdAt.between(lastYear, thisYear);
         StringTemplate month = Expressions.stringTemplate("DATE_FORMAT({0}, '%Y-%m')", orderItem.createdAt);
 
         return queryFactory
@@ -45,7 +44,7 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
                 .leftJoin(item)
                 .on(orderItem.item.id.eq(item.id))
                 .where(
-                        oneYear,
+                        orderItem.createdAt.between(lastYear, thisYear),
                         orderItem.status.eq(OrderStatus.DELIVERED),
                         item.seller.id.eq(sellerId)
                 )
