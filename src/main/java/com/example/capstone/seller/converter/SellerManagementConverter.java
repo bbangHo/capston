@@ -2,6 +2,7 @@ package com.example.capstone.seller.converter;
 
 import com.example.capstone.item.Item;
 import com.example.capstone.order.OrderItem;
+import com.example.capstone.order.dto.MonthlySalesVolumeDTO;
 import com.example.capstone.seller.dto.SellerResponseDTO;
 import org.springframework.data.domain.Page;
 
@@ -67,7 +68,8 @@ public class SellerManagementConverter {
                 .build();
     }
 
-    public static SellerResponseDTO.Dashboard toDashboard(Integer today, Integer dayBefore, Integer month, Integer lastMonth) {
+    public static SellerResponseDTO.Dashboard toDashboard(Integer today, Integer dayBefore, Integer month, Integer lastMonth,
+                                                          Long orderStatusNumber, List<MonthlySalesVolumeDTO> monthlySalesVolumeDTOList) {
         return SellerResponseDTO.Dashboard
                 .builder()
                 .todaySalesVolume(today)
@@ -75,7 +77,8 @@ public class SellerManagementConverter {
                 .dayBeforeSalesVolume(dayBefore)
                 .monthSalesVolume(month)
                 .monthSalesVolumePercent(calcPercent(month, lastMonth))
-                .orderStatusNumber(2)   //TODO: 구체화 필요 이슈 51
+                .orderStatusNumber(orderStatusNumber)
+                .monthlySalesVolumeList(monthlySalesVolumeDTOList)
                 .build();
     }
 

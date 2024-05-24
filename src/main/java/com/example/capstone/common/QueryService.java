@@ -8,6 +8,8 @@ import com.example.capstone.member.repository.MemberRepository;
 import com.example.capstone.member.repository.SubscriptionRepository;
 import com.example.capstone.post.Post;
 import com.example.capstone.post.repository.PostRepository;
+import com.example.capstone.seller.dto.SellerResponseDTO;
+import com.example.capstone.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +19,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class QueryService {
     private final MemberRepository memberRepository;
+    private final SellerRepository sellerRepository;
     private final SubscriptionRepository subscriptionRepository;
     private final PostRepository postRepository;
+
+    public Long IsSeller(Long memberId) {
+        Member member = findMember(memberId);
+        if (member.getSeller() == null) {
+            throw new GeneralException(ErrorStatus.SELLER_UNAUTHORIZED);
+        }
+
+        return member.getSeller().getId();
+    }
 
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId)

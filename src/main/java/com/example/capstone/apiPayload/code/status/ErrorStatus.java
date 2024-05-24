@@ -21,6 +21,9 @@ public enum ErrorStatus implements BaseErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER_400_1", "사용자가 없습니다."),
     NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER_400_2", "닉네임은 필수 입니다."),
 
+    // Seller
+    SELLER_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "SELLER_401_1", "해당 사용자는 판매자 권한이 없습니다."),
+
     // paging
     PAGE_NUMBER_BAD_REQUEST(HttpStatus.BAD_REQUEST, "PAGE_NUMBER_400_1", "페이지 번호는 1 이상이어야 합니다."),
 

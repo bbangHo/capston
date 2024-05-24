@@ -2,6 +2,7 @@ package com.example.capstone.seller.dto;
 
 import com.example.capstone.item.common.ItemType;
 import com.example.capstone.order.common.OrderStatus;
+import com.example.capstone.order.dto.MonthlySalesVolumeDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -80,6 +81,7 @@ public class SellerResponseDTO {
         private Integer dayBeforeSalesVolume;
         private Integer monthSalesVolume;
         private String monthSalesVolumePercent;
-        private Integer orderStatusNumber;    // 추가된 주문 현황 개수
+        private Long orderStatusNumber;    // 추가된 주문 현황 개수
+        private List<MonthlySalesVolumeDTO> monthlySalesVolumeList;
     }
 }
