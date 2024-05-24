@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface PostService {
 
-    PostResponseDTO.PostPreviews getPostPreviews(Long memberId);
     PostResponseDTO.Post getPost(Long postId);
     PostResponseDTO.Post createPost(Long memberId, PostRequestDTO.PostUpload request, List<MultipartFile> files);
     PostResponseDTO.Post updatePost(Long memberId, Long postId, PostRequestDTO.PostUpload request, List<MultipartFile> files);

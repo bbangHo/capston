@@ -27,31 +27,4 @@ public class PostConverter {
                 .isDelete(isDelete)
                 .build();
     }
-
-    public static PostResponseDTO.PostPreview toPostPreview(Post post) {
-        Optional<String> imageUrl = Optional.ofNullable(post.getPostImageList().get(0).getImageUrl());
-
-        return PostResponseDTO.PostPreview.builder()
-                .postId(post.getId())
-                .imageList(imageUrl.orElse(""))
-                .build();
-    }
-
-    public static PostResponseDTO.PostPreviews toPostPreviews(List<Post> postList, Member member) {
-        List<PostResponseDTO.PostPreview> postPreviewList = postList.stream()
-                .map(PostConverter::toPostPreview)
-                .toList();
-
-        Seller seller = member.getSeller();
-
-        return PostResponseDTO.PostPreviews.builder()
-                .memberId(member.getId())
-                .memberImageUrl(seller.getImageUrl())
-                .memberName(member.getName())
-                .simpleIntro(seller.getIntroduction())
-                .detailIntro(seller.getDetails())
-                .numberPosts(member.getPostList().size())
-                .postPreviews(postPreviewList)
-                .build();
-    }
 }

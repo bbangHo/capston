@@ -21,4 +21,27 @@ public class PageResponseDTO {
         public List<ItemResponseDTO.Item> popularItemListPreview;
         public List<ItemResponseDTO.Item> subscribedItemListPreview;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PostPreview {
+        private Long postId;
+        private String imageUrl;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PostPreviews {
+        private Long memberId;
+        private String memberImageUrl;
+        private String memberName;
+        private String simpleIntro;
+        private String detailIntro;
+        private Integer numberPosts;
+        private List<PostPreview> postPreviews;
+    }
 }
