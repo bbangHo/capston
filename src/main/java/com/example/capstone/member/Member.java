@@ -3,7 +3,7 @@ package com.example.capstone.member;
 import com.example.capstone.common.BaseEntity;
 import com.example.capstone.member.common.MemberStatus;
 import com.example.capstone.member.common.MemberType;
-import com.example.capstone.seller.Post;
+import com.example.capstone.post.Post;
 import com.example.capstone.seller.Seller;
 import jakarta.persistence.*;
 import lombok.*;
@@ -37,10 +37,12 @@ public class Member extends BaseEntity {
     private String phone;
 
     @Enumerated(EnumType.STRING)
-    private MemberType type;
+    @Builder.Default
+    private MemberType type = MemberType.ROLE_CONSUMER;
 
     @Enumerated(EnumType.STRING)
-    private MemberStatus status;
+    @Builder.Default
+    private MemberStatus status = MemberStatus.ACTIVITY;
 
     @OneToOne
     @JoinColumn(name = "seller_id")
@@ -48,14 +50,14 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member")
     @Builder.Default
-    private List<Post> post = new ArrayList<>();
+    private List<Post> postList = new ArrayList<>();
 
     public void addSeller(Seller seller) {
         this.seller = seller;
     }
 
     public void addPost(Post post) {
-        this.post.add(post);
+        this.postList.add(post);
         post.setMember(this);
     }
 }

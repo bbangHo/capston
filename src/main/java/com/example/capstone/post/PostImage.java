@@ -1,7 +1,6 @@
-package com.example.capstone.seller;
+package com.example.capstone.post;
 
 import com.example.capstone.common.BaseEntity;
-import com.example.capstone.item.Item;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -21,9 +20,16 @@ public class PostImage extends BaseEntity {
     private Post post;
 
     @NotNull
+    private String originalFileName;
+
+    @NotNull
     private String imageUrl;
 
     public void setItem(Post post) {
         this.post = post;
+    }
+
+    public void update(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

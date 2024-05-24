@@ -1,4 +1,4 @@
-package com.example.capstone.seller.controlller;
+package com.example.capstone.seller.controller;
 
 import com.example.capstone.apiPayload.ApiResponse;
 import com.example.capstone.seller.dto.SellerResponseDTO;
