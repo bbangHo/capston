@@ -7,7 +7,6 @@ import com.example.capstone.security.handler.CustomAccessDeniedHandler;
 import com.example.capstone.security.handler.LoginSuccessHandler;
 import com.example.capstone.security.service.MemberDetailsService;
 import com.example.capstone.security.util.JWTUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -15,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,8 +25,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
 @Slf4j
@@ -57,6 +53,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(final HttpSecurity httpSecurity) throws Exception {
+        log.info("SecurityConfig.filterChain");
 
         AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
 
@@ -81,28 +78,33 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequest ->
                         authorizeRequest
                                 .requestMatchers(
+                                        "/auth/posts/**"
+                                ).hasAnyRole("CONSUMER", "SELLER")
+                                .requestMatchers(
                                         "/auth/seller/**"
-                                ).hasRole("SELLER"))
-                .authorizeHttpRequests(authorizeRequest ->
-                        authorizeRequest
-                                .anyRequest().permitAll())
-                .headers((headers)->
+                                ).hasRole("SELLER")
+                                .anyRequest().permitAll()
+                )
+//                .authorizeHttpRequests(authorizeRequest ->
+//                        authorizeRequest
+//                                .anyRequest().permitAll())
+                .headers((headers) ->
                         headers.contentTypeOptions(contentTypeOptionsConfig ->
                                 headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)))
                 .sessionManagement((sessionManagement) ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // disable session
-                .exceptionHandling((exceptionHandling)->exceptionHandling
+                .exceptionHandling((exceptionHandling) -> exceptionHandling
                         .accessDeniedHandler(customAccessDeniedHandler))
                 .addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(tokenCheckFilter(jwtUtil,memberDetailsService), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new RefreshTokenFilter("/refreshToken", jwtUtil),TokenCheckFilter.class);
+                .addFilterBefore(tokenCheckFilter(jwtUtil, memberDetailsService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new RefreshTokenFilter("/refreshToken", jwtUtil), TokenCheckFilter.class);
 
 
         return httpSecurity.build();
 
     }
 
-    private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil, MemberDetailsService memberDetailsService){
+    private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil, MemberDetailsService memberDetailsService) {
         return new TokenCheckFilter(jwtUtil, memberDetailsService);
     }
 

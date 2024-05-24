@@ -1,10 +1,10 @@
-package com.example.capstone.seller.converter;
+package com.example.capstone.post.converter;
 
 import com.example.capstone.member.Member;
-import com.example.capstone.seller.Post;
-import com.example.capstone.seller.PostImage;
+import com.example.capstone.post.Post;
+import com.example.capstone.post.PostImage;
 import com.example.capstone.seller.Seller;
-import com.example.capstone.seller.dto.PostResponseDTO;
+import com.example.capstone.post.dto.PostResponseDTO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,13 +16,20 @@ public class PostConverter {
         return PostResponseDTO.Post.builder()
                 .postId(post.getId())
                 .createdAt(LocalDate.from(post.getCreatedAt()))
-                .imageUrlList(post.getPostImages().stream().map(PostImage::getImageUrl).toList())
+                .imageUrlList(post.getPostImageList().stream().map(PostImage::getImageUrl).toList())
                 .content(post.getContent())
                 .build();
     }
 
+    public static PostResponseDTO.Delete toDelete(Post post, Boolean isDelete) {
+        return PostResponseDTO.Delete.builder()
+                .postId(post.getId())
+                .isDelete(isDelete)
+                .build();
+    }
+
     public static PostResponseDTO.PostPreview toPostPreview(Post post) {
-        Optional<String> imageUrl = Optional.ofNullable(post.getPostImages().get(0).getImageUrl());
+        Optional<String> imageUrl = Optional.ofNullable(post.getPostImageList().get(0).getImageUrl());
 
         return PostResponseDTO.PostPreview.builder()
                 .postId(post.getId())
@@ -43,7 +50,7 @@ public class PostConverter {
                 .memberName(member.getName())
                 .simpleIntro(seller.getIntroduction())
                 .detailIntro(seller.getDetails())
-                .numberPosts(seller.getPostList().size())
+                .numberPosts(member.getPostList().size())
                 .postPreviews(postPreviewList)
                 .build();
     }

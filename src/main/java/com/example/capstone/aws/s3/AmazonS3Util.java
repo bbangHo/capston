@@ -9,8 +9,10 @@ import com.example.capstone.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -26,13 +28,13 @@ public class AmazonS3Util {
     /**
      * aws s3의 '/{keyName}' 경로에 file을 저장하는 메소드
      *
-     * @param path s3에 저장될 path
      * @param file 요청으로 받은 MultipartFile
      * @return url
      */
     public String uploadFile(String path, MultipartFile file) {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
+        metadata.setContentType(file.getContentType());
         try {
             amazonS3.putObject(new PutObjectRequest(amazonConfig.getBucket(), path, file.getInputStream(), metadata));
         } catch (IOException e) {
@@ -43,11 +45,19 @@ public class AmazonS3Util {
         return amazonS3.getUrl(amazonConfig.getBucket(), path).toString();
     }
 
-    public String generateItemImagePath() {
-        return amazonConfig.getItemDir() + '/' + UUID.randomUUID();
+    public String generateItemImagePath(MultipartFile file) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(amazonConfig.getItemDir());
+        sb.append('/');
+        sb.append(UUID.randomUUID());
+        sb.append('.');
+        sb.append(StringUtils.getFilenameExtension(file.getOriginalFilename()));
+
+        return sb.toString();
     }
 
-    public String generateItemPreviewImagePath(UUID uuid) {
+    private String generateItemPreviewImagePath(UUID uuid) {
         return amazonConfig.getItemPreviewDir() + '/' + UUID.randomUUID();
     }
 

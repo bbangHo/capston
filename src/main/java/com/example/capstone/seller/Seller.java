@@ -31,10 +31,4 @@ public class Seller extends BaseEntity {
     private String details;
 
     private String imageUrl;
-
-    @OneToMany(mappedBy = "post")
-    @Builder.Default
-    private List<Post> postList = new ArrayList<>();
-
-
 }

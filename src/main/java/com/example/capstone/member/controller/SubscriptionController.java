@@ -4,7 +4,9 @@ import com.example.capstone.apiPayload.ApiResponse;
 import com.example.capstone.apiPayload.code.status.SuccessStatus;
 import com.example.capstone.member.dto.SubscriptionResponseDTO;
 import com.example.capstone.member.service.SubscriptionService;
+import com.example.capstone.security.dto.MemberSecurityDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,6 +14,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
+
+    @GetMapping("/auth/test")
+    public ApiResponse<String> test(@AuthenticationPrincipal MemberSecurityDTO memberSecurityDTO) {
+        return ApiResponse.onSuccess(memberSecurityDTO.getLoginId().toString());
+    }
 
     // TODO: 사용자 검증 어노테이션 추가
     @PostMapping("/subscription/{to-member-id}")

@@ -1,4 +1,4 @@
-package com.example.capstone.seller.dto;
+package com.example.capstone.post.dto;
 
 import com.example.capstone.item.Category;
 import jakarta.validation.constraints.Min;
@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public class PostRequestDTO {
 
@@ -21,10 +22,17 @@ public class PostRequestDTO {
     @AllArgsConstructor
     public static class PostUpload {
         private String content;
-
-        @Size(max = 10, message = "최대 10개의 사진만 업로드할 수 있습니다.")
-        private List<MultipartFile> multipartFileList;
+//        private Map<Integer, MultipartFile> files;
     }
+
+//    @Builder
+//    @Getter
+//    @NoArgsConstructor
+//    @AllArgsConstructor
+//    public static class OrderFile {
+//        private int order;
+//        private MultipartFile file;
+//    }
 
     @Builder
     @Getter
@@ -44,8 +52,5 @@ public class PostRequestDTO {
         @NotNull(message = "공동 구매 여부는 필수입니다.")
         private Boolean isGroupPurchase;
         private String detailExplanation;
-
-        @Size(max = 10, message = "최대 10개의 사진만 업로드할 수 있습니다.")
-        private List<MultipartFile> multipartFileList;
     }
 }

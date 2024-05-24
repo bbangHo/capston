@@ -1,4 +1,4 @@
-package com.example.capstone.seller;
+package com.example.capstone.post;
 
 import com.example.capstone.common.BaseEntity;
 import com.example.capstone.member.Member;
@@ -31,15 +31,21 @@ public class Post extends BaseEntity {
 
     @OneToMany(mappedBy = "post")
     @Builder.Default
-    private List<PostImage> postImages = new ArrayList<>();
+    private List<PostImage> postImageList = new ArrayList<>();
 
     public void addMember(Member member) {
         this.member = member;
-        member.getSeller().getPostList().add(this);
+        member.getPostList().add(this);
     }
 
     public void addImage(PostImage postImage) {
-        postImages.add(postImage);
+        postImageList.add(postImage);
+        postImage.setItem(this);
+    }
+
+    public void addImage(int index, PostImage postImage) {
+        postImageList.remove(index);
+        postImageList.add(index, postImage);
         postImage.setItem(this);
     }
 

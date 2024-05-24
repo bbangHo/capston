@@ -39,7 +39,7 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // post
     POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "POST_400_1", "게시글이 존재하지 않습니다."),
-    POST_FORBIDDEN(HttpStatus.FORBIDDEN, "POST_403_1", "게시글을 수정할 권한이 없습니다."),
+    POST_FORBIDDEN(HttpStatus.FORBIDDEN, "POST_403_1", "게시글을 수정할 권한이 없거나, 게시글 작성자가 아닙니다."),
 
     //Token
     ACCESS_TOKEN_NOT_ACCEPTED(HttpStatus.UNAUTHORIZED, "Jwt_400_1", "Access Token이 존재하지 않습니다."),
