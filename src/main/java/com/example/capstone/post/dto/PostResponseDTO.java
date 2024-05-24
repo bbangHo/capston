@@ -29,27 +29,4 @@ public class PostResponseDTO {
         private Long postId;
         private Boolean isDelete;
     }
-
-    @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class PostPreview {
-        private Long postId;
-        private String imageList;
-    }
-
-    @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class PostPreviews {
-        private Long memberId;
-        private String memberImageUrl;
-        private String memberName;
-        private String simpleIntro;
-        private String detailIntro;
-        private Integer numberPosts;
-        private List<PostPreview> postPreviews;
-    }
 }

@@ -2,7 +2,7 @@ package com.example.capstone.post.service;
 
 import com.example.capstone.apiPayload.code.status.ErrorStatus;
 import com.example.capstone.aws.s3.AmazonS3Util;
-import com.example.capstone.common.ValidateUtil;
+import com.example.capstone.common.QueryService;
 import com.example.capstone.exception.GeneralException;
 import com.example.capstone.member.Member;
 import com.example.capstone.post.Post;
@@ -17,8 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -28,22 +26,17 @@ public class PostServiceImpl implements PostService {
     private final AmazonS3Util amazonS3Util;
     private final PostImageRepository postImageRepository;
     private final PostRepository postRepository;
-    private final ValidateUtil validateUtil;
-
-    @Override
-    public PostResponseDTO.PostPreviews getPostPreviews(Long memberId) {
-        return null;
-    }
+    private final QueryService queryService;
 
     @Override
     public PostResponseDTO.Post getPost(Long postId) {
-        Post post = validateUtil.validPost(postId);
+        Post post = queryService.findPost(postId);
         return PostConverter.toPost(post);
     }
 
     @Override
     public PostResponseDTO.Post createPost(Long memberId, PostRequestDTO.PostUpload request, List<MultipartFile> files) {
-        Member member = validateUtil.validMember(memberId);
+        Member member = queryService.findMember(memberId);
 
         Post post = Post.builder()
                 .content(request.getContent())
@@ -62,8 +55,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponseDTO.Post updatePost(Long memberId, Long postId, PostRequestDTO.PostUpload request, List<MultipartFile> files) {
-        Member member = validateUtil.validMember(memberId);
-        Post post = validateUtil.validPost(postId);
+        Member member = queryService.findMember(memberId);
+        Post post = queryService.findPost(postId);
 
         isAuthor(member, post);
 //        updatePostImages(post, files);
@@ -74,8 +67,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponseDTO.Delete deletePost(Long memberId, Long postId) {
-        Member member = validateUtil.validMember(memberId);
-        Post post = validateUtil.validPost(postId);
+        Member member = queryService.findMember(memberId);
+        Post post = queryService.findPost(postId);
 
         if (isAuthor(member, post)) {
             postImageRepository.deleteAll(post.getPostImageList());
