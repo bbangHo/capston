@@ -39,5 +39,14 @@ public class MemberResponseDTO {
         private SellerResponseDTO.Seller seller;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MemberState {
+        private Long id;
+        private MemberType memberType;
+    }
+
 
 }

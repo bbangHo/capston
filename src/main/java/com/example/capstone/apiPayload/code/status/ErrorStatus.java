@@ -20,6 +20,7 @@ public enum ErrorStatus implements BaseErrorCode {
     // Member 에러
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER_400_1", "사용자가 없습니다."),
     NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER_400_2", "닉네임은 필수 입니다."),
+    MEMBER_ALREADY_SELLER(HttpStatus.BAD_REQUEST, "MEMBER_400_3", "해당 사용자는 이미 판매자입니다."),
 
     // Seller
     SELLER_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "SELLER_401_1", "해당 사용자는 판매자 권한이 없습니다."),
