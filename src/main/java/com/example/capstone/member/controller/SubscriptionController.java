@@ -11,17 +11,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping
+@RequestMapping("/auth/subscription")
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
 
-    @GetMapping("/auth/test")
-    public ApiResponse<String> test(@AuthenticationPrincipal MemberSecurityDTO memberSecurityDTO) {
-        return ApiResponse.onSuccess(memberSecurityDTO.getLoginId().toString());
-    }
-
-    // TODO: 사용자 검증 어노테이션 추가
-    @PostMapping("/subscription/{to-member-id}")
+    @PostMapping("/{to-member-id}")
     public ApiResponse<SubscriptionResponseDTO.Subscription> subscribe(
             @AuthenticationPrincipal MemberSecurityDTO member,
             @PathVariable(name = "to-member-id") Long toMemberId
@@ -31,7 +25,7 @@ public class SubscriptionController {
         return ApiResponse.of(SuccessStatus._OK_SUBSCRIBE, result);
     }
 
-    @DeleteMapping("/subscription/{to-member-id}")
+    @DeleteMapping("/{to-member-id}")
     public ApiResponse<SubscriptionResponseDTO.Subscription> unsubscribe(
             @AuthenticationPrincipal MemberSecurityDTO member,
             @PathVariable(name = "to-member-id") Long toMemberId
