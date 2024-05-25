@@ -34,6 +34,8 @@ spring:
     active: prod
   jackson:
     time-zone: Asia/Seoul
+  jwt:
+    key: ${JWT_KEY}
 
 
 
