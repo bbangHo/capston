@@ -47,6 +47,7 @@ public class CartServiceImpl implements CartService{
                 .build();
 
         cartRepository.save(cart);
+        log.info("saveItemInCart service success.......");
     }
 
 }
