@@ -1,6 +1,6 @@
 package com.example.capstone.member.service;
 
-import com.example.capstone.common.ValidateUtil;
+import com.example.capstone.common.QueryService;
 import com.example.capstone.member.Member;
 import com.example.capstone.member.Subscription;
 import com.example.capstone.member.dto.SubscriptionResponseDTO;
@@ -26,7 +26,7 @@ class SubscriptionServiceTest {
     SubscriptionService subscriptionService;
 
     @Mock
-    ValidateUtil validateUtil;
+    QueryService queryService;
 
     @Mock
     SubscriptionRepository subscriptionRepository;
@@ -44,8 +44,8 @@ class SubscriptionServiceTest {
                 .toMember(toMember.getSeller())
                 .build();
 
-        when(validateUtil.validMember(fromMember.getId())).thenReturn(fromMember);
-        when(validateUtil.validMember(toMember.getId())).thenReturn(toMember);
+        when(queryService.findMember(fromMember.getId())).thenReturn(fromMember);
+        when(queryService.findMember(toMember.getId())).thenReturn(toMember);
 
 //        when(subscriptionRepository.findByFromMemberIdAndToMemberMemberId(fromMember.getId(), toMember.getId())).thenReturn(null);
         when(subscriptionRepository.save(any(Subscription.class))).thenReturn(subscription);

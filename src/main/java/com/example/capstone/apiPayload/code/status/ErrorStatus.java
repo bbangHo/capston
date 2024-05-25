@@ -21,6 +21,9 @@ public enum ErrorStatus implements BaseErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER_400_1", "사용자가 없습니다."),
     NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER_400_2", "닉네임은 필수 입니다."),
 
+    // Seller
+    SELLER_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "SELLER_401_1", "해당 사용자는 판매자 권한이 없습니다."),
+
     // paging
     PAGE_NUMBER_BAD_REQUEST(HttpStatus.BAD_REQUEST, "PAGE_NUMBER_400_1", "페이지 번호는 1 이상이어야 합니다."),
 
@@ -36,6 +39,10 @@ public enum ErrorStatus implements BaseErrorCode {
 
     //item
     ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ITEM_400_1", "해당되는 상품을 조회할 수 없습니다."),
+
+    // post
+    POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "POST_400_1", "게시글이 존재하지 않습니다."),
+    POST_FORBIDDEN(HttpStatus.FORBIDDEN, "POST_403_1", "게시글을 수정할 권한이 없거나, 게시글 작성자가 아닙니다."),
 
     //Token
     ACCESS_TOKEN_NOT_ACCEPTED(HttpStatus.UNAUTHORIZED, "Jwt_400_1", "Access Token이 존재하지 않습니다."),

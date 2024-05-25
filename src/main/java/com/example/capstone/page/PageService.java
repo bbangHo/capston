@@ -1,8 +1,10 @@
 package com.example.capstone.page;
 
 
+import com.example.capstone.common.QueryService;
 import com.example.capstone.item.dto.ItemResponseDTO;
 import com.example.capstone.item.service.ItemService;
+import com.example.capstone.member.Member;
 import com.example.capstone.member.repository.AlarmRepository;
 import com.example.capstone.order.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ public class PageService {
     private final static Integer PAGE = 0;
     private final static Integer SIZE = 6;
 
+    private final QueryService queryService;
     private final AlarmRepository alarmRepository;
     private final CartRepository cartRepository;
     private final ItemService itemServiceImpl;
@@ -38,5 +41,10 @@ public class PageService {
                 .popularItemListPreview(popularItemList.getItemList())
                 .subscribedItemListPreview(subscribedItemList.getItemList())
                 .build();
+    }
+
+    public PageResponseDTO.PostPreviews getIntroPage(Long memberId) {
+        Member member = queryService.findMember(memberId);
+        return PageConverter.toPostPreviews(member.getPostList(), member);
     }
 }
