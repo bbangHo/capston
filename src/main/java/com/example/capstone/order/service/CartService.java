@@ -1,21 +1,10 @@
 package com.example.capstone.order.service;
 
-import com.example.capstone.order.repository.CartRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.example.capstone.order.dto.CartRequestDTO;
 
-@Service
-@RequiredArgsConstructor
-@Slf4j
-@Transactional
-public class CartService {
+public interface CartService {
 
-    private final CartRepository cartRepository;
+    Integer countAllItemInCart(Long memberId);
 
-    public Integer countAllItemInCart(Long memberId){
-
-        return cartRepository.countAllItemInCart(memberId);
-    }
+    void saveItemInCart(CartRequestDTO.requestedCart cartRequestDTO);
 }

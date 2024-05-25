@@ -15,27 +15,27 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/item")
 public class ItemController {
     private final ItemQueryService itemQueryService;
-    private final ItemService itemService;
+    private final ItemService itemServiceImpl;
 
     @GetMapping
     public ApiResponse<ItemResponseDTO.ItemList> getItemList(@Valid @Positive @RequestParam(name = "category-id") Long categoryId,
                                                              @Min(1) @RequestParam(name = "page") Integer page,
                                                              @Positive @RequestParam(name = "size") Integer size) {
 
-        return ApiResponse.onSuccess(itemService.getItemList(categoryId, page - 1, size));
+        return ApiResponse.onSuccess(itemServiceImpl.getItemList(categoryId, page - 1, size));
     }
 
     @GetMapping("/deadline")
     public ApiResponse<ItemResponseDTO.ItemList> getImminentItemList(@Min(1) @RequestParam(name = "page") Integer page,
                                                              @Positive @RequestParam(name = "size") Integer size) {
 
-        return ApiResponse.onSuccess(itemService.getImminentItemList(page - 1, size));
+        return ApiResponse.onSuccess(itemServiceImpl.getImminentItemList(page - 1, size));
     }
     @GetMapping("/ranking")
     public ApiResponse<ItemResponseDTO.ItemList> getPopularItemList(@Min(1) @RequestParam(name = "page") Integer page,
                                                                      @Positive @RequestParam(name = "size") Integer size) {
 
-        return ApiResponse.onSuccess(itemService.getPopularItemList(page - 1, size));
+        return ApiResponse.onSuccess(itemServiceImpl.getPopularItemList(page - 1, size));
     }
 
     @GetMapping("/subscription")
@@ -44,9 +44,9 @@ public class ItemController {
                                                                        @Min(1) @RequestParam(name = "page") Integer page,
                                                                        @Positive @RequestParam(name = "size") Integer size) {
         if (type == 0)
-            return ApiResponse.onSuccess(itemService.getSubscribedItemList(fromMember, page - 1, size));
+            return ApiResponse.onSuccess(itemServiceImpl.getSubscribedItemList(fromMember, page - 1, size));
         else
-            return ApiResponse.onSuccess(itemService.getAllItemList(page - 1, size));
+            return ApiResponse.onSuccess(itemServiceImpl.getAllItemList(page - 1, size));
     }
 
     @GetMapping("/search")
@@ -61,7 +61,7 @@ public class ItemController {
     @GetMapping("/{itemId}")
     public ApiResponse<ItemResponseDTO.DetailsOfItem> searchDetailOfItem(@PathVariable Long itemId) {
 
-        return ApiResponse.onSuccess(itemService.getDetailOfItem(itemId));
+        return ApiResponse.onSuccess(itemServiceImpl.getDetailOfItem(itemId));
 
     }
 
