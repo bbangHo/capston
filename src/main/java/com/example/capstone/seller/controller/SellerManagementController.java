@@ -29,6 +29,7 @@ public class SellerManagementController {
             @Positive @RequestParam(name = "size") Integer size
     ) {
         Long memberId = member.getId();
+        log.info("GET /auth/seller/order-status memberId = " + member.getId());
         return ApiResponse.onSuccess(sellerManagementService.getSellerOrderItemStatus(memberId, page - 1, size));
     }
 
@@ -43,14 +44,15 @@ public class SellerManagementController {
             @Positive @RequestParam(name = "size") Integer size
     ) {
         Long memberId = member.getId();
+        log.info("GET /auth/seller/items memberId = " + member.getId());
         return ApiResponse.onSuccess(sellerManagementService.getSalesItems(memberId, page - 1, size));
     }
 
     @GetMapping
     public ApiResponse<SellerResponseDTO.Dashboard> getDashboard(@AuthenticationPrincipal MemberSecurityDTO member) {
+        Long memberId = member.getId();
         log.info("GET /auth/seller memberId = " + member.getId());
 
-        Long memberId = member.getId();
         return ApiResponse.onSuccess(sellerManagementService.getDashBoard(memberId));
     }
 }

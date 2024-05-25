@@ -60,4 +60,8 @@ public class Member extends BaseEntity {
         this.postList.add(post);
         post.setMember(this);
     }
+
+    public void changeRole() {
+        this.type = MemberType.ROLE_SELLER;
+    }
 }

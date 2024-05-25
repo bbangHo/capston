@@ -12,6 +12,13 @@ import static com.example.capstone.seller.converter.SellerConverter.toSellerResp
 
 public class MemberConverter {
 
+    public static MemberResponseDTO.MemberState toMemberState(Member member) {
+        return MemberResponseDTO.MemberState.builder()
+                .id(member.getId())
+                .memberType(member.getType())
+                .build();
+    }
+
     public static MemberResponseDTO.Member toMemberResponseDTO(Member member) {
         return MemberResponseDTO.Member.builder()
                 .id(member.getId())
