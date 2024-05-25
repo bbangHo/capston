@@ -1,5 +1,6 @@
 package com.example.capstone.seller.service;
 
+import com.example.capstone.common.QueryService;
 import com.example.capstone.item.Item;
 import com.example.capstone.item.repository.ItemRepository;
 import com.example.capstone.order.OrderItem;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.management.Query;
 import java.util.List;
 
 @Service
@@ -25,23 +27,27 @@ import java.util.List;
 public class SellerManagementServiceImpl implements SellerManagementService {
     private final OrderItemRepository orderItemRepository;
     private final ItemRepository itemRepository;
+    private final QueryService queryService;
 
     @Override
-    public SellerResponseDTO.OrderStatusList getSellerOrderItemStatus(Long sellerId, Integer page, Integer size) {
+    public SellerResponseDTO.OrderStatusList getSellerOrderItemStatus(Long memberId, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
+        Long sellerId = queryService.isSeller(memberId);
         Page<OrderItem> sellerOrderItemStatusPage = orderItemRepository.getSellerOrderItemStatus(sellerId, pageable);
         return SellerManagementConverter.toOrderStatusList(sellerOrderItemStatusPage);
     }
 
     @Override
-    public SellerResponseDTO.SalesItemList getSalesItems(Long sellerId, Integer page, Integer size) {
+    public SellerResponseDTO.SalesItemList getSalesItems(Long memberId, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
+        Long sellerId = queryService.isSeller(memberId);
         Page<Item> itemPage = itemRepository.findBySellerId(sellerId, pageable);
         return SellerManagementConverter.toSalesItemList(itemPage);
     }
 
     @Override
-    public SellerResponseDTO.Dashboard getDashBoard(Long sellerId) {
+    public SellerResponseDTO.Dashboard getDashBoard(Long memberId) {
+        Long sellerId = queryService.isSeller(memberId);
         Integer today = getSalesVolume(sellerId, DateType.DAY);
         Integer dayBefore = getSalesVolume(sellerId, DateType.DAY_BEFORE);
         Integer month = getSalesVolume(sellerId, DateType.MONTH);
