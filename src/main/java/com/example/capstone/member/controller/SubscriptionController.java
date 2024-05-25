@@ -23,18 +23,20 @@ public class SubscriptionController {
     // TODO: 사용자 검증 어노테이션 추가
     @PostMapping("/subscription/{to-member-id}")
     public ApiResponse<SubscriptionResponseDTO.Subscription> subscribe(
-            @RequestParam(name = "from-member-id") Long fromMemberId,   // TODO: from-member-id -> 토큰으로 대체하기
+            @AuthenticationPrincipal MemberSecurityDTO member,
             @PathVariable(name = "to-member-id") Long toMemberId
     ) {
+        Long fromMemberId = member.getId();
         SubscriptionResponseDTO.Subscription result = subscriptionService.subscribe(fromMemberId, toMemberId);
         return ApiResponse.of(SuccessStatus._OK_SUBSCRIBE, result);
     }
 
     @DeleteMapping("/subscription/{to-member-id}")
     public ApiResponse<SubscriptionResponseDTO.Subscription> unsubscribe(
-            @RequestParam(name = "from-member-id") Long fromMemberId,   // TODO: from-member-id -> 토큰으로 대체하기
+            @AuthenticationPrincipal MemberSecurityDTO member,
             @PathVariable(name = "to-member-id") Long toMemberId
     ) {
+        Long fromMemberId = member.getId();
         SubscriptionResponseDTO.Subscription result = subscriptionService.unsubscribe(fromMemberId, toMemberId);
         return ApiResponse.of(SuccessStatus._OK_UNSUBSCRIBE, result);
     }

@@ -24,11 +24,12 @@ public class SellerManagementController {
     // TODO: (전체)Fiter기능, 동적쿼리 적용해줘야함, 로그인 완성후 진행
     @GetMapping("/order-status")
     public ApiResponse<SellerResponseDTO.OrderStatusList> getSellerOrderItemStatus(
-            @Positive @RequestParam(name = "seller-id") Long sellerId,
+            @AuthenticationPrincipal MemberSecurityDTO member,
             @Min(1) @RequestParam(name = "page") Integer page,
             @Positive @RequestParam(name = "size") Integer size
     ) {
-        return ApiResponse.onSuccess(sellerManagementService.getSellerOrderItemStatus(sellerId, page - 1, size));
+        Long memberId = member.getId();
+        return ApiResponse.onSuccess(sellerManagementService.getSellerOrderItemStatus(memberId, page - 1, size));
     }
 
     // TODO : 주문_상품 상태 변경 구체화
@@ -37,17 +38,19 @@ public class SellerManagementController {
 
     @GetMapping("/items")
     public ApiResponse<SellerResponseDTO.SalesItemList> getSalesItems(
-            @Positive @RequestParam(name = "seller-id") Long sellerId,
+            @AuthenticationPrincipal MemberSecurityDTO member,
             @Min(1) @RequestParam(name = "page") Integer page,
             @Positive @RequestParam(name = "size") Integer size
     ) {
-        return ApiResponse.onSuccess(sellerManagementService.getSalesItems(sellerId, page - 1, size));
+        Long memberId = member.getId();
+        return ApiResponse.onSuccess(sellerManagementService.getSalesItems(memberId, page - 1, size));
     }
 
     @GetMapping
     public ApiResponse<SellerResponseDTO.Dashboard> getDashboard(@AuthenticationPrincipal MemberSecurityDTO member) {
         log.info("GET /auth/seller memberId = " + member.getId());
-        Long sellerId = queryService.IsSeller(member.getId());
-        return ApiResponse.onSuccess(sellerManagementService.getDashBoard(sellerId));
+
+        Long memberId = member.getId();
+        return ApiResponse.onSuccess(sellerManagementService.getDashBoard(memberId));
     }
 }

@@ -91,14 +91,14 @@ class OrderItemRepositoryTest {
                         .build()
         );
 
-//        orderItem = orderItemRepository.save(
-//                OrderItem.builder()
-//                        .item(item)
-//                        .order(order)
-//                        .quantity(10)
-//                        .status(OrderStatus.SHIPPING)
-//                        .build()
-//        );
+        orderItem = orderItemRepository.save(
+                OrderItem.builder()
+                        .item(item)
+                        .order(order)
+                        .quantity(10)
+                        .status(OrderStatus.SHIPPING)
+                        .build()
+        );
     }
 
     @Test
