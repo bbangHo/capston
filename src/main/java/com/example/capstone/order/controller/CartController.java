@@ -2,6 +2,7 @@ package com.example.capstone.order.controller;
 
 import com.example.capstone.apiPayload.ApiResponse;
 import com.example.capstone.apiPayload.code.status.SuccessStatus;
+import com.example.capstone.order.Cart;
 import com.example.capstone.order.dto.CartRequestDTO;
 import com.example.capstone.order.service.CartService;
 import com.example.capstone.order.service.CartServiceImpl;

@@ -1,7 +1,10 @@
 package com.example.capstone.member.converter;
 
 
+import com.example.capstone.member.Address;
 import com.example.capstone.member.Member;
+import com.example.capstone.member.dto.AddressDTO;
+import com.example.capstone.member.dto.MemberRequestDTO;
 import com.example.capstone.member.dto.MemberResponseDTO;
 import com.example.capstone.seller.converter.SellerConverter;
 
@@ -11,6 +14,7 @@ import static com.example.capstone.seller.converter.SellerConverter.toSellerResp
 
 
 public class MemberConverter {
+
 
     public static MemberResponseDTO.MemberState toMemberState(Member member) {
         return MemberResponseDTO.MemberState.builder()
@@ -32,6 +36,25 @@ public class MemberConverter {
                 .seller(Optional.ofNullable(member.getSeller())
                         .map(SellerConverter::toSellerResponseDTO)
                         .orElse(null))
+                .build();
+    }
+
+    public static Member toSignUpMember(MemberRequestDTO.SignUpMember signUpMember, String encodedPassword) {
+        return Member.builder()
+                .id(signUpMember.getId())
+                .loginId(signUpMember.getLoginId())
+                .password(encodedPassword)
+                .name(signUpMember.getName())
+                .nickName(signUpMember.getNickName())
+                .phone(signUpMember.getPhone())
+                .build();
+    }
+
+    public static Address toAddress(AddressDTO.Address address) {
+        return Address.builder()
+                .member(address.getMember())
+                .address(address.getAddress())
+                .details(address.getDetails())
                 .build();
     }
 

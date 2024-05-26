@@ -1,43 +1,18 @@
 package com.example.capstone.member.service;
 
-import com.example.capstone.apiPayload.code.status.ErrorStatus;
-import com.example.capstone.common.QueryService;
-import com.example.capstone.exception.GeneralException;
-import com.example.capstone.member.Member;
-import com.example.capstone.member.common.MemberType;
-import com.example.capstone.member.converter.MemberConverter;
+import com.example.capstone.member.dto.MemberRequestDTO;
 import com.example.capstone.member.dto.MemberResponseDTO;
-import com.example.capstone.member.repository.MemberRepository;
-import com.example.capstone.seller.Seller;
-import com.example.capstone.seller.repository.SellerRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
-@Slf4j
-public class MemberService {
-    private final MemberRepository memberRepository;
-    private final SellerRepository sellerRepository;
-    private final QueryService queryService;
+public interface MemberService {
 
-    public MemberResponseDTO.MemberState changeMemberRole(Long memberId) {
-        Member member = queryService.findMember(memberId);
+    MemberResponseDTO.MemberState changeMemberRole(Long memberId);
 
-        if (member.getType() == MemberType.ROLE_SELLER) {
-            throw new GeneralException(ErrorStatus.MEMBER_ALREADY_SELLER);
-        }
+    MemberResponseDTO.DupCheckField checkField(MemberRequestDTO.DupCheckField dupCheckFields);
 
-        member.changeRole();
-        memberRepository.save(member);
+    void deleteTempMember (Long memberId);
 
-        Seller seller = Seller.builder()
-                .member(member)
-                .build();
+    MemberResponseDTO.SignUpMember signUp (MemberRequestDTO.SignUpMember signUpMember);
 
-        sellerRepository.save(seller);
 
-        return MemberConverter.toMemberState(member);
+
     }
-}

@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 class MemberServiceTest {
 
     @InjectMocks
-    MemberService memberService;
+    MemberServiceImpl memberService;
 
     @Mock
     QueryService queryService;
