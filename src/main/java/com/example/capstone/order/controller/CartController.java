@@ -44,6 +44,6 @@ public class CartController {
         cartServiceImpl.saveItemInCart(requestedCart);
         log.info("saveItemInCart success.........");
 
-        return ApiResponse.of(SuccessStatus._OK_SUBSCRIBE, "장바구니에 담기 완료");
+        return ApiResponse.of(SuccessStatus._OK_ADD_ITEM_IN_CART, null);
     }
 }
