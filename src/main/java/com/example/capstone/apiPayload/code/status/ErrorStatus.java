@@ -22,6 +22,11 @@ public enum ErrorStatus implements BaseErrorCode {
     NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER_400_2", "닉네임은 필수 입니다."),
     MEMBER_ALREADY_SELLER(HttpStatus.BAD_REQUEST, "MEMBER_400_3", "해당 사용자는 이미 판매자입니다."),
     DUP_CHECK_FIELD_BADTYPE(HttpStatus.BAD_REQUEST, "MEMBER_400_4","중복 체크할 필드 타입이 잘못되었습니다."),
+    MALFORMED_MEMBER_LODINID(HttpStatus.BAD_REQUEST, "MEMBER_400_5", "ID 형식에 문제가 있습니다."),
+    MALFORMED_MEMBER_PASSWORD(HttpStatus.BAD_REQUEST, "MEMBER_400_6", "비밀번호 형식에 문제가 있습니다."),
+    MALFORMED_MEMBER_NAME(HttpStatus.BAD_REQUEST, "MEMBER_400_7", "사용자의 이름 형식에 문제가 있습니다."),
+    MALFORMED_MEMBER_NICKNAME(HttpStatus.BAD_REQUEST, "MEMBER_400_8", "사용자의 닉네임 형식에 문제가 있습니다."),
+    MALFORMED_MEMBER_PHONE(HttpStatus.BAD_REQUEST, "MEMBER_400_9", "사용자의 전화번호 형식에 문제가 있습니다."),
 
     // Seller
     SELLER_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "SELLER_401_1", "해당 사용자는 판매자 권한이 없습니다."),

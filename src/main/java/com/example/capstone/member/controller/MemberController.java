@@ -14,6 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import static com.example.capstone.member.common.MemberValidator.validateLoginId;
+import static com.example.capstone.member.common.MemberValidator.validateNickName;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -37,6 +40,8 @@ public class MemberController {
 
             throw new ExceptionHandler(ErrorStatus.DUP_CHECK_FIELD_BADTYPE);
         }
+
+        validateMember(dupCheckFields);
 
         MemberResponseDTO.DupCheckField dupCheckField = memberService.checkField(dupCheckFields);
 
@@ -71,6 +76,14 @@ public class MemberController {
 
         return ApiResponse.of(SuccessStatus._OK_SIGNUP,member);
 
+    }
+
+    void validateMember(MemberRequestDTO.DupCheckField dupCheckFields){
+        if (!dupCheckFields.getLoginId().isEmpty() && !validateLoginId(dupCheckFields.getLoginId()))
+            throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_LODINID);
+
+        if(!dupCheckFields.getNickName().isEmpty() && !validateNickName(dupCheckFields.getNickName()))
+            throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_NICKNAME);
     }
 
 }
