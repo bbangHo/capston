@@ -16,11 +16,19 @@ public enum SuccessStatus implements BaseCode {
 
     //CART
     _OK_ADD_ITEM_IN_CART(HttpStatus.OK, "CART_200_1", "정상적으로 장바구니에 추가되었습니다."),
+
+    //POST
     _OK_GET_POST(HttpStatus.OK, "POST_200_1", "정상적으로 게시글이 조회되었습니다."),
     _OK_CREATE_POST(HttpStatus.OK, "POST_200_2", "정상적으로 게시글이 생성되었습니다."),
     _OK_UPDATE_POST(HttpStatus.OK, "POST_200_3", "정상적으로 게시글이 수정되었습니다."),
-    _OK_DELETE_POST(HttpStatus.OK, "POST_200_4", "정상적으로 게시글이 삭제되었습니다.")
-    ;
+    _OK_DELETE_POST(HttpStatus.OK, "POST_200_4", "정상적으로 게시글이 삭제되었습니다."),
+
+    //SINGUP
+    _OK_DUP_CHECK(HttpStatus.OK, "SIGNUP_200_1", "정상적으로 중복체크되었습니다."),
+    _OK_DELETE_TEMP_MEMBER(HttpStatus.OK,"DELETE_200_2","정상적으로 임시 멤버를 제거했습니다."),
+    _OK_SIGNUP(HttpStatus.OK,"DELETE_200_3","정상적으로 회원가입이 완료되었습니다.")
+
+            ;
 
     private final HttpStatus httpStatus;
     private final String code;

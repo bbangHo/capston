@@ -20,6 +20,12 @@ import java.util.List;
 @AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(name = "UniqueLoginId", columnNames = {"loginId"}),
+                @UniqueConstraint(name = "UniqueNickName", columnNames = {"nickName"})
+        }
+)
 public class Member extends BaseEntity {
 
     @Id
@@ -64,4 +70,5 @@ public class Member extends BaseEntity {
     public void changeRole() {
         this.type = MemberType.ROLE_SELLER;
     }
+
 }

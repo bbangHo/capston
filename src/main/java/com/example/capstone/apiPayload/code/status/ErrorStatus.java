@@ -21,6 +21,12 @@ public enum ErrorStatus implements BaseErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER_400_1", "사용자가 없습니다."),
     NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER_400_2", "닉네임은 필수 입니다."),
     MEMBER_ALREADY_SELLER(HttpStatus.BAD_REQUEST, "MEMBER_400_3", "해당 사용자는 이미 판매자입니다."),
+    DUP_CHECK_FIELD_BADTYPE(HttpStatus.BAD_REQUEST, "MEMBER_400_4","중복 체크할 필드 타입이 잘못되었습니다."),
+    MALFORMED_MEMBER_LODINID(HttpStatus.BAD_REQUEST, "MEMBER_400_5", "ID 형식에 문제가 있습니다."),
+    MALFORMED_MEMBER_PASSWORD(HttpStatus.BAD_REQUEST, "MEMBER_400_6", "비밀번호 형식에 문제가 있습니다."),
+    MALFORMED_MEMBER_NAME(HttpStatus.BAD_REQUEST, "MEMBER_400_7", "사용자의 이름 형식에 문제가 있습니다."),
+    MALFORMED_MEMBER_NICKNAME(HttpStatus.BAD_REQUEST, "MEMBER_400_8", "사용자의 닉네임 형식에 문제가 있습니다."),
+    MALFORMED_MEMBER_PHONE(HttpStatus.BAD_REQUEST, "MEMBER_400_9", "사용자의 전화번호 형식에 문제가 있습니다."),
 
     // Seller
     SELLER_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "SELLER_401_1", "해당 사용자는 판매자 권한이 없습니다."),
@@ -60,10 +66,17 @@ public enum ErrorStatus implements BaseErrorCode {
     //Login
     ID_AND_PASSWORD_NOT_MATCH(HttpStatus.FORBIDDEN,"LOGIN_400_1","ID 또는 비밀번호가 잘못되었습니다."),
     LOGIN_DATA_NOT_ACCEPTED(HttpStatus.UNAUTHORIZED,"LOGIN_400_2","로그인 ID와 비밀번호가 비어있습니다."),
-    MALFORMED_LOGIN_DATA(HttpStatus.UNAUTHORIZED,"LOGIN_400_3","로그인 ID와 비밀번호을 전달하는 JSON 형식에 문제가 있습니다.")
-;
+    MALFORMED_LOGIN_DATA(HttpStatus.UNAUTHORIZED,"LOGIN_400_3","로그인 ID와 비밀번호을 전달하는 JSON 형식에 문제가 있습니다."),
 
-    ;
+    //signUp
+    DUPLICATED_LOGINID(HttpStatus.BAD_REQUEST,"DUPCHECK_400_1","중복된 로그인 ID입니다."),
+    DUPLICATED_NICKNAME(HttpStatus.BAD_REQUEST,"DUPCHECK_400_2","중복된 닉네임입니다."),
+    NOT_CHECKED_LOGINID(HttpStatus.BAD_REQUEST,"DUPCHECK_400_3","중복 체크된 아이디가 아닙니다."),
+    NOT_CHECKED_NICKNAME(HttpStatus.BAD_REQUEST,"DUPCHECK_400_4","중복 체크된 닉네임이 아닙니다.")
+
+
+
+            ;
 
 
     private final HttpStatus httpStatus;

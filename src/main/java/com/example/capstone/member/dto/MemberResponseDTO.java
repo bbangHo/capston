@@ -48,5 +48,43 @@ public class MemberResponseDTO {
         private MemberType memberType;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DupCheckField {
+
+        private Long id;
+
+        private String type;
+
+        private String loginId;
+
+        private String nickName;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SignUpMember{
+
+        private Long id;
+
+        private String loginId;
+
+        private String password;
+
+        private String name;
+
+        private String nickName;
+
+        private String phone;
+
+        private String address;
+
+        private String details;
+    }
+
 
 }
