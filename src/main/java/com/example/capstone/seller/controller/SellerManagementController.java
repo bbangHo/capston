@@ -55,4 +55,16 @@ public class SellerManagementController {
 
         return ApiResponse.onSuccess(sellerManagementService.getDashBoard(memberId));
     }
+
+    @GetMapping("/imminent-item")
+    public ApiResponse<SellerResponseDTO.ImminentItemList> getImminentItem(
+            @AuthenticationPrincipal MemberSecurityDTO member,
+            @Min(1) @RequestParam(name = "page") Integer page,
+            @Positive @RequestParam(name = "size") Integer size
+    ) {
+        Long memberId = member.getId();
+        log.info("GET /auth/seller/Imminent-item memberId = " + member.getId());
+
+        return ApiResponse.onSuccess(sellerManagementService.getImminentItemPage(memberId, page - 1, size));
+    }
 }

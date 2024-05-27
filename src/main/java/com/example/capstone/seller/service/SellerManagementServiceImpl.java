@@ -15,9 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.management.Query;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -56,6 +57,18 @@ public class SellerManagementServiceImpl implements SellerManagementService {
         List<MonthlySalesVolumeDTO> monthlySalesVolumeDTOList = orderItemRepository.getMonthlySalesVolume1Year(sellerId);
 
         return SellerManagementConverter.toDashboard(today, dayBefore, month , lastMonth, orderStatusNumber, monthlySalesVolumeDTOList);
+    }
+
+    public SellerResponseDTO.ImminentItemList getImminentItemPage(Long memberId, Integer page, Integer size) {
+        Long sellerId = queryService.isSeller(memberId);
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime imminentDate = LocalDateTime.now().plusDays(7);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").ascending());
+
+        Page<Item> imminentItemPage = itemRepository.searchImminentItem(sellerId, now, imminentDate, pageable);
+
+        return SellerManagementConverter.toImminentItemList(imminentItemPage);
     }
 
     private Integer getSalesVolume(Long sellerId, DateType dateType) {
