@@ -9,6 +9,7 @@ import com.example.capstone.member.dto.MemberResponseDTO;
 import com.example.capstone.member.service.MemberServiceImpl;
 import com.example.capstone.security.dto.MemberSecurityDTO;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -51,20 +52,33 @@ public class MemberController {
 
     }
 
-    @DeleteMapping("/member/{memberId}")
-    public ApiResponse<String> deleteTempMember(@PathVariable Long memberId) {
+    @DeleteMapping("/tempMember/loginId/{loginId}")
+    public ApiResponse<String> deleteTempMemberWithLoginId(@PathVariable String loginId) {
 
-        log.info("deleteTempMember controller start ...............");
+        log.info("deleteTempMemberWithLoginId controller start ...............");
 
-        memberService.deleteTempMember(memberId);
+        memberService.deleteTempMemberWithLoginId(loginId);
 
-        log.info("deleteTempMember success...............");
+        log.info("deleteTempMemberWithLoginId success...............");
 
         return ApiResponse.of(SuccessStatus._OK_DELETE_TEMP_MEMBER,null);
 
     }
 
-    @PostMapping("/member/signUp")
+    @DeleteMapping("/tempMember/nickName/{nickName}")
+    public ApiResponse<String> deleteTempMemberWithNickName(@PathVariable String nickName) {
+
+        log.info("deleteTempMemberWithNickName controller start ...............");
+
+        memberService.deleteTempMemberWithNickName(nickName);
+
+        log.info("deleteTempMemberWithNickName success...............");
+
+        return ApiResponse.of(SuccessStatus._OK_DELETE_TEMP_MEMBER,null);
+
+    }
+
+    @PatchMapping("/member/signUp")
     public ApiResponse<MemberResponseDTO.SignUpMember> signUp(@Valid @RequestBody MemberRequestDTO.SignUpMember signUpMember) {
 
         log.info("signUp controller start ...............");
@@ -75,6 +89,22 @@ public class MemberController {
         log.info("signUp success...............");
 
         return ApiResponse.of(SuccessStatus._OK_SIGNUP,member);
+
+    }
+
+    @PatchMapping("/auth/member/nickName")
+    public ApiResponse<String> modifyAuthMemberNickName(@RequestBody @NotNull String nickName) {
+
+        log.info("modifyAuthMemberNickName controller start ...............");
+
+        if(!validateNickName(nickName))
+            throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_NICKNAME);
+
+        memberService.changeNickName(nickName);
+
+        log.info("modifyAuthMemberNickName success...............");
+
+        return ApiResponse.of(SuccessStatus._OK_DUP_CHECK,null);
 
     }
 

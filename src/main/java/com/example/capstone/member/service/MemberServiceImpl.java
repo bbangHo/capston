@@ -39,6 +39,7 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private final AddressRepository addressRepository;
 
+    @Override
     public MemberResponseDTO.MemberState changeMemberRole(Long memberId) {
         Member member = queryService.findMember(memberId);
 
@@ -87,14 +88,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void deleteTempMember (Long memberId) {
+    public void deleteTempMemberWithLoginId(String loginId) {
 
-        log.info("deleteTempMember service start............");
+        log.info("deleteTempMemberWithLoginId service start............");
 
-        memberRepository.deleteById(memberId);
+        memberRepository.deleteMemberByLoginId(loginId);
 
-        log.info("deleteTempMember service end............");
+    }
 
+    @Override
+    public void deleteTempMemberWithNickName(String nickName) {
+        log.info("deleteTempMemberWithNickName service start............");
+
+        memberRepository.deleteMemberByLoginId(nickName);
     }
 
     @Override
@@ -141,6 +147,10 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    @Override
+    public void changeNickName(String nickName) {
+
+    }
 
 
     private Member checkLoginId (MemberRequestDTO.DupCheckField dupCheckField) {
@@ -149,7 +159,6 @@ public class MemberServiceImpl implements MemberService {
 
         //중복된 로그인 ID가 존재하지 않을 때
         if(memberByLoginId.isEmpty()){
-
             return getMemberByNickName(dupCheckField);
 
         //중복된 로그인 ID가 존재할 때
@@ -163,7 +172,6 @@ public class MemberServiceImpl implements MemberService {
 
         //중복된 닉네임이 존재하지 않을 때
         if(memberByNickName.isEmpty()){
-
             return getMemberByLoginId(dupCheckField);
 
             //중복된 닉네임이 존재할 때
