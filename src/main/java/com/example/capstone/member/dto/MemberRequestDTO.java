@@ -13,6 +13,8 @@ public class MemberRequestDTO {
     @AllArgsConstructor
     public static class DupCheckField {
 
+        private Long id;
+
         private String type;
 
         private String loginId;

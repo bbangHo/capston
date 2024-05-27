@@ -63,7 +63,7 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponseDTO.DupCheckField checkField (MemberRequestDTO.DupCheckField dupCheckFields) {
 
         log.info("DupCheck service start............");
-        Member member=null;
+        Member member;
 
         if (dupCheckFields.getType().equals("loginId")){
 
@@ -88,20 +88,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void deleteTempMemberWithLoginId(String loginId) {
+    public void deleteTempMember(Long id) {
 
-        log.info("deleteTempMemberWithLoginId service start............");
+        log.info("deleteTempMember service start............");
 
-        memberRepository.deleteMemberByLoginId(loginId);
+        memberRepository.deleteById(id);
 
     }
 
-    @Override
-    public void deleteTempMemberWithNickName(String nickName) {
-        log.info("deleteTempMemberWithNickName service start............");
-
-        memberRepository.deleteMemberByLoginId(nickName);
-    }
 
     @Override
     public MemberResponseDTO.SignUpMember signUp (MemberRequestDTO.SignUpMember signUpMember) {
@@ -181,12 +175,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     private Member getMemberByNickName(MemberRequestDTO.DupCheckField dupCheckField){
-        if(dupCheckField.getNickName().isEmpty())
+        if(dupCheckField.getId() == null)
             return Member.builder()
                     .loginId(dupCheckField.getLoginId())
                     .build();
 
-        Member searchedMember = memberRepository.findMemberByNickName(dupCheckField.getNickName())
+        Member searchedMember = memberRepository.findById(dupCheckField.getId())
                 .orElseThrow(() -> new ExceptionHandler(ErrorStatus.MEMBER_NOT_FOUND));
 
         return Member.builder()
@@ -198,12 +192,12 @@ public class MemberServiceImpl implements MemberService {
 
     private Member getMemberByLoginId(MemberRequestDTO.DupCheckField dupCheckField){
 
-        if(dupCheckField.getLoginId().isEmpty())
+        if(dupCheckField.getId() == null)
             return Member.builder()
                     .nickName(dupCheckField.getNickName())
                     .build();
 
-        Member searchedMember = memberRepository.findMemberByLoginId(dupCheckField.getLoginId())
+        Member searchedMember = memberRepository.findById(dupCheckField.getId())
                 .orElseThrow(() -> new ExceptionHandler(ErrorStatus.MEMBER_NOT_FOUND));
 
         return Member.builder()

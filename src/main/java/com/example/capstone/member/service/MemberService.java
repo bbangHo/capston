@@ -9,9 +9,7 @@ public interface MemberService {
 
     MemberResponseDTO.DupCheckField checkField(MemberRequestDTO.DupCheckField dupCheckFields);
 
-    void deleteTempMemberWithLoginId(String loginId);
-
-    void deleteTempMemberWithNickName(String nickName);
+    void deleteTempMember(Long id);
 
     MemberResponseDTO.SignUpMember signUp (MemberRequestDTO.SignUpMember signUpMember);
 

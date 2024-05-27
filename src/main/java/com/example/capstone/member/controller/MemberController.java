@@ -52,29 +52,16 @@ public class MemberController {
 
     }
 
-    @DeleteMapping("/tempMember/loginId/{loginId}")
-    public ApiResponse<String> deleteTempMemberWithLoginId(@PathVariable String loginId) {
+    @DeleteMapping("/tempMember/{id}")
+    public ApiResponse<String> deleteTempMemberWithLoginId(@PathVariable Long id) {
 
-        log.info("deleteTempMemberWithLoginId controller start ...............");
+        log.info("deleteTempMember controller start ...............");
 
-        memberService.deleteTempMemberWithLoginId(loginId);
+        memberService.deleteTempMember(id);
 
-        log.info("deleteTempMemberWithLoginId success...............");
+        log.info("deleteTempMember success...............");
 
-        return ApiResponse.of(SuccessStatus._OK_DELETE_TEMP_MEMBER,null);
-
-    }
-
-    @DeleteMapping("/tempMember/nickName/{nickName}")
-    public ApiResponse<String> deleteTempMemberWithNickName(@PathVariable String nickName) {
-
-        log.info("deleteTempMemberWithNickName controller start ...............");
-
-        memberService.deleteTempMemberWithNickName(nickName);
-
-        log.info("deleteTempMemberWithNickName success...............");
-
-        return ApiResponse.of(SuccessStatus._OK_DELETE_TEMP_MEMBER,null);
+        return ApiResponse.of(SuccessStatus._OK_DELETE_TEMP_MEMBER, null);
 
     }
 
