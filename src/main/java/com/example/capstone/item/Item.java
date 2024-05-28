@@ -6,12 +6,8 @@ import com.example.capstone.item.common.ItemType;
 import com.example.capstone.order.OrderItem;
 import com.example.capstone.seller.Seller;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -43,7 +39,7 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ItemType type;
 
-    @NotNull
+    @NotBlank
     private String name;
 
     private String simpleExplanation;
@@ -61,14 +57,12 @@ public class Item extends BaseEntity {
     private Integer stock;
 
 //    @NotNull(message = "상품 상세 이미지는 필수입니다.")
-    @Null
     private String itemDetailsImageUrl;
 
     @NotNull
     @Future
-    @ColumnDefault("'2024-12-31T00:00:00.000000'")
     @Builder.Default
-    private LocalDateTime deadline = LocalDateTime.now();
+    private LocalDateTime deadline = LocalDateTime.now().plusDays(14);
 
     @OneToOne
     @JoinColumn(name = "group_purchase_item_id")
@@ -92,6 +86,10 @@ public class Item extends BaseEntity {
             orphanRemoval = true)
     @Builder.Default
     private List<OrderItem> orderItems = new ArrayList<>();
+
+    public void addItemDetailsImageUrl(String url) {
+        itemDetailsImageUrl = url;
+    }
 
     public void addItemImage(ItemImage itemImage) {
         itemImages.add(itemImage);

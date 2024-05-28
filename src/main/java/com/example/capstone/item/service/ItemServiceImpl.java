@@ -110,42 +110,52 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemResponseDTO.ItemUpload uploadItem(Long memberId, ItemRequestDTO.ItemUpload request,
-                                                 List<MultipartFile> multipartFiles) {
+                                                 List<MultipartFile> itemImages, MultipartFile itemDetailsImage) {
         Seller seller = queryService.isSeller(memberId);
         Category category = queryService.findCategory(request.getCategoryId());
         Item item = ItemConverter.toItemEntity(seller, request, category);
 
         isGroupPurchase(item, request);
-        itemImageUpload(item, multipartFiles);
+        itemImageUpload(item, itemImages);
+        itemDetailsImageUpload(item, itemDetailsImage);
 
         item = itemRepository.save(item);
 
         return ItemConverter.toItemUpload(item);
     }
 
-    private void itemImageUpload(Item item, List<MultipartFile> multipartFiles) {
-        if (multipartFiles == null) {
+    private ItemImage itemImageBuilder(Item item, MultipartFile file) {
+        UUID uuid = UUID.randomUUID();
+        String path = amazonS3Util.generateItemImagePath(uuid, file);
+        String url = amazonS3Util.uploadFile(path, file);
+
+        ItemImage itemImage = ItemImage.builder()
+                .item(item)
+                .imageUrl(url)
+                .uuid(uuid)
+                .originFileName(file.getOriginalFilename())
+                .build();
+
+        return itemImageRepository.save(itemImage);
+    }
+    private void itemDetailsImageUpload(Item item, MultipartFile file) {
+        if (file == null || file.getOriginalFilename().equals("")) {
+            return;
+        }
+        ItemImage itemImage = itemImageBuilder(item, file);
+        item.addItemDetailsImageUrl(itemImage.getImageUrl());
+    }
+
+    private void itemImageUpload(Item item, List<MultipartFile> itemImages) {
+        if (itemImages == null) {
             return;
         }
 
-        for (MultipartFile file : multipartFiles) {
+        for (MultipartFile file : itemImages) {
             if(file.getOriginalFilename().equals("")) {
                 return;
             }
-
-            UUID uuid = UUID.randomUUID();
-            String path = amazonS3Util.generateItemImagePath(uuid, file);
-            String url = amazonS3Util.uploadFile(path, file);
-
-            ItemImage itemImage = ItemImage.builder()
-                    .item(item)
-                    .imageUrl(url)
-                    .uuid(uuid)
-                    .originFileName(file.getOriginalFilename())
-                    .build();
-
-            itemImage = itemImageRepository.save(itemImage);
-
+            ItemImage itemImage = itemImageBuilder(item, file);
             item.addItemImage(itemImage);
         }
     }
@@ -158,6 +168,10 @@ public class ItemServiceImpl implements ItemService {
      */
     private void isGroupPurchase(Item item, ItemRequestDTO.ItemUpload request) {
         if (request.getIsGroupPurchase()) {
+            if (request.getGroupPurchasePrice() == null || request.getTargetQuantity() == null) {
+                throw new GeneralException(ErrorStatus.ITEM_UPLOAD_BAD_REQUEST);
+            }
+
             GroupPurchaseItem groupPurchaseItem = GroupPurchaseItem.builder()
                     .targetQuantity(request.getTargetQuantity())
                     .discountPrice(request.getGroupPurchasePrice())
@@ -168,5 +182,4 @@ public class ItemServiceImpl implements ItemService {
             item.addGroupPurchaseItem(groupPurchaseItem);
         }
     }
-
 }

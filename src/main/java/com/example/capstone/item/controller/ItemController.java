@@ -75,10 +75,11 @@ public class ItemController {
     public ApiResponse<ItemResponseDTO.ItemUpload> uploadItem(
             @AuthenticationPrincipal MemberSecurityDTO member,
             @RequestPart @Valid ItemRequestDTO.ItemUpload request,
-            @RequestPart(required = false) List<MultipartFile> multipartFiles
+            @RequestPart(required = false) List<MultipartFile> itemImages,
+            @RequestPart(required = false) MultipartFile itemDetailsImage
             ) {
         Long memberId = member.getId();
-        ItemResponseDTO.ItemUpload response = itemService.uploadItem(memberId, request, multipartFiles);
+        ItemResponseDTO.ItemUpload response = itemService.uploadItem(memberId, request, itemImages, itemDetailsImage);
 
         return ApiResponse.onSuccess(response);
     }

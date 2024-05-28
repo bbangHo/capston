@@ -42,8 +42,18 @@ public class ItemResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class GroupPurchaseInfo {
+        private Integer targetQuantity;
+        private Integer discountPrice;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class ItemUpload {
-        private GroupItemResponseDTO.GroupItem uploadedItem;
+        private DetailsOfItem item;
+        private GroupPurchaseInfo groupPurchaseInfo;
     }
 
     @Builder

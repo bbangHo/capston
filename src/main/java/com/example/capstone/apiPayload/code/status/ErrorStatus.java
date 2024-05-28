@@ -40,6 +40,7 @@ public enum ErrorStatus implements BaseErrorCode {
 
     //item
     ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ITEM_400_1", "해당되는 상품을 조회할 수 없습니다."),
+    ITEM_UPLOAD_BAD_REQUEST(HttpStatus.BAD_REQUEST, "ITEM_400_2", "요청에서 '공동 구매 목표 인원' 혹은 '공동 구매 가격' 이 빠졌습니다."),
 
     // post
     POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "POST_400_1", "게시글이 존재하지 않습니다."),

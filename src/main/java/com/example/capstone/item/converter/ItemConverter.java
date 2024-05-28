@@ -1,20 +1,14 @@
 package com.example.capstone.item.converter;
 
 import com.example.capstone.item.Category;
-import com.example.capstone.item.GroupPurchaseItem;
 import com.example.capstone.item.Item;
-import com.example.capstone.item.ItemImage;
 import com.example.capstone.item.common.ItemType;
-import com.example.capstone.item.dto.GroupItemResponseDTO;
 import com.example.capstone.item.dto.ItemRequestDTO;
 import com.example.capstone.item.dto.ItemResponseDTO;
 import com.example.capstone.seller.Seller;
 import org.springframework.data.domain.Page;
-import org.springframework.data.util.Optionals;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.example.capstone.item.converter.ItemImageConverter.toItemImageList;
 
@@ -92,25 +86,23 @@ public class ItemConverter {
     }
 
     public static ItemResponseDTO.ItemUpload toItemUpload(Item item) {
-        ItemResponseDTO.Item itemDTO = toItemResponseDTO(item);
+        ItemResponseDTO.DetailsOfItem itemDTO = toDetailsOfItemResponseDTO(item);
 
         if (item.getGroupPurchaseItem() == null) {
-            GroupItemResponseDTO.GroupItem groupItemDTO = GroupItemResponseDTO.GroupItem.builder()
-                    .id(-1L)
-                    .targetQuantity(-1)
-                    .discountPrice(-1)
-                    .item(itemDTO)
-                    .build();
-
             return ItemResponseDTO.ItemUpload.builder()
-                    .uploadedItem(groupItemDTO)
+                    .item(itemDTO)
+                    .groupPurchaseInfo(null)
                     .build();
         }
 
-        GroupItemResponseDTO.GroupItem groupItemResponseDTO = GroupItemConverter.toGroupItemResponseDTO(item.getGroupPurchaseItem());
+        ItemResponseDTO.GroupPurchaseInfo groupPurchaseInfo = ItemResponseDTO.GroupPurchaseInfo.builder()
+                .targetQuantity(item.getGroupPurchaseItem().getTargetQuantity())
+                .discountPrice(item.getGroupPurchaseItem().getDiscountPrice())
+                .build();
 
         return ItemResponseDTO.ItemUpload.builder()
-                .uploadedItem(groupItemResponseDTO)
+                .item(itemDTO)
+                .groupPurchaseInfo(groupPurchaseInfo)
                 .build();
     }
 }

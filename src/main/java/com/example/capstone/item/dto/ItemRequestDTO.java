@@ -1,14 +1,11 @@
 package com.example.capstone.item.dto;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
-import org.joda.time.DateTime;
 
 import java.time.LocalDateTime;
 
@@ -36,6 +33,10 @@ public class ItemRequestDTO {
         @Min(value = 0, message = "배달비는 0원 이상입니다.")
         private Integer deliveryPrice;
 
+        @NotNull
+        @Future
+        private LocalDateTime deadLine;
+
         @NotNull(message = "공동 구매 여부는 필수입니다. (false = 일반 상품, true = 공동구매 상품)")
         private Boolean isGroupPurchase;
 
@@ -44,9 +45,5 @@ public class ItemRequestDTO {
 
         @Min(value = 0, message = "상품 가격은 0원 이상입니다")
         private Integer groupPurchasePrice;
-
-        private String detailExplanation;
-
-        private LocalDateTime deadLine;
     }
 }
