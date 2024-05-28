@@ -102,7 +102,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemResponseDTO.DetailsOfItem uploadItem(Long memberId, ItemRequestDTO.ItemUpload request,
                                                     List<MultipartFile> multipartFiles) {
-        Seller seller = queryService.isSeller(memberId);
+//        Seller seller = queryService.isSeller(memberId);
         return null;
     }
 
