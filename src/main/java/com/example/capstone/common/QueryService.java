@@ -49,6 +49,13 @@ public class QueryService {
         return subscriptionOptional.isPresent();
     }
 
+    public Subscription findSubscribe(Long fromMemberId, Long toMemberId) {
+        Optional<Subscription> subscriptionOptional = Optional.ofNullable(
+                subscriptionRepository.findByFromMemberIdAndToMemberMemberId(fromMemberId, toMemberId));
+
+        return subscriptionOptional.orElse(null);
+    }
+
     public Subscription findSubscription(Long fromMemberId, Long toMemberId) {
         Optional<Subscription> subscriptionOptional = Optional.ofNullable(
                 subscriptionRepository.findByFromMemberIdAndToMemberMemberId(fromMemberId, toMemberId));
