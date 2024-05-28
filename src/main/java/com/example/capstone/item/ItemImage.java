@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
 @Getter
 @Builder
@@ -26,7 +28,7 @@ public class ItemImage extends BaseEntity {
     private String originFileName;
 
     @Column(unique = true)
-    private String uuid;
+    private UUID uuid;
 
     public void setItem(Item item) {
         this.item = item;

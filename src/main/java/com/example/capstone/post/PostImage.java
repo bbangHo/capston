@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
 @Getter
 @Builder
@@ -24,6 +26,9 @@ public class PostImage extends BaseEntity {
 
     @NotNull
     private String imageUrl;
+
+    @Column(unique = true)
+    private UUID uuid;
 
     public void setItem(Post post) {
         this.post = post;

@@ -2,12 +2,16 @@ package com.example.capstone.common;
 
 import com.example.capstone.apiPayload.code.status.ErrorStatus;
 import com.example.capstone.exception.GeneralException;
+import com.example.capstone.item.Category;
+import com.example.capstone.item.repository.CategoryRepository;
 import com.example.capstone.member.Member;
 import com.example.capstone.member.Subscription;
 import com.example.capstone.member.repository.MemberRepository;
 import com.example.capstone.member.repository.SubscriptionRepository;
 import com.example.capstone.post.Post;
 import com.example.capstone.post.repository.PostRepository;
+import com.example.capstone.seller.Seller;
+import com.example.capstone.seller.SellerResponseDTO;
 import com.example.capstone.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,14 +25,27 @@ public class QueryService {
     private final SellerRepository sellerRepository;
     private final SubscriptionRepository subscriptionRepository;
     private final PostRepository postRepository;
+    private final CategoryRepository categoryRepository;
 
-    public Long isSeller(Long memberId) {
+    /**
+     * ROLE이 Seller인지 검사하고 Seller 객체를 반환합니다.
+     * @param memberId
+     *  사용자 ID
+     * @return
+     *  Seller 객체
+     */
+    public Seller isSeller(Long memberId) {
         Member member = findMember(memberId);
         if (member.getSeller() == null) {
             throw new GeneralException(ErrorStatus.SELLER_UNAUTHORIZED);
         }
 
-        return member.getSeller().getId();
+        return member.getSeller();
+    }
+
+    public Category findCategory(Long categoryId) {
+        return categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.ITEM_CATEGORY_NOT_FOUND));
     }
 
     public Member findMember(Long memberId) {

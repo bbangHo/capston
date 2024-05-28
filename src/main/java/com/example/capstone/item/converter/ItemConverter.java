@@ -1,14 +1,14 @@
 package com.example.capstone.item.converter;
 
+import com.example.capstone.item.Category;
 import com.example.capstone.item.Item;
-import com.example.capstone.item.ItemImage;
+import com.example.capstone.item.common.ItemType;
+import com.example.capstone.item.dto.ItemRequestDTO;
 import com.example.capstone.item.dto.ItemResponseDTO;
+import com.example.capstone.seller.Seller;
 import org.springframework.data.domain.Page;
-import org.springframework.data.util.Optionals;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.example.capstone.item.converter.ItemImageConverter.toItemImageList;
 
@@ -56,6 +56,7 @@ public class ItemConverter {
                 .deadline(item.getDeadline())
                 .build();
     }
+
     public static ItemResponseDTO.DetailsOfItemWithSeller toDetailsOfItemWithSellerResponseDTO(Item item) {
         return ItemResponseDTO.DetailsOfItemWithSeller.builder()
                 .id(item.getId())
@@ -70,5 +71,38 @@ public class ItemConverter {
                 .build();
     }
 
+    public static Item toItemEntity(Seller seller, ItemRequestDTO.ItemUpload request, Category category) {
+        return Item.builder()
+                .seller(seller)
+                .category(category)
+                .type(ItemType.COMMON)
+                .name(request.getItemName())
+                .simpleExplanation(request.getSimpleExplanation())
+                .price(request.getPrice())
+                .deliveryCharge(request.getDeliveryPrice())
+                .stock(request.getStock())
+                .deadline(request.getDeadLine())
+                .build();
+    }
 
+    public static ItemResponseDTO.ItemUpload toItemUpload(Item item) {
+        ItemResponseDTO.DetailsOfItem itemDTO = toDetailsOfItemResponseDTO(item);
+
+        if (item.getGroupPurchaseItem() == null) {
+            return ItemResponseDTO.ItemUpload.builder()
+                    .item(itemDTO)
+                    .groupPurchaseInfo(null)
+                    .build();
+        }
+
+        ItemResponseDTO.GroupPurchaseInfo groupPurchaseInfo = ItemResponseDTO.GroupPurchaseInfo.builder()
+                .targetQuantity(item.getGroupPurchaseItem().getTargetQuantity())
+                .discountPrice(item.getGroupPurchaseItem().getDiscountPrice())
+                .build();
+
+        return ItemResponseDTO.ItemUpload.builder()
+                .item(itemDTO)
+                .groupPurchaseInfo(groupPurchaseInfo)
+                .build();
+    }
 }

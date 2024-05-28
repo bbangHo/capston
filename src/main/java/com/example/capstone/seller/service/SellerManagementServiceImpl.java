@@ -32,7 +32,7 @@ public class SellerManagementServiceImpl implements SellerManagementService {
     @Override
     public SellerResponseDTO.OrderStatusList getSellerOrderItemStatus(Long memberId, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
-        Long sellerId = queryService.isSeller(memberId);
+        Long sellerId = queryService.isSeller(memberId).getId();
         Page<OrderItem> sellerOrderItemStatusPage = orderItemRepository.getSellerOrderItemStatus(sellerId, pageable);
         return SellerManagementConverter.toOrderStatusList(sellerOrderItemStatusPage);
     }
@@ -40,14 +40,14 @@ public class SellerManagementServiceImpl implements SellerManagementService {
     @Override
     public SellerResponseDTO.SalesItemList getSalesItems(Long memberId, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
-        Long sellerId = queryService.isSeller(memberId);
+        Long sellerId = queryService.isSeller(memberId).getId();
         Page<Item> itemPage = itemRepository.findBySellerId(sellerId, pageable);
         return SellerManagementConverter.toSalesItemList(itemPage);
     }
 
     @Override
     public SellerResponseDTO.Dashboard getDashBoard(Long memberId) {
-        Long sellerId = queryService.isSeller(memberId);
+        Long sellerId = queryService.isSeller(memberId).getId();
         Integer today = getSalesVolume(sellerId, DateType.DAY);
         Integer dayBefore = getSalesVolume(sellerId, DateType.DAY_BEFORE);
         Integer month = getSalesVolume(sellerId, DateType.MONTH);
