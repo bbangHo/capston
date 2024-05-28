@@ -35,5 +35,5 @@ public interface ItemService {
     ItemResponseDTO.ItemList getAllItemList(Integer page, Integer size);
 
     ItemResponseDTO.DetailsOfItem getDetailOfItem(Long ItemId);
-    ItemResponseDTO.DetailsOfItem uploadItem(Long memberId, ItemRequestDTO.ItemUpload request, List<MultipartFile> multipartFiles);
+    ItemResponseDTO.ItemUpload uploadItem(Long memberId, ItemRequestDTO.ItemUpload request, List<MultipartFile> multipartFiles);
 }

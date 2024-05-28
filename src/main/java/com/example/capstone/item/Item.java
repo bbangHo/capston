@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -47,19 +48,20 @@ public class Item extends BaseEntity {
 
     private String simpleExplanation;
 
-    @NotNull
+    @NotNull(message = "상품 가격은 필수입니다. 0원 이상입니다.")
     @Min(0)
     private Integer price;
 
-    @NotNull
+    @NotNull(message = "배달비는 필수입니다. 0원 이상입니다.")
     @Min(0)
     private Integer deliveryCharge;
 
-    @NotNull
+    @NotNull(message = "수량은 필수입니다. 0개 이상입니다.")
     @Min(0)
     private Integer stock;
 
-    @NotNull
+//    @NotNull(message = "상품 상세 이미지는 필수입니다.")
+    @Null
     private String itemDetailsImageUrl;
 
     @NotNull
@@ -99,5 +101,9 @@ public class Item extends BaseEntity {
     public void addItemInquiry(Inquiry inquiry) {
         inquiries.add(inquiry);
         inquiry.setItem(this);
+    }
+
+    public void addGroupPurchaseItem(GroupPurchaseItem groupPurchaseItem) {
+        this.groupPurchaseItem = groupPurchaseItem;
     }
 }

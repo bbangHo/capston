@@ -1,6 +1,5 @@
 package com.example.capstone.item.dto;
 
-import com.example.capstone.seller.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,6 +42,14 @@ public class ItemResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class ItemUpload {
+        private GroupItemResponseDTO.GroupItem uploadedItem;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class DetailsOfItem {
         private Long id;
         private Long memberId;  // 판매자의 id (판재마 소개페이지 이동용)
@@ -55,12 +62,12 @@ public class ItemResponseDTO {
         private List<ItemImageResponseDTO.ItemImage> imageUrl;
         private LocalDateTime deadline;
     }
+
     @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class DetailsOfItemWithSeller {
-
         private Long id;
         private String name;
         private Long sellerId;

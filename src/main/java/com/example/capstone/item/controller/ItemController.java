@@ -71,14 +71,16 @@ public class ItemController {
 
     }
 
-//    @PostMapping("/auth/item")
-//    public ApiResponse<ItemResponseDTO.DetailsOfItem> uploadItem(
-//            @AuthenticationPrincipal MemberSecurityDTO member,
-//            @Valid @RequestPart ItemRequestDTO.ItemUpload request,
-//            @RequestPart(required = false) List<MultipartFile> multipartFiles
-//            ) {
-//        Long memberId = member.getId();
-//        itemService.uploadItem(memberId, request, multipartFiles);
-//    }
+    @PostMapping("/auth/item")
+    public ApiResponse<ItemResponseDTO.ItemUpload> uploadItem(
+            @AuthenticationPrincipal MemberSecurityDTO member,
+            @RequestPart @Valid ItemRequestDTO.ItemUpload request,
+            @RequestPart(required = false) List<MultipartFile> multipartFiles
+            ) {
+        Long memberId = member.getId();
+        ItemResponseDTO.ItemUpload response = itemService.uploadItem(memberId, request, multipartFiles);
+
+        return ApiResponse.onSuccess(response);
+    }
 
 }
