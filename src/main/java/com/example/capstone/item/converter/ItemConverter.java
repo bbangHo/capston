@@ -45,6 +45,7 @@ public class ItemConverter {
     public static ItemResponseDTO.DetailsOfItem toDetailsOfItemResponseDTO(Item item) {
         return ItemResponseDTO.DetailsOfItem.builder()
                 .id(item.getId())
+                .memberId(item.getSeller().getMember().getId())
                 .name(item.getName())
                 .category(item.getCategory().getName())
                 .stock(item.getStock())
