@@ -1,16 +1,19 @@
 package com.example.capstone.item.service;
 
 import com.example.capstone.apiPayload.code.status.ErrorStatus;
+import com.example.capstone.common.QueryService;
 import com.example.capstone.exception.GeneralException;
 import com.example.capstone.exception.handler.ExceptionHandler;
 import com.example.capstone.item.Category;
 import com.example.capstone.item.Item;
 import com.example.capstone.item.converter.ItemConverter;
+import com.example.capstone.item.dto.ItemRequestDTO;
 import com.example.capstone.item.dto.ItemResponseDTO;
 import com.example.capstone.item.repository.CategoryRepository;
 import com.example.capstone.item.repository.ItemRepository;
 import com.example.capstone.member.Member;
 import com.example.capstone.member.repository.MemberRepository;
+import com.example.capstone.seller.Seller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -19,8 +22,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.example.capstone.apiPayload.code.status.ErrorStatus.MEMBER_NOT_FOUND;
 
@@ -28,11 +33,12 @@ import static com.example.capstone.apiPayload.code.status.ErrorStatus.MEMBER_NOT
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
-public class ItemServiceImpl implements ItemService{
+public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
     private final CategoryRepository categoryRepository;
     private final MemberRepository memberRepository;
+    private final QueryService queryService;
 
     public ItemResponseDTO.ItemList getItemList(Long categoryId, Integer page, Integer size) {
         Category category = categoryValid(categoryId);
@@ -58,17 +64,17 @@ public class ItemServiceImpl implements ItemService{
     public ItemResponseDTO.ItemList getPopularItemList(Integer page, Integer size) {
 
         LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
-        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
 
         Page<Item> popularItemPage = itemRepository.searchPopularItem(today, today.plusDays(1), pageable);
         return ItemConverter.toItemList(popularItemPage);
     }
 
-    public ItemResponseDTO.ItemList getSubscribedItemList(Long fromMember,Integer page, Integer size) {
+    public ItemResponseDTO.ItemList getSubscribedItemList(Long fromMember, Integer page, Integer size) {
 
         Long memberId = validateMember(fromMember).getId();
 
-        Page<Item> subscribedItemPage = itemRepository.searchSubscribedItem(memberId, PageRequest.of(page,size));
+        Page<Item> subscribedItemPage = itemRepository.searchSubscribedItem(memberId, PageRequest.of(page, size));
 
         return ItemConverter.toItemList(subscribedItemPage);
     }
@@ -80,17 +86,24 @@ public class ItemServiceImpl implements ItemService{
 
     public ItemResponseDTO.ItemList getAllItemList(Integer page, Integer size) {
 
-        Pageable pageable = PageRequest.of(page,size,Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
 
         Page<Item> allItemPage = itemRepository.findAllBy(pageable);
 
         return ItemConverter.toItemList(allItemPage);
     }
 
-   public ItemResponseDTO.DetailsOfItem getDetailOfItem(Long ItemId){
+    public ItemResponseDTO.DetailsOfItem getDetailOfItem(Long ItemId) {
         Item item = itemRepository.findItemById(ItemId).orElseThrow(() -> new ExceptionHandler(ErrorStatus.ITEM_NOT_FOUND));
 
         return ItemConverter.toDetailsOfItemResponseDTO(item);
+    }
+
+    @Override
+    public ItemResponseDTO.DetailsOfItem uploadItem(Long memberId, ItemRequestDTO.ItemUpload request,
+                                                    List<MultipartFile> multipartFiles) {
+        Seller seller = queryService.isSeller(memberId);
+        return null;
     }
 
 }
