@@ -64,5 +64,4 @@ public class ItemController {
         return ApiResponse.onSuccess(itemServiceImpl.getDetailOfItem(itemId));
 
     }
-
 }

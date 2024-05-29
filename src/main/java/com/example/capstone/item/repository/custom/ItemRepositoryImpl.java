@@ -1,4 +1,4 @@
-package com.example.capstone.item.repository;
+package com.example.capstone.item.repository.custom;
 
 import com.example.capstone.item.Item;
 import com.querydsl.jpa.impl.JPAQuery;
