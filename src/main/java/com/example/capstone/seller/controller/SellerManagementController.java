@@ -35,7 +35,7 @@ public class SellerManagementController {
 
     // TODO : 주문_상품 상태 변경 구체화
 //    @PatchMapping("/order-status/{order-number}")
-//    public ApiResponse<SellerResponseDTO.OrderStatusList>
+//    public ApiResponse<TempSellerResponseDTO.OrderStatusList>
 
     @GetMapping("/items")
     public ApiResponse<SellerResponseDTO.SalesItemList> getSalesItems(

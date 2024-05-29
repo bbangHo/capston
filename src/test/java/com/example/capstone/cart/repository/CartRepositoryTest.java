@@ -44,6 +44,7 @@ public class CartRepositoryTest {
 
         List<Member> members = getMembers();
         List<Member> storedMembers = memberRepository.saveAllAndFlush(members);
+
         Long firstMemberId = storedMembers.get(0).getId();
         Long itemInCartSum = storedMembers.stream().filter(member -> member.getId().equals(firstMemberId)).count();
 
