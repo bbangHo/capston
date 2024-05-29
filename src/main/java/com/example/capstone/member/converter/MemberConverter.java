@@ -10,6 +10,7 @@ import com.example.capstone.seller.converter.SellerConverter;
 
 import java.util.Optional;
 
+import static com.example.capstone.seller.converter.SellerConverter.toSeller;
 import static com.example.capstone.seller.converter.SellerConverter.toSellerResponseDTO;
 
 
@@ -50,9 +51,23 @@ public class MemberConverter {
                 .build();
     }
 
+    public static Member toMember(MemberResponseDTO.Member member){
+        return Member.builder()
+                .id(member.getId())
+                .loginId(member.getLoginId())
+                .password(member.getPassword())
+                .name(member.getName())
+                .nickName(member.getNickName())
+                .phone(member.getPhone())
+                .type(member.getMemberType())
+                .status(member.getMemberStatus())
+                .seller(toSeller(member.getSeller()))
+                .build();
+    }
+
     public static Address toAddress(AddressDTO.Address address) {
         return Address.builder()
-                .member(address.getMember())
+                .member(toMember(address.getMember()))
                 .address(address.getAddress())
                 .details(address.getDetails())
                 .build();

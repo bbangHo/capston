@@ -14,8 +14,7 @@ public class AddressDTO {
     @AllArgsConstructor
     public static class Address {
 
-
-        private Member member;
+        private MemberResponseDTO.Member member;
 
         private String address;
 

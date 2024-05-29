@@ -9,13 +9,15 @@ import com.example.capstone.member.dto.MemberResponseDTO;
 import com.example.capstone.member.service.MemberServiceImpl;
 import com.example.capstone.security.dto.MemberSecurityDTO;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import static com.example.capstone.member.common.MemberValidator.validateLoginId;
-import static com.example.capstone.member.common.MemberValidator.validateNickName;
+import java.util.Map;
+
+import static com.example.capstone.member.common.MemberValidator.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,7 +43,7 @@ public class MemberController {
             throw new ExceptionHandler(ErrorStatus.DUP_CHECK_FIELD_BADTYPE);
         }
 
-        validateMember(dupCheckFields);
+        validateUniqueMember(dupCheckFields);
 
         MemberResponseDTO.DupCheckField dupCheckField = memberService.checkField(dupCheckFields);
 
@@ -51,20 +53,20 @@ public class MemberController {
 
     }
 
-    @DeleteMapping("/member/{memberId}")
-    public ApiResponse<String> deleteTempMember(@PathVariable Long memberId) {
+    @DeleteMapping("/tempMember/{id}")
+    public ApiResponse<String> deleteTempMemberWithLoginId(@PathVariable Long id) {
 
         log.info("deleteTempMember controller start ...............");
 
-        memberService.deleteTempMember(memberId);
+        memberService.deleteTempMember(id);
 
         log.info("deleteTempMember success...............");
 
-        return ApiResponse.of(SuccessStatus._OK_DELETE_TEMP_MEMBER,null);
+        return ApiResponse.of(SuccessStatus._OK_DELETE_TEMP_MEMBER, null);
 
     }
 
-    @PostMapping("/member/signUp")
+    @PatchMapping("/member/signUp")
     public ApiResponse<MemberResponseDTO.SignUpMember> signUp(@Valid @RequestBody MemberRequestDTO.SignUpMember signUpMember) {
 
         log.info("signUp controller start ...............");
@@ -78,12 +80,71 @@ public class MemberController {
 
     }
 
-    void validateMember(MemberRequestDTO.DupCheckField dupCheckFields){
+    @PatchMapping("/auth/member/nickName")
+    public ApiResponse<MemberResponseDTO.DupCheckField> modifyAuthMemberNickName(@AuthenticationPrincipal MemberSecurityDTO member, @RequestBody @NotNull Map<String, String> nickName) {
+
+        log.info("modifyAuthMemberNickName controller start ...............");
+
+        if(!validateNickName(nickName.get("nickName")))
+            throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_NICKNAME);
+
+        MemberRequestDTO.DupCheckField dupCheckField = MemberRequestDTO.DupCheckField.builder()
+                .id(member.getId())
+                .loginId(member.getLoginId())
+                .type("nickName")
+                .nickName(nickName.get("nickName"))
+                .build();
+
+        MemberResponseDTO.DupCheckField result = memberService.checkField(dupCheckField);
+
+        log.info("modifyAuthMemberNickName success...............");
+
+        return ApiResponse.of(SuccessStatus._OK_CHANGE_NICKNAME, result);
+
+    }
+
+    @GetMapping("/auth/member")
+    public ApiResponse<MemberRequestDTO.ChangeableMemberData> getAuthMemberDATA(@AuthenticationPrincipal MemberSecurityDTO member) {
+
+        log.info("getAuthMemberDATA controller start ...............");
+
+        MemberRequestDTO.ChangeableMemberData result = memberService.getMemberData(member.getId());
+
+        log.info("getAuthMemberDATA success...............");
+
+        return ApiResponse.onSuccess(result);
+    }
+
+    @PatchMapping("/auth/member")
+    public ApiResponse<MemberRequestDTO.ChangeableMemberData> modifyAuthMember(@AuthenticationPrincipal MemberSecurityDTO member, @RequestBody @NotNull MemberRequestDTO.ChangeableMemberData changeableMemberData) {
+
+        log.info("modifyAuthMember controller start ...............");
+
+        validateMember(changeableMemberData);
+
+        MemberRequestDTO.ChangeableMemberData result = memberService.changeMemberData(member.getId(), changeableMemberData);
+
+        log.info("modifyAuthMember success...............");
+
+        return ApiResponse.of(SuccessStatus._OK_CHANGE_MEMBER_DATA, result);
+    }
+
+
+
+    void validateUniqueMember(MemberRequestDTO.DupCheckField dupCheckFields){
         if (!dupCheckFields.getLoginId().isEmpty() && !validateLoginId(dupCheckFields.getLoginId()))
             throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_LODINID);
 
         if(!dupCheckFields.getNickName().isEmpty() && !validateNickName(dupCheckFields.getNickName()))
             throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_NICKNAME);
+    }
+
+    void validateMember(MemberRequestDTO.ChangeableMemberData changeableMemberData){
+        if (changeableMemberData.getPhone().isEmpty() || !validatePhone(changeableMemberData.getPhone()))
+            throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_PHONE);
+
+        if (changeableMemberData.getPassword().isEmpty() || !validatePassword(changeableMemberData.getPassword()))
+            throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_PASSWORD);
     }
 
 }

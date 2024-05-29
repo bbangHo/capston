@@ -73,9 +73,10 @@ public enum ErrorStatus implements BaseErrorCode {
     DUPLICATED_LOGINID(HttpStatus.BAD_REQUEST,"DUPCHECK_400_1","중복된 로그인 ID입니다."),
     DUPLICATED_NICKNAME(HttpStatus.BAD_REQUEST,"DUPCHECK_400_2","중복된 닉네임입니다."),
     NOT_CHECKED_LOGINID(HttpStatus.BAD_REQUEST,"DUPCHECK_400_3","중복 체크된 아이디가 아닙니다."),
-    NOT_CHECKED_NICKNAME(HttpStatus.BAD_REQUEST,"DUPCHECK_400_4","중복 체크된 닉네임이 아닙니다.")
+    NOT_CHECKED_NICKNAME(HttpStatus.BAD_REQUEST,"DUPCHECK_400_4","중복 체크된 닉네임이 아닙니다."),
 
-
+    //address
+    ADDRESS_NOT_FOUND(HttpStatus.BAD_REQUEST,"ADDRESS_400_1","해당 주소를 찾을 수 없습니다.")
 
             ;
 

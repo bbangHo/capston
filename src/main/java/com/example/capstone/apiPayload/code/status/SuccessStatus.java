@@ -31,10 +31,15 @@ public enum SuccessStatus implements BaseCode {
 
     //SINGUP
     _OK_DUP_CHECK(HttpStatus.OK, "SIGNUP_200_1", "정상적으로 중복체크되었습니다."),
-    _OK_DELETE_TEMP_MEMBER(HttpStatus.OK,"DELETE_200_2","정상적으로 임시 멤버를 제거했습니다."),
-    _OK_SIGNUP(HttpStatus.OK,"DELETE_200_3","정상적으로 회원가입이 완료되었습니다.")
+    _OK_DELETE_TEMP_MEMBER(HttpStatus.OK,"SIGNUP_200_2","정상적으로 임시 멤버를 제거했습니다."),
+    _OK_SIGNUP(HttpStatus.OK,"SIGNUP_200_3","정상적으로 회원가입이 완료되었습니다."),
 
-            ;
+    //Member
+    _OK_CHANGE_NICKNAME(HttpStatus.OK,"MEMBER_200_1","정상적으로 닉네임이 변경되었습니다.."),
+    _OK_CHANGE_MEMBER_DATA(HttpStatus.OK,"MEMBER_200_2","정상적으로 회원정보가 수정되었습니다."),
+
+
+    ;
 
     private final HttpStatus httpStatus;
     private final String code;
