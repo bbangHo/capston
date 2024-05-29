@@ -1,10 +1,6 @@
 package com.example.capstone.inquiry.dto;
 
 import com.example.capstone.inquiry.common.InquiryStatus;
-import com.example.capstone.item.dto.GroupItemResponseDTO;
-import com.example.capstone.item.dto.ItemResponseDTO;
-import com.example.capstone.member.dto.MemberResponseDTO;
-import com.example.capstone.seller.SellerResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

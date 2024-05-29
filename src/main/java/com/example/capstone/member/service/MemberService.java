@@ -12,7 +12,9 @@ public interface MemberService {
     void deleteTempMember(Long id);
 
     MemberResponseDTO.SignUpMember signUp (MemberRequestDTO.SignUpMember signUpMember);
+
     public MemberRequestDTO.ChangeableMemberData changeMemberData(Long id, MemberRequestDTO.ChangeableMemberData changeableMemberData);
+
     MemberRequestDTO.ChangeableMemberData getMemberData(Long id);
 
 }

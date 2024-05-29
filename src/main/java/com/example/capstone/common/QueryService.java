@@ -11,7 +11,6 @@ import com.example.capstone.member.repository.SubscriptionRepository;
 import com.example.capstone.post.Post;
 import com.example.capstone.post.repository.PostRepository;
 import com.example.capstone.seller.Seller;
-import com.example.capstone.seller.SellerResponseDTO;
 import com.example.capstone.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
