@@ -26,4 +26,18 @@ public class SellerConverter {
                 .build();
     }
 
+    public static Seller toSeller(SellerResponseDTO.Seller seller) {
+
+        if (seller == null) {
+            return null;
+        }
+
+        return Seller.builder()
+                .id(seller.getId())
+                .details(seller.getDetails())
+                .imageUrl(seller.getImageUrl())
+                .introduction(seller.getIntroduction())
+                .build();
+    }
+
 }

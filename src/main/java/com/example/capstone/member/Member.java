@@ -3,6 +3,7 @@ package com.example.capstone.member;
 import com.example.capstone.common.BaseEntity;
 import com.example.capstone.member.common.MemberStatus;
 import com.example.capstone.member.common.MemberType;
+import com.example.capstone.order.OrderItem;
 import com.example.capstone.post.Post;
 import com.example.capstone.seller.Seller;
 import jakarta.persistence.*;
@@ -50,6 +51,12 @@ public class Member extends BaseEntity {
     @Builder.Default
     private MemberStatus status = MemberStatus.ACTIVITY;
 
+    @OneToOne(mappedBy = "member",
+            cascade = {CascadeType.ALL},
+            fetch = FetchType.LAZY,
+            orphanRemoval = true)
+    private Address address;
+
     @OneToOne
     @JoinColumn(name = "seller_id")
     private Seller seller;
@@ -69,6 +76,17 @@ public class Member extends BaseEntity {
 
     public void changeRole() {
         this.type = MemberType.ROLE_SELLER;
+    }
+
+    public void changeLoginId(String loginId) {
+        this.loginId = loginId;
+    }
+    public void changeNickName(String nickName) {
+        this.nickName = nickName;
+    }
+    public void changeMember(String password, String phone) {
+        this.password = password;
+        this.phone = phone;
     }
 
 }

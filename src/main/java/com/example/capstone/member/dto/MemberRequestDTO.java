@@ -46,4 +46,22 @@ public class MemberRequestDTO {
         private String details;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ChangeableMemberData {
+
+        private String nickName;
+
+        private String phone;
+
+        private String password;
+
+        private String address;
+
+        private String details;
+
+    }
+
 }
