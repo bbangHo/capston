@@ -9,6 +9,6 @@ public interface SellerManagementService {
 
     SellerResponseDTO.Dashboard getDashBoard(Long memberId);
 
-    SellerResponseDTO.ImminentItemList getImminentItemPage(Long memberId, Integer page, Integer size);
+    SellerResponseDTO.ImminentItemList getImminentItemPage(Long memberId, Integer page, Integer size, String sort, String order);
 
 }

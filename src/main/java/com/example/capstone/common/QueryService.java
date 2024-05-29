@@ -2,6 +2,7 @@ package com.example.capstone.common;
 
 import com.example.capstone.apiPayload.code.status.ErrorStatus;
 import com.example.capstone.exception.GeneralException;
+import com.example.capstone.item.repository.CategoryRepository;
 import com.example.capstone.member.Member;
 import com.example.capstone.member.Subscription;
 import com.example.capstone.member.repository.MemberRepository;
@@ -21,6 +22,7 @@ public class QueryService {
     private final SellerRepository sellerRepository;
     private final SubscriptionRepository subscriptionRepository;
     private final PostRepository postRepository;
+    private final CategoryRepository categoryRepository;
 
     public Long isSeller(Long memberId) {
         Member member = findMember(memberId);
@@ -40,6 +42,12 @@ public class QueryService {
         return Optional.ofNullable(memberRepository.findById(memberId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND)))
                 .isPresent();
+    }
+
+    public Boolean categoryIsPresent(Long memberId) {
+        return Optional.ofNullable(categoryRepository.findById(memberId)
+                        .orElseThrow(() -> new GeneralException(ErrorStatus.ITEM_CATEGORY_NOT_FOUND)))
+                        .isPresent();
     }
 
     public Boolean isSubscribe(Long fromMemberId, Long toMemberId) {

@@ -5,6 +5,7 @@ import com.example.capstone.common.QueryService;
 import com.example.capstone.security.dto.MemberSecurityDTO;
 import com.example.capstone.seller.dto.SellerResponseDTO;
 import com.example.capstone.seller.service.SellerManagementService;
+import com.example.capstone.validation.annotation.CheckSortParameter;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -59,12 +60,14 @@ public class SellerManagementController {
     @GetMapping("/imminent-item")
     public ApiResponse<SellerResponseDTO.ImminentItemList> getImminentItem(
             @AuthenticationPrincipal MemberSecurityDTO member,
-            @Min(1) @RequestParam(name = "page") Integer page,
-            @Positive @RequestParam(name = "size") Integer size
+            @Min(1) @RequestParam Integer page,
+            @Positive @RequestParam Integer size,
+            @CheckSortParameter @RequestParam(required = false, defaultValue = "deadline") String sort,
+            @RequestParam(required = false, defaultValue = "DESC") String order
     ) {
         Long memberId = member.getId();
         log.info("GET /auth/seller/Imminent-item memberId = " + member.getId());
 
-        return ApiResponse.onSuccess(sellerManagementService.getImminentItemPage(memberId, page - 1, size));
+        return ApiResponse.onSuccess(sellerManagementService.getImminentItemPage(memberId, page - 1, size, sort, order));
     }
 }
