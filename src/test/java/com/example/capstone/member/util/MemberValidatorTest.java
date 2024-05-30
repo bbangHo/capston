@@ -15,7 +15,7 @@ public class MemberValidatorTest {
     @Test
     @DisplayName("로그인ID 체크 테스트")
     void testLoginId(){
-        String[] failCase = {"test", "328543", "3한글543", "t1"};
+        String[] failCase = {"328543", "3한글543", "t1"};
 
         String successCase ="test543";
 
@@ -45,9 +45,9 @@ public class MemberValidatorTest {
     @Test
     @DisplayName("핸드폰 번호 체크 테스트")
     void testPhone(){
-        String[] failCase = {"test", "3한글543", "t1","sjse98ㄱ","sghwu4egow9he4gw4g"};
+        String[] failCase = {"34098093498","340-093498","test", "3한글543", "t1","sjse98ㄱ","sghwu4egow9he4gw4g"};
 
-        String successCase ="34098093498";
+        String successCase ="340-9809-3498";
 
         for (String s : failCase) {
             Assertions.assertThat(validatePhone(s)).isFalse();

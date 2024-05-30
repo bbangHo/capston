@@ -9,10 +9,12 @@ public interface MemberService {
 
     MemberResponseDTO.DupCheckField checkField(MemberRequestDTO.DupCheckField dupCheckFields);
 
-    void deleteTempMember (Long memberId);
+    void deleteTempMember(Long id);
 
     MemberResponseDTO.SignUpMember signUp (MemberRequestDTO.SignUpMember signUpMember);
 
+    public MemberRequestDTO.ChangeableMemberData changeMemberData(Long id, MemberRequestDTO.ChangeableMemberData changeableMemberData);
 
+    MemberRequestDTO.ChangeableMemberData getMemberData(Long id);
 
-    }
+}

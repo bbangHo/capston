@@ -2,12 +2,7 @@ package com.example.capstone.member.dto;
 
 import com.example.capstone.member.common.MemberStatus;
 import com.example.capstone.member.common.MemberType;
-import com.example.capstone.seller.Seller;
-import com.example.capstone.seller.SellerResponseDTO;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import com.example.capstone.seller.dto.TempSellerResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,7 +31,7 @@ public class MemberResponseDTO {
 
         private MemberStatus memberStatus;
 
-        private SellerResponseDTO.Seller seller;
+        private TempSellerResponseDTO.Seller seller;
     }
 
     @Builder

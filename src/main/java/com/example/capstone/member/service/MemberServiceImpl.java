@@ -17,15 +17,13 @@ import com.example.capstone.seller.Seller;
 import com.example.capstone.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static com.example.capstone.member.converter.MemberConverter.toAddress;
-import static com.example.capstone.member.converter.MemberConverter.toSignUpMember;
+import static com.example.capstone.member.converter.MemberConverter.*;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +37,7 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private final AddressRepository addressRepository;
 
+    @Override
     public MemberResponseDTO.MemberState changeMemberRole(Long memberId) {
         Member member = queryService.findMember(memberId);
 
@@ -62,7 +61,7 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponseDTO.DupCheckField checkField (MemberRequestDTO.DupCheckField dupCheckFields) {
 
         log.info("DupCheck service start............");
-        Member member=null;
+        Member member;
 
         if (dupCheckFields.getType().equals("loginId")){
 
@@ -87,15 +86,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void deleteTempMember (Long memberId) {
+    public void deleteTempMember(Long id) {
 
         log.info("deleteTempMember service start............");
 
-        memberRepository.deleteById(memberId);
-
-        log.info("deleteTempMember service end............");
+        memberRepository.deleteById(id);
 
     }
+
 
     @Override
     public MemberResponseDTO.SignUpMember signUp (MemberRequestDTO.SignUpMember signUpMember) {
@@ -119,7 +117,7 @@ public class MemberServiceImpl implements MemberService {
         Member savedMember = memberRepository.save(toSignUpMember(signUpMember,encodedPassword));
 
         AddressDTO.Address address = AddressDTO.Address.builder()
-                .member(savedMember)
+                .member(toMemberResponseDTO(savedMember))
                 .address(signUpMember.getAddress())
                 .details(signUpMember.getDetails())
                 .build();
@@ -141,7 +139,41 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    @Override
+    public MemberRequestDTO.ChangeableMemberData getMemberData(Long id) {
 
+        Member member = memberRepository.findById(id).orElseThrow(() -> new ExceptionHandler(ErrorStatus.MEMBER_NOT_FOUND));
+        Address address = addressRepository.findByMember_Id(member.getId()).orElseThrow(()-> new ExceptionHandler(ErrorStatus.ADDRESS_NOT_FOUND));
+
+        return MemberRequestDTO.ChangeableMemberData.builder()
+                .nickName(member.getNickName())
+                .password(member.getPassword())
+                .phone(member.getPhone())
+                .address(address.getAddress())
+                .details(address.getDetails())
+                .build();
+    }
+
+    @Override
+    public MemberRequestDTO.ChangeableMemberData changeMemberData(Long id, MemberRequestDTO.ChangeableMemberData changeableMemberData){
+
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new ExceptionHandler(ErrorStatus.MEMBER_NOT_FOUND));
+        member.changeMember(passwordEncoder.encode(changeableMemberData.getPassword()), changeableMemberData.getPhone());
+        Member savedMember = memberRepository.save(member);
+
+        Address address = addressRepository.findByMember_Id(savedMember.getId())
+                .orElseThrow(() -> new ExceptionHandler(ErrorStatus.ADDRESS_NOT_FOUND));
+        address.changeAddress(changeableMemberData.getAddress(), changeableMemberData.getDetails());
+        Address savedAddress = addressRepository.save(address);
+
+        return MemberRequestDTO.ChangeableMemberData.builder()
+                .phone(savedMember.getPhone())
+                .password(savedMember.getPassword())
+                .address(savedAddress.getAddress())
+                .details(savedAddress.getDetails())
+                .build();
+    }
 
     private Member checkLoginId (MemberRequestDTO.DupCheckField dupCheckField) {
 
@@ -149,7 +181,6 @@ public class MemberServiceImpl implements MemberService {
 
         //중복된 로그인 ID가 존재하지 않을 때
         if(memberByLoginId.isEmpty()){
-
             return getMemberByNickName(dupCheckField);
 
         //중복된 로그인 ID가 존재할 때
@@ -163,7 +194,6 @@ public class MemberServiceImpl implements MemberService {
 
         //중복된 닉네임이 존재하지 않을 때
         if(memberByNickName.isEmpty()){
-
             return getMemberByLoginId(dupCheckField);
 
             //중복된 닉네임이 존재할 때
@@ -173,36 +203,31 @@ public class MemberServiceImpl implements MemberService {
     }
 
     private Member getMemberByNickName(MemberRequestDTO.DupCheckField dupCheckField){
-        if(dupCheckField.getNickName().isEmpty())
+        if(dupCheckField.getId() == null)
             return Member.builder()
                     .loginId(dupCheckField.getLoginId())
                     .build();
 
-        Member searchedMember = memberRepository.findMemberByNickName(dupCheckField.getNickName())
+        Member searchedMember = memberRepository.findById(dupCheckField.getId())
                 .orElseThrow(() -> new ExceptionHandler(ErrorStatus.MEMBER_NOT_FOUND));
 
-        return Member.builder()
-                .id(searchedMember.getId())
-                .loginId(dupCheckField.getLoginId())
-                .nickName(searchedMember.getNickName())
-                .build();
+        searchedMember.changeLoginId(dupCheckField.getLoginId());
+        return searchedMember;
     }
 
     private Member getMemberByLoginId(MemberRequestDTO.DupCheckField dupCheckField){
 
-        if(dupCheckField.getLoginId().isEmpty())
+        if(dupCheckField.getId() == null)
             return Member.builder()
                     .nickName(dupCheckField.getNickName())
                     .build();
 
-        Member searchedMember = memberRepository.findMemberByLoginId(dupCheckField.getLoginId())
+        Member searchedMember = memberRepository.findById(dupCheckField.getId())
                 .orElseThrow(() -> new ExceptionHandler(ErrorStatus.MEMBER_NOT_FOUND));
 
-        return Member.builder()
-                .id(searchedMember.getId())
-                .loginId(searchedMember.getLoginId())
-                .nickName(dupCheckField.getNickName())
-                .build();
+        searchedMember.changeNickName(dupCheckField.getNickName());
+
+        return searchedMember;
 
     }
 

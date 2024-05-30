@@ -7,6 +7,7 @@ import com.example.capstone.order.OrderItem;
 import com.example.capstone.order.common.DateType;
 import com.example.capstone.order.dto.MonthlySalesVolumeDTO;
 import com.example.capstone.order.repository.OrderItemRepository;
+import com.example.capstone.seller.Seller;
 import com.example.capstone.seller.converter.SellerManagementConverter;
 import com.example.capstone.seller.dto.SellerResponseDTO;
 import jakarta.transaction.Transactional;
@@ -33,7 +34,7 @@ public class SellerManagementServiceImpl implements SellerManagementService {
     @Override
     public SellerResponseDTO.OrderStatusList getSellerOrderItemStatus(Long memberId, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
-        Long sellerId = queryService.isSeller(memberId);
+        Long sellerId = queryService.isSeller(memberId).getId();
         Page<OrderItem> sellerOrderItemStatusPage = orderItemRepository.getSellerOrderItemStatus(sellerId, pageable);
         return SellerManagementConverter.toOrderStatusList(sellerOrderItemStatusPage);
     }
@@ -41,14 +42,14 @@ public class SellerManagementServiceImpl implements SellerManagementService {
     @Override
     public SellerResponseDTO.SalesItemList getSalesItems(Long memberId, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
-        Long sellerId = queryService.isSeller(memberId);
+        Long sellerId = queryService.isSeller(memberId).getId();
         Page<Item> itemPage = itemRepository.findBySellerId(sellerId, pageable);
         return SellerManagementConverter.toSalesItemList(itemPage);
     }
 
     @Override
     public SellerResponseDTO.Dashboard getDashBoard(Long memberId) {
-        Long sellerId = queryService.isSeller(memberId);
+        Long sellerId = queryService.isSeller(memberId).getId();
         Integer today = getSalesVolume(sellerId, DateType.DAY);
         Integer dayBefore = getSalesVolume(sellerId, DateType.DAY_BEFORE);
         Integer month = getSalesVolume(sellerId, DateType.MONTH);
@@ -60,10 +61,10 @@ public class SellerManagementServiceImpl implements SellerManagementService {
     }
 
     public SellerResponseDTO.ImminentItemList getImminentItemPage(Long memberId, Integer page, Integer size, String sort, String order) {
-        Long sellerId = queryService.isSeller(memberId);
+        Seller seller = queryService.isSeller(memberId);
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<Item> imminentItemPage = itemRepository.getImminentItem(sellerId, pageable, sort, order);
+        Page<Item> imminentItemPage = itemRepository.getImminentItem(seller.getId(), pageable, sort, order);
 
         return SellerManagementConverter.toImminentItemList(imminentItemPage);
     }

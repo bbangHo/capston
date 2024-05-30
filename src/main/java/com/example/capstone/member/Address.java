@@ -14,7 +14,7 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -23,4 +23,10 @@ public class Address {
 
     @NotNull
     private String details;
+
+    public void changeAddress(String address, String details) {
+        this.address = address;
+        this.details = details;
+    }
+
 }

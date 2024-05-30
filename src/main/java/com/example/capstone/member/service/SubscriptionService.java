@@ -20,6 +20,21 @@ public class SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
     private final QueryService queryService;
 
+    public SubscriptionResponseDTO.Subscription checkSubscribe(Long fromMemberId, Long toMemberId) {
+        Subscription subscription = queryService.findSubscribe(fromMemberId, toMemberId);
+
+        if (subscription == null) {
+            return SubscriptionResponseDTO.Subscription.builder()
+                    .isSubscribe(false)
+                    .performedAt(null)
+                    .fromMemberId(fromMemberId)
+                    .toMemberId(toMemberId)
+                    .build();
+        }
+
+        return SubscriptionConverter.toSubscription(subscription);
+    }
+
     public SubscriptionResponseDTO.Subscription subscribe(Long fromMemberId, Long toMemberId) {
         if (queryService.isSubscribe(fromMemberId, toMemberId)) {
             throw new GeneralException(ErrorStatus.ALREADY_SUBSCRIBED);

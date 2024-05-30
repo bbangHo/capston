@@ -6,11 +6,8 @@ import com.example.capstone.item.common.ItemType;
 import com.example.capstone.order.OrderItem;
 import com.example.capstone.seller.Seller;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -42,31 +39,30 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ItemType type;
 
-    @NotNull
+    @NotBlank
     private String name;
 
     private String simpleExplanation;
 
-    @NotNull
+    @NotNull(message = "상품 가격은 필수입니다. 0원 이상입니다.")
     @Min(0)
     private Integer price;
 
-    @NotNull
+    @NotNull(message = "배달비는 필수입니다. 0원 이상입니다.")
     @Min(0)
     private Integer deliveryCharge;
 
-    @NotNull
+    @NotNull(message = "수량은 필수입니다. 0개 이상입니다.")
     @Min(0)
     private Integer stock;
 
-    @NotNull
+//    @NotNull(message = "상품 상세 이미지는 필수입니다.")
     private String itemDetailsImageUrl;
 
     @NotNull
     @Future
-    @ColumnDefault("'2024-12-31T00:00:00.000000'")
     @Builder.Default
-    private LocalDateTime deadline = LocalDateTime.now();
+    private LocalDateTime deadline = LocalDateTime.now().plusDays(14);
 
     @OneToOne
     @JoinColumn(name = "group_purchase_item_id")
@@ -91,6 +87,10 @@ public class Item extends BaseEntity {
     @Builder.Default
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    public void addItemDetailsImageUrl(String url) {
+        itemDetailsImageUrl = url;
+    }
+
     public void addItemImage(ItemImage itemImage) {
         itemImages.add(itemImage);
         itemImage.setItem(this);
@@ -99,5 +99,9 @@ public class Item extends BaseEntity {
     public void addItemInquiry(Inquiry inquiry) {
         inquiries.add(inquiry);
         inquiry.setItem(this);
+    }
+
+    public void addGroupPurchaseItem(GroupPurchaseItem groupPurchaseItem) {
+        this.groupPurchaseItem = groupPurchaseItem;
     }
 }

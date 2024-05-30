@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -98,13 +99,15 @@ public class PostServiceImpl implements PostService {
     }
 
     private PostImage postImageBuilder(Post post, MultipartFile file) {
-        String path = amazonS3Util.generateItemImagePath(file);
+        UUID uuid = UUID.randomUUID();
+        String path = amazonS3Util.generateItemImagePath(uuid, file);
         String url = amazonS3Util.uploadFile(path, file);
 
         return PostImage.builder()
                 .imageUrl(url)
                 .originalFileName(file.getOriginalFilename())
                 .post(post)
+                .uuid(uuid)
                 .build();
     }
 }

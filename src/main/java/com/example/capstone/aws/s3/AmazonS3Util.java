@@ -45,12 +45,12 @@ public class AmazonS3Util {
         return amazonS3.getUrl(amazonConfig.getBucket(), path).toString();
     }
 
-    public String generateItemImagePath(MultipartFile file) {
+    public String generateItemImagePath(UUID uuid, MultipartFile file) {
         StringBuilder sb = new StringBuilder();
 
         sb.append(amazonConfig.getItemDir());
         sb.append('/');
-        sb.append(UUID.randomUUID());
+        sb.append(uuid);
         sb.append('.');
         sb.append(StringUtils.getFilenameExtension(file.getOriginalFilename()));
 
