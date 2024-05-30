@@ -18,27 +18,5 @@ import static com.example.capstone.item.QItem.item;
 public class SellerRepositoryImpl implements SellerRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
-    @Override
-    public Page<Item> getImminentItem(Long sellerId, Pageable pageable) {
-        List<Item> orderItemJPAQuery = queryFactory
-                .select(item)
-                .from(item)
-                .where(item.seller.id.eq(sellerId))
-                .orderBy(pageable.getSort())
-                .fetch();
 
-        JPAQuery<Long> count = queryFactory
-                .select(item.count())
-                .from(item)
-                .where(item.seller.id.eq(sellerId))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
-
-        return PageableExecutionUtils.getPage(orderItemJPAQuery, pageable, count::fetchOne);
-    }
-
-    private BooleanBuilder orderBy(Pageable pageable) {
-
-        builder.and(item.deadline.desc());
-    }
 }

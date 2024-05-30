@@ -14,4 +14,6 @@ import java.util.List;
 public interface ItemRepositoryCustom {
     List<Item> findImminentItem();
     Page<Item> findImminentItem(Pageable pageable);
+
+    Page<Item> getImminentItem(Long sellerId, Pageable pageable, String sort, String order);
 }

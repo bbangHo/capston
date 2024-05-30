@@ -5,13 +5,15 @@ import com.example.capstone.common.QueryService;
 import com.example.capstone.security.dto.MemberSecurityDTO;
 import com.example.capstone.seller.dto.SellerResponseDTO;
 import com.example.capstone.seller.service.SellerManagementService;
-import com.example.capstone.validation.annotation.CheckSortParameter;
+import com.example.capstone.validation.annotation.CheckSort;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -62,7 +64,7 @@ public class SellerManagementController {
             @AuthenticationPrincipal MemberSecurityDTO member,
             @Min(1) @RequestParam Integer page,
             @Positive @RequestParam Integer size,
-            @CheckSortParameter @RequestParam(required = false, defaultValue = "deadline") String sort,
+            @CheckSort @RequestParam(required = false, defaultValue = "deadline") String sort,
             @RequestParam(required = false, defaultValue = "DESC") String order
     ) {
         Long memberId = member.getId();

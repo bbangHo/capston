@@ -62,10 +62,8 @@ public class SellerManagementServiceImpl implements SellerManagementService {
     public SellerResponseDTO.ImminentItemList getImminentItemPage(Long memberId, Integer page, Integer size, String sort, String order) {
         Long sellerId = queryService.isSeller(memberId);
 
-        Sort sortBy = order.equalsIgnoreCase("DESC") ?
-                Sort.by(sort).descending() : Sort.by(sort).ascending();
-
-        Pageable pageable = PageRequest.of(page, size, sortBy);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Item> imminentItemPage = itemRepository.getImminentItem(sellerId, pageable, sort, order);
 
         return SellerManagementConverter.toImminentItemList(imminentItemPage);
     }

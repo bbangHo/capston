@@ -12,9 +12,8 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class SortParameterValidator implements ConstraintValidator<CheckSort, String> {
-
-    static List<String> option = Arrays.asList("name", "stock", "deadline");
+public class OrderParameterValidator implements ConstraintValidator<CheckSort, String> {
+    static List<String> option = Arrays.asList("desc", "DESC", "asc", "ASC");
 
     @Override
     public void initialize(CheckSort constraintAnnotation) {
