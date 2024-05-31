@@ -71,6 +71,8 @@ public class MemberController {
 
         log.info("signUp controller start ...............");
 
+        validateSignUpMember(signUpMember);
+
         MemberResponseDTO.SignUpMember member = memberService.signUp(signUpMember);
 
 
@@ -132,18 +134,28 @@ public class MemberController {
 
 
     void validateUniqueMember(MemberRequestDTO.DupCheckField dupCheckFields){
-        if (!dupCheckFields.getLoginId().isEmpty() && !validateLoginId(dupCheckFields.getLoginId()))
-            throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_LODINID);
+        if (!(dupCheckFields.getLoginId() == null) && !validateLoginId(dupCheckFields.getLoginId()))
+            throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_LOGINID);
 
-        if(!dupCheckFields.getNickName().isEmpty() && !validateNickName(dupCheckFields.getNickName()))
+        if(!(dupCheckFields.getNickName() == null) && !validateNickName(dupCheckFields.getNickName()))
             throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_NICKNAME);
     }
 
+    void validateSignUpMember(MemberRequestDTO.SignUpMember signUpMember){
+        if ((signUpMember.getName() == null ) || !validateName(signUpMember.getName()))
+            throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_NAME);
+        if ((signUpMember.getPhone() == null ) || !validatePhone(signUpMember.getPhone()))
+            throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_PHONE);
+        if ((signUpMember.getPassword() == null) || !validatePassword(signUpMember.getPassword()))
+            throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_PASSWORD);
+    }
+
+
     void validateMember(MemberRequestDTO.ChangeableMemberData changeableMemberData){
-        if (changeableMemberData.getPhone().isEmpty() || !validatePhone(changeableMemberData.getPhone()))
+        if ((changeableMemberData.getPhone() == null ) || !validatePhone(changeableMemberData.getPhone()))
             throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_PHONE);
 
-        if (changeableMemberData.getPassword().isEmpty() || !validatePassword(changeableMemberData.getPassword()))
+        if ((changeableMemberData.getPassword() == null) || !validatePassword(changeableMemberData.getPassword()))
             throw new ExceptionHandler(ErrorStatus.MALFORMED_MEMBER_PASSWORD);
     }
 

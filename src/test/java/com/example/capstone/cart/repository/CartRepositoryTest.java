@@ -50,7 +50,6 @@ public class CartRepositoryTest {
 
         List<Cart> carts = getCarts(storedItems, storedMembers);
 
-
         // when
         cartRepository.saveAllAndFlush(carts);
 

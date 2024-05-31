@@ -90,7 +90,14 @@ public class MemberServiceImpl implements MemberService {
 
         log.info("deleteTempMember service start............");
 
-        memberRepository.deleteById(id);
+        Member tempMember = memberRepository.findById(id).orElseThrow(() -> new ExceptionHandler(ErrorStatus.MEMBER_NOT_FOUND));
+
+        if (tempMember.getPassword() == null) {
+            memberRepository.deleteById(id);
+        } else {
+            throw new ExceptionHandler(ErrorStatus.TEMP_MEMBER_NOT_FOUND);
+        }
+
 
     }
 
