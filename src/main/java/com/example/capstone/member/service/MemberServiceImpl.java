@@ -1,6 +1,7 @@
 package com.example.capstone.member.service;
 
 import com.example.capstone.apiPayload.code.status.ErrorStatus;
+import com.example.capstone.aws.s3.AmazonS3Util;
 import com.example.capstone.common.QueryService;
 import com.example.capstone.exception.GeneralException;
 import com.example.capstone.exception.handler.ExceptionHandler;
@@ -16,7 +17,6 @@ import com.example.capstone.member.dto.MemberResponseDTO;
 import com.example.capstone.member.repository.AddressRepository;
 import com.example.capstone.member.repository.MemberRepository;
 import com.example.capstone.order.Order;
-import com.example.capstone.order.OrderItem;
 import com.example.capstone.seller.Seller;
 import com.example.capstone.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.example.capstone.member.converter.MemberConverter.*;
 
@@ -41,9 +42,11 @@ public class MemberServiceImpl implements MemberService {
     private final QueryService queryService;
     private final PasswordEncoder passwordEncoder;
     private final AddressRepository addressRepository;
+    private final AmazonS3Util amazonS3Util;
 
     @Override
-    public MemberResponseDTO.MemberState changeMemberRole(Long memberId) {
+    public MemberResponseDTO.MemberState changeMemberRole(Long memberId, MemberRequestDTO.ToSeller request,
+                                                          MultipartFile multipartFile) {
         Member member = queryService.findMember(memberId);
 
         if (member.getType() == MemberType.ROLE_SELLER) {
@@ -53,7 +56,13 @@ public class MemberServiceImpl implements MemberService {
         member.changeRole();
         memberRepository.save(member);
 
+        UUID uuid = UUID.randomUUID();
+        String url = amazonS3Util.generateSellerProfileImagePath(uuid, multipartFile);
+
         Seller seller = Seller.builder()
+                .details(request.getDetails())
+                .introduction(request.getIntroduction())
+                .imageUrl(url)
                 .member(member)
                 .build();
 

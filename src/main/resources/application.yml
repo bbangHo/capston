@@ -19,6 +19,7 @@ spring:
         path:
           items: items      # 상품 이미지가 저장되는 경로
           item_previews: item_previews  # 상품의 미리보기 이미지가 저장되는 경로
+          seller_image: seller_image
       region:
         static: ap-northeast-2
       stack:

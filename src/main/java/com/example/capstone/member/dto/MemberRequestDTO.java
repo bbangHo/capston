@@ -64,4 +64,13 @@ public class MemberRequestDTO {
 
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ToSeller {
+        private String introduction;
+        private String details;
+    }
+
 }

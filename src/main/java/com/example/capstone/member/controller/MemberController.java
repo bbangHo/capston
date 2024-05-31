@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -34,9 +35,11 @@ public class MemberController {
     }
 
     @PatchMapping("/auth/member/to-seller")
-    public ApiResponse<MemberResponseDTO.MemberState> changeMemberRole(@AuthenticationPrincipal MemberSecurityDTO member) {
+    public ApiResponse<MemberResponseDTO.MemberState> changeMemberRole(@AuthenticationPrincipal MemberSecurityDTO member,
+                                                                       @RequestPart(required = false) MultipartFile multipartFile,
+                                                                       @RequestPart MemberRequestDTO.ToSeller request) {
         Long memberId = member.getId();
-        MemberResponseDTO.MemberState response = memberService.changeMemberRole(memberId);
+        MemberResponseDTO.MemberState response = memberService.changeMemberRole(memberId, request, multipartFile);
         return ApiResponse.of(SuccessStatus._OK_CHANGE_ROLE, response);
     }
 
