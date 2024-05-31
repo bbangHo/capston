@@ -63,8 +63,10 @@ public class SellerManagementServiceImpl implements SellerManagementService {
     public SellerResponseDTO.ImminentItemList getImminentItemPage(Long memberId, Integer page, Integer size, String sort, String order) {
         Seller seller = queryService.isSeller(memberId);
 
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Item> imminentItemPage = itemRepository.getImminentItem(seller.getId(), pageable, sort, order);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime imminentDate = LocalDateTime.now().plusDays(7);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").ascending());
+        Page<Item> imminentItemPage = itemRepository.searchImminentItem(seller.getId(), now, imminentDate, pageable);
 
         return SellerManagementConverter.toImminentItemList(imminentItemPage);
     }

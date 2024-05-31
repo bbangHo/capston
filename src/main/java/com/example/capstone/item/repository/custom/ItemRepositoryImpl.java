@@ -1,12 +1,8 @@
 package com.example.capstone.item.repository.custom;
 
 import com.example.capstone.item.Item;
-import com.querydsl.core.types.NullExpression;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +16,8 @@ import java.util.List;
 
 import static com.example.capstone.item.QItem.item;
 import static com.example.capstone.order.QOrderItem.orderItem;
+import static com.example.capstone.seller.QSeller.seller;
+import static com.example.capstone.member.QMember.member;
 
 
 /**
@@ -100,30 +98,30 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
     @Override
     public Page<Item> getImminentItem(Long sellerId, Pageable pageable, String sort, String order) {
         OrderSpecifier<?>[] orderCondition = createOrderSpecifier(sort, order);
-        JPAQuery<Item> imminentItemCommonQuery = getImminentItemCommonQuery();
 
         List<Item> orderItemJPAQuery = queryFactory
                 .select(item)
                 .from(item)
-                .innerJoin(orderItem)
-                .on(item.id.eq(orderItem.item.id))
-                .where(item.seller.id.eq(sellerId))
-                .groupBy(item)
-                .having(
+                .join(orderItem).on(item.id.eq(orderItem.item.id))
+//                .join(seller).on(item.seller.id.eq(seller.id))
+//                .join(member).on(member.seller.id.eq(seller.id))
+                .where(item.seller.member.id.eq(sellerId))
+//                .groupBy(orderItem)
+//                .having(
                         // (item.stock - orderItem.quantity.sum() <= item.stock * 0.1) OR deadline < now() + 7d
-                        (item.stock.subtract(orderItem.quantity.sum()).loe(item.stock.multiply(0.1)))
-                                .or(item.deadline.lt(DEADLINE_TIME_IMMINENT))
-                )
+//                        (item.stock.subtract(orderItem.quantity.sum()).loe(item.stock.multiply(0.1)))
+//                                .or(item.deadline.lt(DEADLINE_TIME_IMMINENT))
+//                )
                 .orderBy(orderCondition)
                 .fetch();
 
         JPAQuery<Long> count = queryFactory
                 .select(item.count())
                 .from(item)
-                .innerJoin(orderItem)
+                .join(orderItem)
                 .on(item.id.eq(orderItem.item.id))
-                .where(item.seller.id.eq(sellerId))
-                .groupBy(item)
+                .where(item.seller.member.id.eq(sellerId))
+                .groupBy(orderItem)
                 .having(
                         // (item.stock - orderItem.quantity.sum() <= item.stock * 0.1) OR deadline < now() + 7d
                         (item.stock.subtract(orderItem.quantity.sum()).loe(item.stock.multiply(0.1)))
