@@ -111,14 +111,12 @@ public class ItemConverter {
         return ItemResponseDTO.ItemWithSeller.builder()
                 .id(item.getId())
                 .name(item.getName())
-                .category(item.getCategory().getName())
                 .stock(item.getStock())
                 .price(item.getPrice())
                 .discountPrice(0)   // TODO: 할인 어떻게?
                 .imageUrl(item.getItemImages().isEmpty() ? null : item.getItemImages().get(0).getImageUrl())
-                .deadline(item.getDeadline())
                 .deliveryCharge(item.getDeliveryCharge())
-                .seller(toSellerResponseDTO(item.getSeller()))
+                .sellerId(item.getSeller().getId())
                 .build();
     }
 }

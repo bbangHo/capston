@@ -22,6 +22,8 @@ public enum SuccessStatus implements BaseCode {
 
     //CART
     _OK_ADD_ITEM_IN_CART(HttpStatus.OK, "CART_200_1", "정상적으로 장바구니에 추가되었습니다."),
+    _OK_DELETE_ITEM_IN_CART(HttpStatus.OK, "CART_200_2", "정상적으로 장바구니에 삭제되었습니다."),
+
 
     //POST
     _OK_GET_POST(HttpStatus.OK, "POST_200_1", "정상적으로 게시글이 조회되었습니다."),

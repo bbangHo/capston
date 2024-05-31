@@ -14,15 +14,13 @@ import java.util.List;
 
 import static com.example.capstone.item.converter.ItemConverter.toItemResponseDTO;
 import static com.example.capstone.item.converter.ItemConverter.toItemResponseDTOWithSeller;
-import static com.example.capstone.member.converter.MemberConverter.toMember;
-import static com.example.capstone.member.converter.MemberConverter.toMemberResponseDTO;
+import static com.example.capstone.member.converter.MemberConverter.*;
 
 public class CartConverter {
 
     public static CartResponseDTO.Cart toCartResponseDTO(Cart cart) {
         return CartResponseDTO.Cart.builder()
                 .id(cart.getId())
-                .member(toMemberResponseDTO(cart.getMember()))
                 .quantity(cart.getQuantity())
                 .item(toItemResponseDTOWithSeller(cart.getItem()))
                 .build();

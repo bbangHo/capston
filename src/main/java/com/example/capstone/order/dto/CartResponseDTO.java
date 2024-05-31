@@ -24,8 +24,6 @@ public class CartResponseDTO {
 
         private ItemResponseDTO.ItemWithSeller item;
 
-        private MemberResponseDTO.Member member;
-
         private Integer quantity;
 
     }

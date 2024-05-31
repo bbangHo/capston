@@ -2,6 +2,7 @@ package com.example.capstone.order.service;
 
 import com.example.capstone.apiPayload.code.status.ErrorStatus;
 import com.example.capstone.exception.GeneralException;
+import com.example.capstone.exception.handler.ExceptionHandler;
 import com.example.capstone.item.Item;
 import com.example.capstone.item.repository.ItemRepository;
 import com.example.capstone.member.Member;
@@ -56,6 +57,7 @@ public class CartServiceImpl implements CartService{
         log.info("saveItemInCart service success.......");
     }
 
+    @Override
     public CartResponseDTO.CartResult getItemsInCart(Long memberId) {
 
         List<Cart> cartList = cartRepository.searchItemInCart(memberId);
@@ -63,8 +65,9 @@ public class CartServiceImpl implements CartService{
         List<CartResponseDTO.Cart> carts = cartList.stream().map(CartConverter::toCartResponseDTO).toList();
 
         Map<Long, List<CartResponseDTO.Cart>> cartGroup = carts.stream()
-                .collect(Collectors.groupingBy(cart -> cart.getItem().getSeller().getId()));
+                .collect(Collectors.groupingBy(cart -> cart.getItem().getSellerId()));
 
+        //판매자가 같으면 묶음 배송 처리
         Integer sum = 0;
         for (Long key : cartGroup.keySet()) {
             sum += cartGroup.get(key).get(0).getItem().getDeliveryCharge();
@@ -74,6 +77,19 @@ public class CartServiceImpl implements CartService{
                 .carts(carts)
                 .sumDeliveryCharge(sum)
                 .build();
+    }
+
+    @Override
+    public void deleteItem(Long memberId, Long cartId) {
+
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new ExceptionHandler(ErrorStatus.ITEM_NOT_FOUND));
+        if (!cart.getMember().getId().equals(memberId)){
+            throw new ExceptionHandler(ErrorStatus.CART_NOT_MATCH_MEMBER);
+        }
+
+        cartRepository.deleteById(cartId);
+        log.info("deleteItemInCart Success.............");
+
 
     }
 
