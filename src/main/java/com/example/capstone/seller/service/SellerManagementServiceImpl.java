@@ -7,6 +7,7 @@ import com.example.capstone.order.OrderItem;
 import com.example.capstone.order.common.DateType;
 import com.example.capstone.order.dto.MonthlySalesVolumeDTO;
 import com.example.capstone.order.repository.OrderItemRepository;
+import com.example.capstone.seller.Seller;
 import com.example.capstone.seller.converter.SellerManagementConverter;
 import com.example.capstone.seller.dto.SellerResponseDTO;
 import jakarta.transaction.Transactional;
@@ -15,9 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.management.Query;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -56,6 +58,17 @@ public class SellerManagementServiceImpl implements SellerManagementService {
         List<MonthlySalesVolumeDTO> monthlySalesVolumeDTOList = orderItemRepository.getMonthlySalesVolume1Year(sellerId);
 
         return SellerManagementConverter.toDashboard(today, dayBefore, month , lastMonth, orderStatusNumber, monthlySalesVolumeDTOList);
+    }
+
+    public SellerResponseDTO.ImminentItemList getImminentItemPage(Long memberId, Integer page, Integer size, String sort, String order) {
+        Seller seller = queryService.isSeller(memberId);
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime imminentDate = LocalDateTime.now().plusDays(7);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").ascending());
+        Page<Item> imminentItemPage = itemRepository.searchImminentItem(seller.getId(), now, imminentDate, pageable);
+
+        return SellerManagementConverter.toImminentItemList(imminentItemPage);
     }
 
     private Integer getSalesVolume(Long sellerId, DateType dateType) {

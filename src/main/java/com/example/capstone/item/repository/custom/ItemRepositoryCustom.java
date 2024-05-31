@@ -1,4 +1,4 @@
-package com.example.capstone.item.repository;
+package com.example.capstone.item.repository.custom;
 
 import com.example.capstone.item.Item;
 import org.springframework.data.domain.Page;
@@ -14,4 +14,6 @@ import java.util.List;
 public interface ItemRepositoryCustom {
     List<Item> findImminentItem();
     Page<Item> findImminentItem(Pageable pageable);
+
+    Page<Item> getImminentItem(Long sellerId, Pageable pageable, String sort, String order);
 }

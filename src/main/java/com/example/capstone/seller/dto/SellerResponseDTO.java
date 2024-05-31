@@ -49,6 +49,7 @@ public class SellerResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class SalesItem {
+        private Long itemId;
         private String itemName;
         private ItemType itemType;
         private String itemPreviewImageUrl; // 상품 미리보기 이미지
@@ -56,6 +57,32 @@ public class SellerResponseDTO {
         private Integer stock;
         private Integer price;
         private LocalDateTime deadLine;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ImminentItem {
+        private Long itemId;
+        private String itemName;
+        private String itemPreviewImageUrl; // 상품 미리보기 이미지
+        private Integer stock;
+        private Integer price;
+        private LocalDateTime deadLine;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ImminentItemList {
+        private Integer listSize;
+        private Integer page;
+        private Long totalElement;
+        private Boolean isFirst;
+        private Boolean isLast;
+        private List<ImminentItem> ImminentItemList;
     }
 
     @Builder

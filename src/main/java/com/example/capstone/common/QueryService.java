@@ -28,10 +28,9 @@ public class QueryService {
 
     /**
      * ROLE이 Seller인지 검사하고 Seller 객체를 반환합니다.
-     * @param memberId
-     *  사용자 ID
-     * @return
-     *  Seller 객체
+     *
+     * @param memberId 사용자 ID
+     * @return Seller 객체
      */
     public Seller isSeller(Long memberId) {
         Member member = findMember(memberId);
@@ -47,6 +46,12 @@ public class QueryService {
                 .orElseThrow(() -> new GeneralException(ErrorStatus.ITEM_CATEGORY_NOT_FOUND));
     }
 
+    public Boolean categoryIsPresent(Long categoryId) {
+        return Optional.ofNullable(categoryRepository.findById(categoryId)
+                        .orElseThrow(() -> new GeneralException(ErrorStatus.ITEM_CATEGORY_NOT_FOUND)))
+                        .isPresent();
+    }
+
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
@@ -54,7 +59,7 @@ public class QueryService {
 
     public Boolean memberIsPresent(Long memberId) {
         return Optional.ofNullable(memberRepository.findById(memberId)
-                .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND)))
+                        .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND)))
                 .isPresent();
     }
 

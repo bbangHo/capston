@@ -26,6 +26,12 @@ import static com.example.capstone.order.QOrderItem.orderItem;
 public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
+    /**
+     * 판매자의 주문 현황을 반환합니다
+     * @param sellerId
+     * @param pageable
+     * @return
+     */
     @Override
     public List<MonthlySalesVolumeDTO> getMonthlySalesVolume1Year(Long sellerId) {
         LocalDateTime thisYear = YearMonth.now().atEndOfMonth().atTime(23, 59, 59);

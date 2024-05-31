@@ -1,6 +1,7 @@
 package com.example.capstone.item.repository;
 
 import com.example.capstone.item.Item;
+import com.example.capstone.item.repository.custom.ItemRepositoryCustom;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,6 +21,18 @@ public interface ItemRepository extends JpaRepository<Item, Long>, ItemRepositor
             "where (i.stock - ((select sum(oi.quantity) from OrderItem oi where oi.item.id = i.id and oi.status != com.example.capstone.order.common.OrderStatus.CANCELED )) <= (i.stock * 0.1)) " +
             "OR i.deadline < :seven")
     Page<Item> searchImminentItem(LocalDateTime seven, Pageable pageable);
+
+    @Query("select i from Item i " +
+            "where " +
+                "(i.stock - ((" +
+                "select sum(oi.quantity) " +
+                "from OrderItem oi " +
+                "where " +
+                    "oi.item.seller.id = :sellerId " +
+                    "and oi.item.id = i.id " +
+                    "and oi.status != com.example.capstone.order.common.OrderStatus.CANCELED)) <= (i.stock * 0.1)) " +
+            "OR (:nowDate > i.deadline and i.deadline < :seven)")
+    Page<Item> searchImminentItem(Long sellerId, LocalDateTime nowDate, LocalDateTime seven, Pageable pageable);
 
     @Query("SELECT i FROM Item i " +
             "LEFT JOIN OrderItem oi ON oi.item.id = i.id " +

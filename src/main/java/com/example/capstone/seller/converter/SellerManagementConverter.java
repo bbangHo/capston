@@ -95,4 +95,30 @@ public class SellerManagementConverter {
 
         return p + "%";
     }
+
+    public static SellerResponseDTO.ImminentItem toImminentItem(Item item) {
+        return SellerResponseDTO.ImminentItem.builder()
+                .itemId(item.getId())
+                .itemName(item.getName())
+                .itemPreviewImageUrl(null)
+                .price(item.getPrice())
+                .stock(item.getStock())
+                .deadLine(item.getDeadline())
+                .build();
+    }
+
+    public static SellerResponseDTO.ImminentItemList toImminentItemList(Page<Item> ItemPage) {
+        List<SellerResponseDTO.ImminentItem> imminentItemList = ItemPage.getContent().stream()
+                .map(SellerManagementConverter::toImminentItem)
+                .collect(Collectors.toList());
+
+        return SellerResponseDTO.ImminentItemList.builder()
+                .listSize(ItemPage.getSize())
+                .page(ItemPage.getTotalPages())
+                .totalElement(ItemPage.getTotalElements())
+                .isFirst(ItemPage.isFirst())
+                .isLast(ItemPage.isLast())
+                .ImminentItemList(imminentItemList)
+                .build();
+    }
 }
