@@ -29,6 +29,7 @@ public class ItemConverter {
                 .quantity(orderItem.getQuantity())
                 .totalPrice(orderItem.getQuantity() * item.getPrice())
                 .deliveryCharge(item.getDeliveryCharge())
+                .orderStatus(orderItem.getStatus())
                 .build();
     }
 
