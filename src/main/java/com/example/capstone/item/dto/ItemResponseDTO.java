@@ -123,13 +123,11 @@ public class ItemResponseDTO {
     public static class ItemWithSeller {
         private Long id;
         private String name;
-        private String category;
         private Integer stock;
         private Integer price;
         private Integer discountPrice;
         private String imageUrl;
-        private LocalDateTime deadline;
         private Integer deliveryCharge;
-        private TempSellerResponseDTO.Seller seller;
+        private Long sellerId;
     }
 }

@@ -84,9 +84,12 @@ public enum ErrorStatus implements BaseErrorCode {
     NOT_CHECKED_NICKNAME(HttpStatus.BAD_REQUEST,"DUPCHECK_400_4","중복 체크된 닉네임이 아닙니다."),
 
     //address
-    ADDRESS_NOT_FOUND(HttpStatus.BAD_REQUEST,"ADDRESS_400_1","해당 주소를 찾을 수 없습니다.")
+    ADDRESS_NOT_FOUND(HttpStatus.BAD_REQUEST,"ADDRESS_400_1","해당 주소를 찾을 수 없습니다."),
 
-            ;
+    //cart
+    CART_NOT_MATCH_MEMBER(HttpStatus.FORBIDDEN,"ADDRESS_403_1","해당 장바구니는 현재 멤버의 장바구니가 아닙니다.")
+
+    ;
 
 
     private final HttpStatus httpStatus;

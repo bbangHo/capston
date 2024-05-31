@@ -171,7 +171,11 @@ public class MemberServiceImpl implements MemberService {
 
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new ExceptionHandler(ErrorStatus.MEMBER_NOT_FOUND));
-        member.changeMember(passwordEncoder.encode(changeableMemberData.getPassword()), changeableMemberData.getPhone());
+
+        String changedPassword = passwordEncoder.encode(changeableMemberData.getPassword());
+        String changedPhone = changeableMemberData.getPhone();
+
+        member.changeMember(changedPassword, changedPhone);
         Member savedMember = memberRepository.save(member);
 
         Address address = addressRepository.findByMember_Id(savedMember.getId())
