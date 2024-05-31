@@ -39,6 +39,9 @@ public class AmazonConfig {
     @Value("${spring.cloud.aws.s3.path.item_previews}")
     private String itemPreviewDir;
 
+    @Value("${spring.cloud.aws.s3.path.seller_image}")
+    private String sellerImage;
+
     @PostConstruct
     public void init() {
         this.awsCredentials = new BasicAWSCredentials(accessKey, secretKey);

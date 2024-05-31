@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -57,9 +56,18 @@ public class AmazonS3Util {
         return sb.toString();
     }
 
-    private String generateItemPreviewImagePath(UUID uuid) {
-        return amazonConfig.getItemPreviewDir() + '/' + UUID.randomUUID();
+    public String generateSellerProfileImagePath(UUID uuid, MultipartFile file) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(amazonConfig.getSellerImage());
+        sb.append('/');
+        sb.append(uuid);
+        sb.append('.');
+        sb.append(StringUtils.getFilenameExtension(file.getOriginalFilename()));
+
+        return sb.toString();
     }
+
 
     public String generateTestImagePath(UUID uuid) {
         return "/test" + '/' + UUID.randomUUID();
