@@ -7,12 +7,18 @@ import com.example.capstone.item.repository.ItemRepository;
 import com.example.capstone.member.Member;
 import com.example.capstone.member.repository.MemberRepository;
 import com.example.capstone.order.Cart;
+import com.example.capstone.order.converter.CartConverter;
 import com.example.capstone.order.dto.CartRequestDTO;
+import com.example.capstone.order.dto.CartResponseDTO;
 import com.example.capstone.order.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 
@@ -48,6 +54,27 @@ public class CartServiceImpl implements CartService{
 
         cartRepository.save(cart);
         log.info("saveItemInCart service success.......");
+    }
+
+    public CartResponseDTO.CartResult getItemsInCart(Long memberId) {
+
+        List<Cart> cartList = cartRepository.searchItemInCart(memberId);
+
+        List<CartResponseDTO.Cart> carts = cartList.stream().map(CartConverter::toCartResponseDTO).toList();
+
+        Map<Long, List<CartResponseDTO.Cart>> cartGroup = carts.stream()
+                .collect(Collectors.groupingBy(cart -> cart.getItem().getSeller().getId()));
+
+        Integer sum = 0;
+        for (Long key : cartGroup.keySet()) {
+            sum += cartGroup.get(key).get(0).getItem().getDeliveryCharge();
+        }
+
+        return CartResponseDTO.CartResult.builder()
+                .carts(carts)
+                .sumDeliveryCharge(sum)
+                .build();
+
     }
 
 }
