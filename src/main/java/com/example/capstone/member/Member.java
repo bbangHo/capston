@@ -3,6 +3,7 @@ package com.example.capstone.member;
 import com.example.capstone.common.BaseEntity;
 import com.example.capstone.member.common.MemberStatus;
 import com.example.capstone.member.common.MemberType;
+import com.example.capstone.order.Order;
 import com.example.capstone.order.OrderItem;
 import com.example.capstone.post.Post;
 import com.example.capstone.seller.Seller;
@@ -64,6 +65,10 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     @Builder.Default
     private List<Post> postList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    @Builder.Default
+    private List<Order> orderList = new ArrayList<>();
 
     public void addSeller(Seller seller) {
         this.seller = seller;

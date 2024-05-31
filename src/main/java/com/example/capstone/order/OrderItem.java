@@ -35,5 +35,6 @@ public class OrderItem extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private OrderStatus status;
+    @Builder.Default
+    private OrderStatus status = OrderStatus.PENDING;
 }

@@ -4,6 +4,7 @@ import com.example.capstone.apiPayload.ApiResponse;
 import com.example.capstone.apiPayload.code.status.ErrorStatus;
 import com.example.capstone.apiPayload.code.status.SuccessStatus;
 import com.example.capstone.exception.handler.ExceptionHandler;
+import com.example.capstone.item.dto.ItemResponseDTO;
 import com.example.capstone.member.dto.MemberRequestDTO;
 import com.example.capstone.member.dto.MemberResponseDTO;
 import com.example.capstone.member.service.MemberServiceImpl;
@@ -24,6 +25,13 @@ import static com.example.capstone.member.common.MemberValidator.*;
 @Slf4j
 public class MemberController {
     private final MemberServiceImpl memberService;
+
+    @GetMapping("/auth/member/order/{order-id}")
+    public ApiResponse<ItemResponseDTO.ItemStatusList> getOrderedItemStatus(@AuthenticationPrincipal MemberSecurityDTO member,
+                                                             @PathVariable(name = "order-id") Long orderId) {
+        ItemResponseDTO.ItemStatusList response = memberService.getOrderedItemStatus(member.getId(), orderId);
+        return ApiResponse.onSuccess(response);
+    }
 
     @PatchMapping("/auth/member/to-seller")
     public ApiResponse<MemberResponseDTO.MemberState> changeMemberRole(@AuthenticationPrincipal MemberSecurityDTO member) {

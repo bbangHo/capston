@@ -4,6 +4,8 @@ import com.example.capstone.apiPayload.code.status.ErrorStatus;
 import com.example.capstone.common.QueryService;
 import com.example.capstone.exception.GeneralException;
 import com.example.capstone.exception.handler.ExceptionHandler;
+import com.example.capstone.item.converter.ItemConverter;
+import com.example.capstone.item.dto.ItemResponseDTO;
 import com.example.capstone.member.Address;
 import com.example.capstone.member.Member;
 import com.example.capstone.member.common.MemberType;
@@ -13,6 +15,8 @@ import com.example.capstone.member.dto.MemberRequestDTO;
 import com.example.capstone.member.dto.MemberResponseDTO;
 import com.example.capstone.member.repository.AddressRepository;
 import com.example.capstone.member.repository.MemberRepository;
+import com.example.capstone.order.Order;
+import com.example.capstone.order.OrderItem;
 import com.example.capstone.seller.Seller;
 import com.example.capstone.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.example.capstone.member.converter.MemberConverter.*;
@@ -58,16 +63,16 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberResponseDTO.DupCheckField checkField (MemberRequestDTO.DupCheckField dupCheckFields) {
+    public MemberResponseDTO.DupCheckField checkField(MemberRequestDTO.DupCheckField dupCheckFields) {
 
         log.info("DupCheck service start............");
         Member member;
 
-        if (dupCheckFields.getType().equals("loginId")){
+        if (dupCheckFields.getType().equals("loginId")) {
 
             member = checkLoginId(dupCheckFields);
 
-        } else if(dupCheckFields.getType().equals("nickName")) {
+        } else if (dupCheckFields.getType().equals("nickName")) {
 
             member = checkNickName(dupCheckFields);
 
@@ -103,25 +108,25 @@ public class MemberServiceImpl implements MemberService {
 
 
     @Override
-    public MemberResponseDTO.SignUpMember signUp (MemberRequestDTO.SignUpMember signUpMember) {
+    public MemberResponseDTO.SignUpMember signUp(MemberRequestDTO.SignUpMember signUpMember) {
 
         log.info("signUp service start............");
 
         Member tempMember = memberRepository.findById(signUpMember.getId())
                 .orElseThrow(() -> new ExceptionHandler(ErrorStatus.MEMBER_NOT_FOUND));
 
-        if (!tempMember.getLoginId().equals(signUpMember.getLoginId())){
+        if (!tempMember.getLoginId().equals(signUpMember.getLoginId())) {
 
             throw new ExceptionHandler(ErrorStatus.NOT_CHECKED_LOGINID);
 
-        } else if(!tempMember.getNickName().equals(signUpMember.getNickName())){
+        } else if (!tempMember.getNickName().equals(signUpMember.getNickName())) {
 
             throw new ExceptionHandler(ErrorStatus.NOT_CHECKED_NICKNAME);
         }
 
         String encodedPassword = passwordEncoder.encode(signUpMember.getPassword());
 
-        Member savedMember = memberRepository.save(toSignUpMember(signUpMember,encodedPassword));
+        Member savedMember = memberRepository.save(toSignUpMember(signUpMember, encodedPassword));
 
         AddressDTO.Address address = AddressDTO.Address.builder()
                 .member(toMemberResponseDTO(savedMember))
@@ -150,7 +155,7 @@ public class MemberServiceImpl implements MemberService {
     public MemberRequestDTO.ChangeableMemberData getMemberData(Long id) {
 
         Member member = memberRepository.findById(id).orElseThrow(() -> new ExceptionHandler(ErrorStatus.MEMBER_NOT_FOUND));
-        Address address = addressRepository.findByMember_Id(member.getId()).orElseThrow(()-> new ExceptionHandler(ErrorStatus.ADDRESS_NOT_FOUND));
+        Address address = addressRepository.findByMember_Id(member.getId()).orElseThrow(() -> new ExceptionHandler(ErrorStatus.ADDRESS_NOT_FOUND));
 
         return MemberRequestDTO.ChangeableMemberData.builder()
                 .nickName(member.getNickName())
@@ -162,7 +167,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberRequestDTO.ChangeableMemberData changeMemberData(Long id, MemberRequestDTO.ChangeableMemberData changeableMemberData){
+    public MemberRequestDTO.ChangeableMemberData changeMemberData(Long id, MemberRequestDTO.ChangeableMemberData changeableMemberData) {
 
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new ExceptionHandler(ErrorStatus.MEMBER_NOT_FOUND));
@@ -182,25 +187,25 @@ public class MemberServiceImpl implements MemberService {
                 .build();
     }
 
-    private Member checkLoginId (MemberRequestDTO.DupCheckField dupCheckField) {
+    private Member checkLoginId(MemberRequestDTO.DupCheckField dupCheckField) {
 
         Optional<Member> memberByLoginId = memberRepository.findMemberByLoginId(dupCheckField.getLoginId());
 
         //중복된 로그인 ID가 존재하지 않을 때
-        if(memberByLoginId.isEmpty()){
+        if (memberByLoginId.isEmpty()) {
             return getMemberByNickName(dupCheckField);
 
-        //중복된 로그인 ID가 존재할 때
+            //중복된 로그인 ID가 존재할 때
         } else
             throw new ExceptionHandler(ErrorStatus.DUPLICATED_LOGINID);
     }
 
-    private Member checkNickName (MemberRequestDTO.DupCheckField dupCheckField){
+    private Member checkNickName(MemberRequestDTO.DupCheckField dupCheckField) {
 
         Optional<Member> memberByNickName = memberRepository.findMemberByNickName(dupCheckField.getNickName());
 
         //중복된 닉네임이 존재하지 않을 때
-        if(memberByNickName.isEmpty()){
+        if (memberByNickName.isEmpty()) {
             return getMemberByLoginId(dupCheckField);
 
             //중복된 닉네임이 존재할 때
@@ -209,8 +214,8 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-    private Member getMemberByNickName(MemberRequestDTO.DupCheckField dupCheckField){
-        if(dupCheckField.getId() == null)
+    private Member getMemberByNickName(MemberRequestDTO.DupCheckField dupCheckField) {
+        if (dupCheckField.getId() == null)
             return Member.builder()
                     .loginId(dupCheckField.getLoginId())
                     .build();
@@ -222,9 +227,9 @@ public class MemberServiceImpl implements MemberService {
         return searchedMember;
     }
 
-    private Member getMemberByLoginId(MemberRequestDTO.DupCheckField dupCheckField){
+    private Member getMemberByLoginId(MemberRequestDTO.DupCheckField dupCheckField) {
 
-        if(dupCheckField.getId() == null)
+        if (dupCheckField.getId() == null)
             return Member.builder()
                     .nickName(dupCheckField.getNickName())
                     .build();
@@ -238,5 +243,14 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    public ItemResponseDTO.ItemStatusList getOrderedItemStatus(Long memberId, Long orderId) {
+        Member member = queryService.findMember(memberId);
 
+        Order order = member.getOrderList().stream()
+                .filter(s -> s.getId().equals(orderId))
+                .findFirst()
+                .orElseThrow(() -> new GeneralException(ErrorStatus.ORDER_NOT_FOUND));
+
+        return ItemConverter.toItemStatusListDTO(order);
+    }
 }

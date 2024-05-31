@@ -17,6 +17,9 @@ public enum SuccessStatus implements BaseCode {
     _OK_ALREADY_SUBSCRIBED(HttpStatus.OK, "SUBSCRIBE_200_3", "이미 구독 중인 사용자입니다."),
     _OK_NOT_SUBSCRIBED(HttpStatus.OK, "SUBSCRIBE_200_4", "구독하고 있지 않은 사용자입니다."),
 
+    // paymeny
+    _OK_PAYMENT(HttpStatus.OK, "PAYMENT_200_1", "정상적으로 결제되었습니다."),
+
     // 권한
     _OK_CHANGE_ROLE(HttpStatus.OK, "ROLE_200", "판매자로 전환 되었습니다."),
 
