@@ -1,5 +1,6 @@
 package com.example.capstone.item.dto;
 
+import com.example.capstone.order.common.OrderStatus;
 import com.example.capstone.seller.dto.SellerResponseDTO;
 import com.example.capstone.seller.dto.TempSellerResponseDTO;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class ItemResponseDTO {
         private Integer quantity;
         private Integer deliveryCharge;
         private Integer totalPrice;
+        private OrderStatus orderStatus;
     }
 
     @Builder
