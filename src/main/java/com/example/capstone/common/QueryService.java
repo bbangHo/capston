@@ -3,11 +3,15 @@ package com.example.capstone.common;
 import com.example.capstone.apiPayload.code.status.ErrorStatus;
 import com.example.capstone.exception.GeneralException;
 import com.example.capstone.item.Category;
+import com.example.capstone.item.Item;
 import com.example.capstone.item.repository.CategoryRepository;
+import com.example.capstone.item.repository.ItemRepository;
 import com.example.capstone.member.Member;
 import com.example.capstone.member.Subscription;
 import com.example.capstone.member.repository.MemberRepository;
 import com.example.capstone.member.repository.SubscriptionRepository;
+import com.example.capstone.order.OrderItem;
+import com.example.capstone.order.repository.OrderItemRepository;
 import com.example.capstone.post.Post;
 import com.example.capstone.post.repository.PostRepository;
 import com.example.capstone.seller.Seller;
@@ -15,16 +19,18 @@ import com.example.capstone.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class QueryService {
     private final MemberRepository memberRepository;
-    private final SellerRepository sellerRepository;
     private final SubscriptionRepository subscriptionRepository;
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
+    private final ItemRepository itemRepository;
+    private final OrderItemRepository orderItemRepository;
 
     /**
      * ROLE이 Seller인지 검사하고 Seller 객체를 반환합니다.
@@ -39,6 +45,15 @@ public class QueryService {
         }
 
         return member.getSeller();
+    }
+
+    public List<OrderItem> findOrderItemsByOrderId(Long orderId) {
+        return orderItemRepository.findByOrderId(orderId);
+    }
+
+    public Item findItem(Long itemId) {
+        return itemRepository.findById(itemId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.ITEM_NOT_FOUND));
     }
 
     public Category findCategory(Long categoryId) {

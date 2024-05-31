@@ -5,15 +5,43 @@ import com.example.capstone.item.Item;
 import com.example.capstone.item.common.ItemType;
 import com.example.capstone.item.dto.ItemRequestDTO;
 import com.example.capstone.item.dto.ItemResponseDTO;
+import com.example.capstone.order.Order;
+import com.example.capstone.order.OrderItem;
 import com.example.capstone.seller.Seller;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.capstone.item.converter.ItemImageConverter.toItemImageList;
 import static com.example.capstone.seller.converter.SellerConverter.toSellerResponseDTO;
 
 public class ItemConverter {
+
+    public static ItemResponseDTO.ItemStatus toItemStatusDTO(OrderItem orderItem) {
+        Item item = orderItem.getItem();
+
+        return ItemResponseDTO.ItemStatus.builder()
+                .orderItemId(orderItem.getId())
+                .itemId(item.getId())
+                .itemName(item.getName())
+                .itemPrice(item.getPrice())
+                .quantity(orderItem.getQuantity())
+                .totalPrice(orderItem.getQuantity() * item.getPrice())
+                .deliveryCharge(item.getDeliveryCharge())
+                .build();
+    }
+
+    public static ItemResponseDTO.ItemStatusList toItemStatusListDTO(Order order) {
+        List<ItemResponseDTO.ItemStatus> itemStatusList = order.getOrderItemList().stream()
+                .map(ItemConverter::toItemStatusDTO)
+                .collect(Collectors.toList());
+
+        return ItemResponseDTO.ItemStatusList.builder()
+                .orderId(order.getId())
+                .itemStatusList(itemStatusList)
+                .build();
+    }
 
     public static ItemResponseDTO.Item toItemResponseDTO(Item item) {
         return ItemResponseDTO.Item.builder()

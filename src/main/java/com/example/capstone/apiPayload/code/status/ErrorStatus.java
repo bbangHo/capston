@@ -46,6 +46,9 @@ public enum ErrorStatus implements BaseErrorCode {
     // image
     IMAGE_UPLOAD_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "IMAGE_500_1", "이미지 업로드에 실패했습니다."),
 
+    // order
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "ORDER_400_1", "주문번호에 해당하는 주문이 없습니다."),
+
     // sort
     SORT_BAD_REQUEST(HttpStatus.BAD_REQUEST, "SORT_400_1", "sort의 value가 잘못 입력되었습니다."),
 

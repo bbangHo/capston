@@ -5,6 +5,9 @@ import com.example.capstone.member.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -19,4 +22,8 @@ public class Order extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "order")
+    @Builder.Default
+    private List<OrderItem> orderItemList = new ArrayList<>();
 }

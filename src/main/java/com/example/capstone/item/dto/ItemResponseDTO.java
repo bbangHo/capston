@@ -16,6 +16,29 @@ public class ItemResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class ItemStatus {
+        private Long orderItemId;
+        private Long itemId;
+        private String itemName;
+        private Integer itemPrice;
+        private Integer quantity;
+        private Integer deliveryCharge;
+        private Integer totalPrice;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ItemStatusList {
+        private Long orderId;
+        private List<ItemStatus> itemStatusList;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Item {
         private Long id;
         private String name;
