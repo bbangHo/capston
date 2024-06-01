@@ -8,37 +8,30 @@ import com.example.capstone.util.AuthenticatedMemberUtil;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/alarm")
+@RequestMapping("/auth")
 public class AlarmController {
 
     private final AlarmService alarmService;
 
-    @GetMapping
-    public ApiResponse<AlarmResponseDTO.AlarmList> getAlarmList(@RequestParam(name = "type") Integer type,
-                                                                @RequestParam(name = "memberId") Long memberId,
+    @GetMapping("/alarms")
+    public ApiResponse<AlarmResponseDTO.AlarmList> getAlarmList(@AuthenticationPrincipal MemberSecurityDTO member,
                                                                 @Min(1) @RequestParam(name = "page") Integer page,
                                                                 @Positive @RequestParam(name = "size") Integer size) {
 
-        //인증 합의 후 추가
-        //Long memberId = AuthenticatedMemberUtil.getMemberId();
-        if (type == 0)
-            return ApiResponse.onSuccess(alarmService.getAlarmList(memberId, page - 1, size));
-        else
-            return null;
+        return ApiResponse.onSuccess(alarmService.getAlarmList(member.getId(), page - 1, size));
+
     }
 
-    @GetMapping("/{memberId}")
-    public ApiResponse<Integer> getAllNotConfirmedAlarmNum(@PathVariable Long memberId) {
+    @GetMapping("/alarm")
+    public ApiResponse<Integer> getAllNotConfirmedAlarmNum(@AuthenticationPrincipal MemberSecurityDTO member) {
 
-        return ApiResponse.onSuccess(alarmService.countAllNotConfirmedAlarm(memberId));
+        return ApiResponse.onSuccess(alarmService.countAllNotConfirmedAlarm(member.getId()));
     }
 
-    public Long getMemberId (){
-        return ((MemberSecurityDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-    }
 }
