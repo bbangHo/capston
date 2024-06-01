@@ -89,7 +89,7 @@ public class ItemResponseDTO {
     @AllArgsConstructor
     public static class DetailsOfItem {
         private Long id;
-        private Long memberId;  // 판매자의 id (판재마 소개페이지 이동용)
+        private Long sellerId;  // 판매자의 id (판재마 소개페이지 이동용)
         private String name;
         private String category;
         private Integer stock;
