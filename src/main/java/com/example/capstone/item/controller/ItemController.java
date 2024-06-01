@@ -44,16 +44,22 @@ public class ItemController {
         return ApiResponse.onSuccess(itemService.getPopularItemList(page - 1, size));
     }
 
-    @GetMapping("/item/subscription")
-    public ApiResponse<ItemResponseDTO.ItemList> getSubscribedItemList(@RequestParam(name = "type") Integer type,
-                                                                       @RequestParam(name = "fromMember",required = false) Long fromMember,
+    @GetMapping("/auth/item/subscription")
+    public ApiResponse<ItemResponseDTO.ItemList> getSubscribedItemList(@AuthenticationPrincipal MemberSecurityDTO member,
                                                                        @Min(1) @RequestParam(name = "page") Integer page,
                                                                        @Positive @RequestParam(name = "size") Integer size) {
-        if (type == 0)
-            return ApiResponse.onSuccess(itemService.getSubscribedItemList(fromMember, page - 1, size));
-        else
-            return ApiResponse.onSuccess(itemService.getAllItemList(page - 1, size));
+
+        return ApiResponse.onSuccess(itemService.getSubscribedItemList(member.getId(), page - 1, size));
+
     }
+    @GetMapping("/item/subscription")
+    public ApiResponse<ItemResponseDTO.ItemList> getAllItemList(
+                                                                       @Min(1) @RequestParam(name = "page") Integer page,
+                                                                       @Positive @RequestParam(name = "size") Integer size) {
+
+        return ApiResponse.onSuccess(itemService.getAllItemList(page - 1, size));
+    }
+
 
     @GetMapping("/item/search")
     public ApiResponse<ItemResponseDTO.ItemList> searchItemList(@Valid @RequestParam(name = "keyword") String keyword,

@@ -20,7 +20,16 @@ public class AlarmService {
     private final AlarmRepository alarmRepository;
 
     public AlarmResponseDTO.AlarmList getAlarmList(Long memberId, Integer page, Integer size) {
+
         Page<Alarm> alarmPage = alarmRepository.searchNotConfirmedAlarm(memberId, PageRequest.of(page, size));
+
+        for(Alarm alarm: alarmPage.getContent()){
+
+            alarm.changeConfirmation();
+            alarmRepository.save(alarm);
+
+        }
+
         return AlarmConverter.toAlarmList(alarmPage);
     }
 

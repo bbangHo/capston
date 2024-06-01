@@ -1,6 +1,7 @@
 package com.example.capstone.member;
 
 import com.example.capstone.common.BaseEntity;
+import com.example.capstone.member.common.MemberType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -27,4 +28,9 @@ public class Alarm extends BaseEntity {
 
     @NotNull
     private String content;
+
+    public void changeConfirmation() {
+        this.isConfirmed = !isConfirmed;
+    }
+
 }
