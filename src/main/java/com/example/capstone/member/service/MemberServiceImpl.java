@@ -54,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         member.changeRole();
-        memberRepository.save(member);
+
 
         UUID uuid = UUID.randomUUID();
         String url = amazonS3Util.generateSellerProfileImagePath(uuid, multipartFile);
@@ -66,8 +66,10 @@ public class MemberServiceImpl implements MemberService {
                 .member(member)
                 .build();
 
-        sellerRepository.save(seller);
+        seller = sellerRepository.save(seller);
+        member.addSeller(seller);
 
+        member = memberRepository.save(member);
         return MemberConverter.toMemberState(member);
     }
 
