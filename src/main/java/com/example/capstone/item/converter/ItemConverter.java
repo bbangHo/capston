@@ -79,7 +79,7 @@ public class ItemConverter {
     public static ItemResponseDTO.DetailsOfItem toDetailsOfItemResponseDTO(Item item) {
         return ItemResponseDTO.DetailsOfItem.builder()
                 .id(item.getId())
-                .sellerId(item.getSeller().getId())
+                .memberId(item.getSeller().getMember().getId())
                 .name(item.getName())
                 .category(item.getCategory().getName())
                 .stock(item.getStock())
@@ -94,7 +94,7 @@ public class ItemConverter {
     public static ItemResponseDTO.DetailsOfItem toTempDetailsOfItemResponseDTO(Item item) {
         return ItemResponseDTO.DetailsOfItem.builder()
                 .id(item.getId())
-                .sellerId(item.getSeller().getId())
+                .memberId(item.getSeller().getMember().getId())
                 .name(item.getName())
                 .category(item.getCategory().getName())
                 .stock(item.getStock())
