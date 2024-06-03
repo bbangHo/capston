@@ -19,6 +19,9 @@ public class ItemImageConverter {
     }
 
     public static List<ItemImageResponseDTO.ItemImage> toItemImageList (List<ItemImage> itemImages) {
+        //대표 이미지는 건너 뛰고 건네주기
+        itemImages.remove(0);
+
         return itemImages.stream()
                 .map(ItemImageConverter::toItemImageDTO)
                 .toList();
