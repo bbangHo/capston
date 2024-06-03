@@ -72,6 +72,11 @@ public class ItemConverter {
                 .build();
     }
 
+    /**
+     *
+     * 임시처리로 하드코딩 되어 있으므로 추후에 수정 되어야 함!
+     *
+     */
     public static ItemResponseDTO.DetailsOfItem toDetailsOfItemResponseDTO(Item item) {
         return ItemResponseDTO.DetailsOfItem.builder()
                 .id(item.getId())
@@ -81,8 +86,8 @@ public class ItemConverter {
                 .stock(item.getStock())
                 .price(item.getPrice())
                 .discountPrice(0)   // TODO: 할인 어떻게?
-                .ItemDetailsImageUrl(item.getItemDetailsImageUrl())
-                .imageUrl(toItemImageList(item.getItemImages()))
+                .ItemDetailsImageUrl(item.getItemImages().get(0).getImageUrl())
+                .imageUrl(toItemImageList(List.of(item.getItemImages().get(1))))
                 .deadline(item.getDeadline())
                 .build();
     }
@@ -95,8 +100,8 @@ public class ItemConverter {
                 .category(item.getCategory().getName())
                 .price(item.getPrice())
                 .discountPrice(0)   // TODO: 할인 어떻게?
-                .ItemDetailsImageUrl(item.getItemDetailsImageUrl())
-                .imageUrl(toItemImageList(item.getItemImages()))
+                .ItemDetailsImageUrl(item.getItemImages().get(0).getImageUrl())
+                .imageUrl(toItemImageList(List.of(item.getItemImages().get(1))))
                 .deadline(item.getDeadline())
                 .build();
     }
