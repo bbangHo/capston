@@ -6,8 +6,7 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-import static com.example.capstone.item.converter.ItemConverter.toDetailsOfItemWithSellerResponseDTO;
-import static com.example.capstone.item.converter.ItemConverter.toItemResponseDTO;
+import static com.example.capstone.item.converter.ItemConverter.*;
 
 
 public class GroupItemConverter {

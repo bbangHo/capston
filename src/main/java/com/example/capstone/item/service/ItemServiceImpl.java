@@ -105,7 +105,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemResponseDTO.DetailsOfItem getDetailOfItem(Long ItemId) {
         Item item = itemRepository.findItemById(ItemId).orElseThrow(() -> new ExceptionHandler(ErrorStatus.ITEM_NOT_FOUND));
 
-        return ItemConverter.toDetailsOfItemResponseDTO(item);
+        return ItemConverter.toTempDetailsOfItemResponseDTO(item);
     }
 
     @Override
