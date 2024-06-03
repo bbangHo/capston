@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
@@ -19,5 +20,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
             "where c.member.id = :memberId ")
     List<Cart> searchItemInCart(Long memberId);
 
+    @Query("select c from Cart c where c.item.id = :itemId and c.member.id = :memberId")
+    Optional<Cart> searchCartByMemberAndItem(Long itemId, Long memberId);
 
 }

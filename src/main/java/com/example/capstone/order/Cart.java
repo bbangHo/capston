@@ -28,4 +28,8 @@ public class Cart {
 
     @Min(1)
     private Integer quantity;
+
+    public void changeQuantity(Integer quantity){
+        this.quantity = quantity;
+    }
 }
