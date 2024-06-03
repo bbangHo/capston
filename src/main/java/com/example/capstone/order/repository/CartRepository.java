@@ -16,8 +16,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     @Query("select c from Cart c " +
             "join Item i on c.item.id = i.id " +
             "join Seller s on s.id = i.seller.id " +
-            "where c.member.id = :memberId " +
-            "group by c.item.id")
+            "where c.member.id = :memberId ")
     List<Cart> searchItemInCart(Long memberId);
 
 
