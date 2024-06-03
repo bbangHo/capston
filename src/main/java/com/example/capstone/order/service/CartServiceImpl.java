@@ -62,7 +62,8 @@ public class CartServiceImpl implements CartService{
 
         List<Cart> cartList = cartRepository.searchItemInCart(memberId);
 
-        List<CartResponseDTO.Cart> carts = cartList.stream().map(CartConverter::toCartResponseDTO).toList();
+        List<CartResponseDTO.Cart> carts = cartList.stream().map(CartConverter::toCartResponseDTO).collect(Collectors.toList());
+
 
         Map<Long, List<CartResponseDTO.Cart>> cartGroup = carts.stream()
                 .collect(Collectors.groupingBy(cart -> cart.getItem().getSellerId()));
@@ -73,8 +74,26 @@ public class CartServiceImpl implements CartService{
             sum += cartGroup.get(key).get(0).getItem().getDeliveryCharge();
         }
 
+        Map<Long, List<CartResponseDTO.Cart>> groupedBySeller = cartList.stream().map(CartConverter::toCartResponseDTO).collect(Collectors.groupingBy(cart -> cart.getItem().getId()));
+
+        List<CartResponseDTO.Cart> result = groupedBySeller.values().stream()
+                .map(cartDTOList -> {
+
+                    // 합산된 quantity 계산
+                    int totalQuantity = cartDTOList.stream()
+                            .mapToInt(CartResponseDTO.Cart::getQuantity)
+                            .sum();
+
+                    return CartResponseDTO.Cart.builder()
+                            .id(cartDTOList.get(0).getId())
+                            .item(cartDTOList.get(0).getItem())
+                            .quantity(totalQuantity)
+                            .build();
+                })
+                .collect(Collectors.toList());
+
         return CartResponseDTO.CartResult.builder()
-                .carts(carts)
+                .carts(result)
                 .sumDeliveryCharge(sum)
                 .build();
     }
