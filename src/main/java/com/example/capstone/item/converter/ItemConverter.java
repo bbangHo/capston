@@ -81,7 +81,7 @@ public class ItemConverter {
                 .stock(item.getStock())
                 .price(item.getPrice())
                 .discountPrice(0)   // TODO: 할인 어떻게?
-                .ItemDetailsImageUrl(item.getItemImages().get(0).getImageUrl())
+                .ItemDetailsImageUrl(item.getItemDetailsImageUrl())
                 .imageUrl(toItemImageList(item.getItemImages()))
                 .deadline(item.getDeadline())
                 .build();
@@ -95,7 +95,7 @@ public class ItemConverter {
                 .category(item.getCategory().getName())
                 .price(item.getPrice())
                 .discountPrice(0)   // TODO: 할인 어떻게?
-                .ItemDetailsImageUrl(item.getItemImages().get(0).getImageUrl())
+                .ItemDetailsImageUrl(item.getItemDetailsImageUrl())
                 .imageUrl(toItemImageList(item.getItemImages()))
                 .deadline(item.getDeadline())
                 .build();
