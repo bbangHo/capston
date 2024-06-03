@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -40,20 +41,32 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public void saveItemInCart(CartRequestDTO.requestedCart cartRequestDTO) {
+        Cart cart;
 
-        Item item = itemRepository.findById(cartRequestDTO.getItemId())
-                .orElseThrow(() -> new GeneralException(ErrorStatus.ITEM_NOT_FOUND));
+        Optional<Cart> searchedCart = cartRepository.searchCartByMemberAndItem(cartRequestDTO.getItemId(), cartRequestDTO.getMemberId());
 
-        Member member = memberRepository.findById(cartRequestDTO.getMemberId())
-                .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
+        if(searchedCart.isPresent()){
+            cart = searchedCart.get();
+            Integer sumQuantity = cartRequestDTO.getQuantity() + cart.getQuantity();
+            searchedCart.get().changeQuantity(sumQuantity);
+            cartRepository.save(cart);
 
-        Cart cart = Cart.builder()
-                .item(item)
-                .member(member)
-                .quantity(cartRequestDTO.getQuantity())
-                .build();
+        } else {
 
-        cartRepository.save(cart);
+            Item item = itemRepository.findById(cartRequestDTO.getItemId())
+                    .orElseThrow(() -> new GeneralException(ErrorStatus.ITEM_NOT_FOUND));
+
+            Member member = memberRepository.findById(cartRequestDTO.getMemberId())
+                    .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
+
+            cart = Cart.builder()
+                    .item(item)
+                    .member(member)
+                    .quantity(cartRequestDTO.getQuantity())
+                    .build();
+
+            cartRepository.save(cart);
+        }
         log.info("saveItemInCart service success.......");
     }
 
@@ -74,26 +87,8 @@ public class CartServiceImpl implements CartService{
             sum += cartGroup.get(key).get(0).getItem().getDeliveryCharge();
         }
 
-        Map<Long, List<CartResponseDTO.Cart>> groupedBySeller = cartList.stream().map(CartConverter::toCartResponseDTO).collect(Collectors.groupingBy(cart -> cart.getItem().getId()));
-
-        List<CartResponseDTO.Cart> result = groupedBySeller.values().stream()
-                .map(cartDTOList -> {
-
-                    // 합산된 quantity 계산
-                    int totalQuantity = cartDTOList.stream()
-                            .mapToInt(CartResponseDTO.Cart::getQuantity)
-                            .sum();
-
-                    return CartResponseDTO.Cart.builder()
-                            .id(cartDTOList.get(0).getId())
-                            .item(cartDTOList.get(0).getItem())
-                            .quantity(totalQuantity)
-                            .build();
-                })
-                .collect(Collectors.toList());
-
         return CartResponseDTO.CartResult.builder()
-                .carts(result)
+                .carts(carts)
                 .sumDeliveryCharge(sum)
                 .build();
     }
