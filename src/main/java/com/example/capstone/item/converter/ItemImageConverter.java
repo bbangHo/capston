@@ -19,9 +19,6 @@ public class ItemImageConverter {
     }
 
     public static List<ItemImageResponseDTO.ItemImage> toItemImageList (List<ItemImage> itemImages) {
-
-        itemImages.remove(0);
-
         return itemImages.stream()
                 .map(ItemImageConverter::toItemImageDTO)
                 .toList();
