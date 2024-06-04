@@ -86,7 +86,7 @@ public class ItemConverter {
                 .price(item.getPrice())
                 .discountPrice(0)   // TODO: 할인 어떻게?
                 .ItemDetailsImageUrl(item.getItemDetailsImageUrl())
-                .imageUrl(toItemImageList(List.of(item.getItemImages().get(0))))
+                .imageUrl(toItemImageList(item.getItemImages()))
                 .deadline(item.getDeadline())
                 .build();
     }
@@ -100,8 +100,8 @@ public class ItemConverter {
                 .stock(item.getStock())
                 .price(item.getPrice())
                 .discountPrice(0)   // TODO: 할인 어떻게?
-                .ItemDetailsImageUrl(item.getItemImages().get(0).getImageUrl())
-                .imageUrl(toItemImageList(List.of(item.getItemImages().get(1))))
+                .ItemDetailsImageUrl(item.getItemDetailsImageUrl())
+                .imageUrl(toItemImageList(List.of(item.getItemImages().get(0)))) //수정 부분 ( 현재는 대표이미지가 넘어가게 되어있음 ->둘다 넘기 거나 상세만 넘기고 대표이미지는 위애서 처리하도록 수정  필요)
                 .deadline(item.getDeadline())
                 .build();
     }
@@ -115,8 +115,8 @@ public class ItemConverter {
                 .category(item.getCategory().getName())
                 .price(item.getPrice())
                 .discountPrice(0)   // TODO: 할인 어떻게?
-                .ItemDetailsImageUrl(item.getItemImages().get(0).getImageUrl())
-                .imageUrl(toItemImageList(List.of(item.getItemImages().get(1))))
+                .ItemDetailsImageUrl(item.getItemDetailsImageUrl())
+                .imageUrl(toItemImageList(List.of(item.getItemImages().get(0)))) //수정 부분 ( 현재는 대표이미지가 넘어가게 되어있음 ->둘다 넘기 거나 상세만 넘기고 대표이미지는 위애서 처리하도록 수정  필요)
                 .deadline(item.getDeadline())
                 .build();
     }
