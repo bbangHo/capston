@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.example.capstone.order.converter.CartConverter.toCartResponseDTO;
 
 
 @Service
@@ -40,7 +41,7 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public void saveItemInCart(CartRequestDTO.requestedCart cartRequestDTO) {
+    public void saveItemInCart(CartRequestDTO.RequestedCart cartRequestDTO) {
         Cart cart;
 
         Optional<Cart> searchedCart = cartRepository.searchCartByMemberAndItem(cartRequestDTO.getItemId(), cartRequestDTO.getMemberId());
@@ -104,7 +105,24 @@ public class CartServiceImpl implements CartService{
         cartRepository.deleteById(cartId);
         log.info("deleteItemInCart Success.............");
 
+    }
 
+    @Override
+    public void deleteItemsInCart(Long memberId) {
+
+        cartRepository.deleteItemsInCart(memberId);
+
+        log.info("deleteItemsInCart Success.............");
+
+    }
+    @Override
+    public CartResponseDTO.Cart changeQuantity(Long cartId, Integer askedQuantity) {
+
+        Cart cart = cartRepository.findById(cartId).orElseThrow(()->new ExceptionHandler(ErrorStatus.CART_NOT_FOUND));
+        cart.changeQuantity(askedQuantity);
+        Cart savedCart = cartRepository.save(cart);
+
+        return toCartResponseDTO(savedCart);
     }
 
 }

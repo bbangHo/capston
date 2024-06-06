@@ -12,9 +12,10 @@ public class CartRequestDTO {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class requestedCart {
+    public static class RequestedCart {
 
-        @NotNull
+        private Long id;
+
         private Long itemId;
 
         private Long memberId;
