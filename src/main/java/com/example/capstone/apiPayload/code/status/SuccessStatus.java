@@ -41,9 +41,11 @@ public enum SuccessStatus implements BaseCode {
     _OK_SIGNUP(HttpStatus.OK,"SIGNUP_200_3","정상적으로 회원가입이 완료되었습니다."),
 
     //Member
-    _OK_CHANGE_NICKNAME(HttpStatus.OK,"MEMBER_200_1","정상적으로 닉네임이 변경되었습니다.."),
+    _OK_CHANGE_NICKNAME(HttpStatus.OK,"MEMBER_200_1","정상적으로 닉네임이 변경되었습니다."),
     _OK_CHANGE_MEMBER_DATA(HttpStatus.OK,"MEMBER_200_2","정상적으로 회원정보가 수정되었습니다."),
 
+    //Inquiry
+    _OK_ADD_INQUIRY(HttpStatus.OK,"INQUIRY_200_1","문의 작성이 성공했습니다.")
 
     ;
 
