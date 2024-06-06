@@ -179,6 +179,25 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public MemberRequestDTO.ChangeableMemberData passwordCheck(Long id, String password) {
+
+        Member member = memberRepository.findById(id).orElseThrow(() -> new ExceptionHandler(ErrorStatus.MEMBER_NOT_FOUND));
+
+        if(!passwordEncoder.matches(password, member.getPassword()))
+            throw new ExceptionHandler(ErrorStatus.PASSWORD_NOT_MATCH);
+
+        Address address = addressRepository.findByMember_Id(member.getId()).orElseThrow(() -> new ExceptionHandler(ErrorStatus.ADDRESS_NOT_FOUND));
+
+        return MemberRequestDTO.ChangeableMemberData.builder()
+                .nickName(member.getNickName())
+                .password(member.getPassword())
+                .phone(member.getPhone())
+                .address(address.getAddress())
+                .details(address.getDetails())
+                .build();
+    }
+
+    @Override
     public MemberRequestDTO.ChangeableMemberData changeMemberData(Long id, MemberRequestDTO.ChangeableMemberData changeableMemberData) {
 
         Member member = memberRepository.findById(id)
@@ -202,6 +221,7 @@ public class MemberServiceImpl implements MemberService {
                 .details(savedAddress.getDetails())
                 .build();
     }
+
 
     private Member checkLoginId(MemberRequestDTO.DupCheckField dupCheckField) {
 

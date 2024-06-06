@@ -19,4 +19,6 @@ public interface MemberService {
 
     MemberRequestDTO.ChangeableMemberData getMemberData(Long id);
 
+    MemberRequestDTO.ChangeableMemberData passwordCheck(Long id, String password);
+
 }

@@ -128,6 +128,18 @@ public class MemberController {
         return ApiResponse.onSuccess(result);
     }
 
+    @PostMapping("/auth/member/password")
+    public ApiResponse<MemberRequestDTO.ChangeableMemberData> getAuthMemberDATA(@AuthenticationPrincipal MemberSecurityDTO member, @RequestBody @NotNull Map<String, String> password) {
+
+        log.info("password check controller start ...............");
+
+        MemberRequestDTO.ChangeableMemberData result = memberService.passwordCheck(member.getId(), password.get("password"));
+
+        log.info("password check success...............");
+
+        return ApiResponse.onSuccess(result);
+    }
+
     @PatchMapping("/auth/member")
     public ApiResponse<MemberRequestDTO.ChangeableMemberData> modifyAuthMember(@AuthenticationPrincipal MemberSecurityDTO member, @RequestBody @NotNull MemberRequestDTO.ChangeableMemberData changeableMemberData) {
 
