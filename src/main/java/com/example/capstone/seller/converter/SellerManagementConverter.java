@@ -42,10 +42,13 @@ public class SellerManagementConverter {
     }
 
     public static SellerResponseDTO.SalesItem toSalesItem(Item item) {
+        boolean empty = item.getItemImages().isEmpty();
+
         return SellerResponseDTO.SalesItem.builder()
+                .itemId(item.getId())
                 .itemName(item.getName())
                 .itemType(item.getType())
-                .itemPreviewImageUrl(null)      // TODO: 어떤 이미지를 보여줘야할지
+                .itemPreviewImageUrl(empty ? null : item.getItemImages().get(0).getImageUrl())
                 .categoryName(item.getCategory().getName())
                 .price(item.getPrice())
                 .stock(item.getStock())
