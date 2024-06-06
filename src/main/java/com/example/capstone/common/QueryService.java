@@ -8,6 +8,7 @@ import com.example.capstone.item.repository.CategoryRepository;
 import com.example.capstone.item.repository.ItemRepository;
 import com.example.capstone.member.Member;
 import com.example.capstone.member.Subscription;
+import com.example.capstone.member.common.MemberType;
 import com.example.capstone.member.repository.MemberRepository;
 import com.example.capstone.member.repository.SubscriptionRepository;
 import com.example.capstone.order.OrderItem;
@@ -15,7 +16,6 @@ import com.example.capstone.order.repository.OrderItemRepository;
 import com.example.capstone.post.Post;
 import com.example.capstone.post.repository.PostRepository;
 import com.example.capstone.seller.Seller;
-import com.example.capstone.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +40,7 @@ public class QueryService {
      */
     public Seller isSeller(Long memberId) {
         Member member = findMember(memberId);
-        if (member.getSeller() == null) {
+        if (member.getType() == MemberType.ROLE_CONSUMER) {
             throw new GeneralException(ErrorStatus.SELLER_UNAUTHORIZED);
         }
 
