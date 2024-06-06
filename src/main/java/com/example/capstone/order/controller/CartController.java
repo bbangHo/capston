@@ -11,9 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +28,10 @@ public class CartController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ApiResponse<String> saveItemInCart(@AuthenticationPrincipal MemberSecurityDTO memberSecurityDTO, @Valid @RequestBody CartRequestDTO.requestedCart requestedCart, BindingResult bindingResult) throws BindException {
+    public ApiResponse<String> saveItemInCart(@AuthenticationPrincipal MemberSecurityDTO memberSecurityDTO,
+                                              @Valid @RequestBody CartRequestDTO.RequestedCart requestedCart,
+                                              BindingResult bindingResult) {
+
         log.info("CartController start.........");
 
         if(bindingResult.hasErrors()) {
@@ -65,6 +68,32 @@ public class CartController {
         log.info("deleteItemInCart success...............");
 
         return ApiResponse.of(SuccessStatus._OK_DELETE_ITEM_IN_CART, null);
+
+    }
+
+    @DeleteMapping("/items")
+    public ApiResponse<String> deleteItemsInCart(@AuthenticationPrincipal MemberSecurityDTO member) {
+
+        log.info("deleteItemsInCart controller start ...............");
+
+        cartService.deleteItemsInCart(member.getId());
+
+        log.info("deleteItemsInCart success...............");
+
+        return ApiResponse.of(SuccessStatus._OK_DELETE_ITEM_IN_CART, null);
+
+    }
+
+    @PatchMapping("/item/quantity")
+    public ApiResponse<CartResponseDTO.Cart> changeQuantity(@Valid @RequestBody CartRequestDTO.RequestedCart cart){
+
+        log.info("changeQuantityItemInCart controller start ...............");
+
+        CartResponseDTO.Cart result = cartService.changeQuantity(cart.getId(), cart.getQuantity());
+
+        log.info("changeQuantityItemInCart  success...............");
+
+        return ApiResponse.of(SuccessStatus._OK_CHANGE_CART, result);
 
     }
 }
