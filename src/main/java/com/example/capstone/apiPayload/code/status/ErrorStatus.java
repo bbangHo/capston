@@ -28,6 +28,8 @@ public enum ErrorStatus implements BaseErrorCode {
     MALFORMED_MEMBER_NICKNAME(HttpStatus.BAD_REQUEST, "MEMBER_400_8", "사용자의 닉네임 형식에 문제가 있습니다."),
     MALFORMED_MEMBER_PHONE(HttpStatus.BAD_REQUEST, "MEMBER_400_9", "사용자의 전화번호 형식에 문제가 있습니다."),
     TEMP_MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER_400_10", "임시 멤버가 아닙니다."),
+    PASSWORD_NOT_MATCH(HttpStatus.UNAUTHORIZED, "MEMBER_401_11", "비밀번호가 맞지 않습니다."),
+
 
 
     // Seller
