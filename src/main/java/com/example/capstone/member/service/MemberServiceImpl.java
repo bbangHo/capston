@@ -17,6 +17,7 @@ import com.example.capstone.member.dto.MemberResponseDTO;
 import com.example.capstone.member.repository.AddressRepository;
 import com.example.capstone.member.repository.MemberRepository;
 import com.example.capstone.order.Order;
+import com.example.capstone.order.OrderItem;
 import com.example.capstone.seller.Seller;
 import com.example.capstone.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +27,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.example.capstone.member.converter.MemberConverter.*;
 
@@ -279,14 +283,16 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-    public ItemResponseDTO.ItemStatusList getOrderedItemStatus(Long memberId, Long orderId) {
+    public List<ItemResponseDTO.ItemStatusList> getOrderedItemStatus(Long memberId) {
+        List<ItemResponseDTO.ItemStatusList> list = new ArrayList<>();
         Member member = queryService.findMember(memberId);
 
-        Order order = member.getOrderList().stream()
-                .filter(s -> s.getId().equals(orderId))
-                .findFirst()
-                .orElseThrow(() -> new GeneralException(ErrorStatus.ORDER_NOT_FOUND));
+        List<Order> orderList = member.getOrderList();
+        for (Order order : orderList) {
+            ItemResponseDTO.ItemStatusList itemStatusListDTO = ItemConverter.toItemStatusListDTO(order);
+            list.add(itemStatusListDTO);
+        }
 
-        return ItemConverter.toItemStatusListDTO(order);
+        return list;
     }
 }

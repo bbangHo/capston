@@ -17,6 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.example.capstone.member.common.MemberValidator.*;
@@ -27,10 +28,9 @@ import static com.example.capstone.member.common.MemberValidator.*;
 public class MemberController {
     private final MemberServiceImpl memberService;
 
-    @GetMapping("/auth/member/order/{order-id}")
-    public ApiResponse<ItemResponseDTO.ItemStatusList> getOrderedItemStatus(@AuthenticationPrincipal MemberSecurityDTO member,
-                                                             @PathVariable(name = "order-id") Long orderId) {
-        ItemResponseDTO.ItemStatusList response = memberService.getOrderedItemStatus(member.getId(), orderId);
+    @GetMapping("/auth/member/order")
+    public ApiResponse<List<ItemResponseDTO.ItemStatusList>> getOrderedItemStatus(@AuthenticationPrincipal MemberSecurityDTO member) {
+        List<ItemResponseDTO.ItemStatusList> response = memberService.getOrderedItemStatus(member.getId());
         return ApiResponse.onSuccess(response);
     }
 
