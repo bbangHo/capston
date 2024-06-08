@@ -14,6 +14,7 @@ public class ItemImageConverter {
 
         return ItemImageResponseDTO.ItemImage.builder()
                 .id(itemImage.getId())
+                .sequence(itemImage.getSequence())
                 .imageUrl(itemImage.getImageUrl())
                 .build();
     }

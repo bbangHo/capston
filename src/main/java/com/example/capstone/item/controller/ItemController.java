@@ -1,15 +1,18 @@
 package com.example.capstone.item.controller;
 
 import com.example.capstone.apiPayload.ApiResponse;
+import com.example.capstone.common.OrderedMultipartFileDTO;
 import com.example.capstone.item.dto.ItemRequestDTO;
 import com.example.capstone.item.dto.ItemResponseDTO;
 import com.example.capstone.item.service.ItemQueryService;
 import com.example.capstone.item.service.ItemService;
 import com.example.capstone.security.dto.MemberSecurityDTO;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +22,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping
+@Slf4j
 public class ItemController {
     private final ItemQueryService itemQueryService;
     private final ItemService itemService;
@@ -88,6 +92,27 @@ public class ItemController {
         ItemResponseDTO.ItemUpload response = itemService.uploadItem(memberId, request, itemImages, itemDetailsImage);
 
         return ApiResponse.onSuccess(response);
+    }
+
+    @PostMapping("/auth/v1/item")
+    public ApiResponse<ItemResponseDTO.ItemUpload> uploadItemV1(
+            @AuthenticationPrincipal MemberSecurityDTO member,
+            @Valid ItemRequestDTO.ItemUpload request
+    ) {
+        Long memberId = member.getId();
+        ItemResponseDTO.ItemUpload response = itemService.uploadItemV1(memberId, request);
+
+        log.info(request.getItemName());
+        log.info(request.getSimpleExplanation());
+        log.info(request.getPrice().toString());
+        log.info(request.getTargetQuantity().toString());
+        log.info(request.getDeadLine().toString());
+
+        log.info(request.getItemDetailsImage().getOriginalFilename());
+
+
+        return ApiResponse.onSuccess(response);
+//        return ApiResponse.onSuccess(ItemResponseDTO.ItemUpload.builder().build());
     }
 
 }
