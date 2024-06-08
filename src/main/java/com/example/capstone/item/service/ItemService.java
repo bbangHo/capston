@@ -1,5 +1,6 @@
 package com.example.capstone.item.service;
 
+import com.example.capstone.common.OrderedMultipartFileDTO;
 import com.example.capstone.item.dto.ItemRequestDTO;
 import com.example.capstone.item.dto.ItemResponseDTO;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,4 +23,5 @@ public interface ItemService {
 
     ItemResponseDTO.DetailsOfItem getDetailOfItem(Long ItemId);
     ItemResponseDTO.ItemUpload uploadItem(Long memberId, ItemRequestDTO.ItemUpload request, List<MultipartFile> itemImages, MultipartFile itemDetailsImage);
+    ItemResponseDTO.ItemUpload uploadItemV1(Long memberId, ItemRequestDTO.ItemUpload request);
 }

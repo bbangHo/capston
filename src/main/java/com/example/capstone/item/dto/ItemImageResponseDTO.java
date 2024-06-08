@@ -18,6 +18,7 @@ public class ItemImageResponseDTO {
     @AllArgsConstructor
     public static class ItemImage {
         private Long id;
+        private Integer sequence;
 
         @NotNull
         private String imageUrl;

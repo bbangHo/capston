@@ -1,18 +1,21 @@
 package com.example.capstone.item.dto;
 
+import com.example.capstone.common.OrderedMultipartFileDTO;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemRequestDTO {
 
     @Builder
     @Getter
+    @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ItemUpload {
@@ -45,5 +48,11 @@ public class ItemRequestDTO {
 
         @Min(value = 0, message = "상품 가격은 0원 이상입니다")
         private Integer groupPurchasePrice;
+
+        @Nullable
+        private List<OrderedMultipartFileDTO> itemImages = new ArrayList<>();
+
+        @Nullable
+        private MultipartFile itemDetailsImage;
     }
 }
