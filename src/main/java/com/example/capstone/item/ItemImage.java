@@ -1,6 +1,7 @@
 package com.example.capstone.item;
 
 import com.example.capstone.common.BaseEntity;
+import com.example.capstone.item.common.ImageType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -21,6 +22,8 @@ public class ItemImage extends BaseEntity {
     @JoinColumn(name = "item_id")
     private Item item;
 
+    private Integer sequence;
+
     @NotNull
     private String imageUrl;
 
@@ -29,6 +32,10 @@ public class ItemImage extends BaseEntity {
 
     @Column(unique = true)
     private UUID uuid;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private ImageType imageType = ImageType.COMMON;
 
     public void setItem(Item item) {
         this.item = item;

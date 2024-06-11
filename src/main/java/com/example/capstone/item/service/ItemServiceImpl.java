@@ -2,6 +2,7 @@ package com.example.capstone.item.service;
 
 import com.example.capstone.apiPayload.code.status.ErrorStatus;
 import com.example.capstone.aws.s3.AmazonS3Util;
+import com.example.capstone.common.OrderedMultipartFileDTO;
 import com.example.capstone.common.QueryService;
 import com.example.capstone.exception.GeneralException;
 import com.example.capstone.exception.handler.ExceptionHandler;
@@ -9,6 +10,7 @@ import com.example.capstone.item.Category;
 import com.example.capstone.item.GroupPurchaseItem;
 import com.example.capstone.item.Item;
 import com.example.capstone.item.ItemImage;
+import com.example.capstone.item.common.ImageType;
 import com.example.capstone.item.converter.ItemConverter;
 import com.example.capstone.item.dto.ItemRequestDTO;
 import com.example.capstone.item.dto.ItemResponseDTO;
@@ -30,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -124,6 +127,21 @@ public class ItemServiceImpl implements ItemService {
         return ItemConverter.toItemUpload(item);
     }
 
+    @Override
+    public ItemResponseDTO.ItemUpload uploadItemV1(Long memberId, ItemRequestDTO.ItemUpload request) {
+        Seller seller = queryService.isSeller(memberId);
+        Category category = queryService.findCategory(request.getCategoryId());
+        Item item = ItemConverter.toItemEntity(seller, request, category);
+
+        isGroupPurchase(item, request);
+        itemImageUploadV1(item, request.getItemImages(), ImageType.COMMON);
+        itemDetailsImageUploadV1(item, request.getItemDetailsImage());
+
+        item = itemRepository.save(item);
+
+        return ItemConverter.toItemUpload(item);
+    }
+
     private ItemImage itemImageBuilder(Item item, MultipartFile file) {
         UUID uuid = UUID.randomUUID();
         String path = amazonS3Util.generateItemImagePath(uuid, file);
@@ -138,6 +156,24 @@ public class ItemServiceImpl implements ItemService {
 
         return itemImageRepository.save(itemImage);
     }
+
+    private ItemImage itemImageBuilder(Integer sequence, Item item, MultipartFile file, ImageType imageType) {
+        UUID uuid = UUID.randomUUID();
+        String path = amazonS3Util.generateItemImagePath(uuid, file);
+        String url = amazonS3Util.uploadFile(path, file);
+
+        ItemImage itemImage = ItemImage.builder()
+                .item(item)
+                .sequence(sequence)
+                .imageUrl(url)
+                .uuid(uuid)
+                .originFileName(file.getOriginalFilename())
+                .imageType(imageType)
+                .build();
+
+        return itemImageRepository.save(itemImage);
+    }
+
     private void itemDetailsImageUpload(Item item, MultipartFile file) {
         if (file == null || file.getOriginalFilename().equals("")) {
             return;
@@ -158,6 +194,28 @@ public class ItemServiceImpl implements ItemService {
             ItemImage itemImage = itemImageBuilder(item, file);
             item.addItemImage(itemImage);
         }
+    }
+
+    private void itemImageUploadV1(Item item, List<OrderedMultipartFileDTO> itemImages, ImageType imageType) {
+        assert itemImages != null;
+
+        for (OrderedMultipartFileDTO dto : itemImages) {
+            Integer sequence = dto.getSequence();
+            MultipartFile multipartFile = dto.getMultipartFile();
+
+            assert !multipartFile.getOriginalFilename().equals("");
+
+            ItemImage itemImage = itemImageBuilder(sequence, item, multipartFile, ImageType.COMMON);
+            item.addItemImage(itemImage);
+        }
+    }
+
+    private void itemDetailsImageUploadV1(Item item, MultipartFile file) {
+        if (file == null || file.getOriginalFilename().equals("")) {
+            return;
+        }
+        ItemImage itemImage = itemImageBuilder(1000, item, file, ImageType.DETAILS);
+        item.addItemDetailsImageUrl(itemImage.getImageUrl());
     }
 
     /**
