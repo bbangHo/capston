@@ -70,6 +70,6 @@ public class AmazonS3Util {
 
 
     public String generateTestImagePath(UUID uuid) {
-        return "/test" + '/' + UUID.randomUUID();
+        return "/test" + '/' + uuid;
     }
 }

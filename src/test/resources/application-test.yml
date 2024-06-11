@@ -1,0 +1,62 @@
+#spring:
+#  datasource:
+#    url: jdbc:h2:mem:test;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+#
+#  jpa:
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL8Dialect
+#        globally_quoted_identifiers: true
+#    hibernate:
+#      ddl-auto: create
+#
+#  cloud:
+#    aws:
+#      s3:
+#        bucket: capstone-image-s3
+#        path:
+#          items: items      # 상품 이미지가 저장되는 경로
+#          item_previews: item_previews  # 상품의 미리보기 이미지가 저장되는 경로
+#      region:
+#        static: ap-northeast-2
+#      stack:
+#        auto: false
+#      credentials:
+#        accessKey: testAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKey
+#        secretKey: testSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKey
+
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:test;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+  jpa:
+    show-sql: false
+    open-in-view: false
+    properties:
+      dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: create
+  flyway:
+    enabled: false
+  cloud:
+    aws:
+      s3:
+        bucket: capstone-image-s3
+        path:
+          items: items      # 상품 이미지가 저장되는 경로
+          item_previews: item_previews  # 상품의 미리보기 이미지가 저장되는 경로
+          seller_image: seller_image
+      region:
+        static: ap-northeast-2
+      stack:
+        auto: false
+      credentials:
+        accessKey: testAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKeytestAccessKey
+        secretKey: testSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKeytestSecretKey
+  jackson:
+    time-zone: Asia/Seoul
+  jwt:
+    key: jwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkeyjwtkey
