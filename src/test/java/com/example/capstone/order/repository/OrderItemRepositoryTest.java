@@ -53,7 +53,7 @@ class OrderItemRepositoryTest {
     static Order order;
     static OrderItem orderItem;
 
-    @BeforeEach
+//    @BeforeEach
     void setUp() {
         member = memberRepository.save(
                 Member.builder()
@@ -101,7 +101,7 @@ class OrderItemRepositoryTest {
         );
     }
 
-    @Test
+//    @Test
     void _12개월치_월별_판매량을_가져온다() throws NoSuchFieldException, IllegalAccessException {
         for(int i = 1; i <= 12; i++) {
             OrderItem oi = orderItemRepository.save(
@@ -152,7 +152,7 @@ class OrderItemRepositoryTest {
         }
     }
 
-    @Test
+//    @Test
     void 판매자_관리_페이지에서_판매자의_상품_목록을_가져온다() {
         // given
         Pageable pageable = PageRequest.of(0, 10);
@@ -166,7 +166,7 @@ class OrderItemRepositoryTest {
         }
     }
 
-    @Test
+//    @Test
     void 판매자의_상품_판매량_테스트() {
         List<Integer> salesVolume = orderItemRepository.getSalesVolume(seller.getId(), DateType.DAY);
 

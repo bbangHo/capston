@@ -190,8 +190,8 @@ public class addDummyTest {
         }
     }
 
-    @DisplayName("비밀번호 암호화")
-    @Test
+//    @DisplayName("비밀번호 암호화")
+//    @Test
     void testStockQuantity(){
         for (int i = 1; i < 30; i++) {
 

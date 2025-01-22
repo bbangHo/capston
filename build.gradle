@@ -2,6 +2,11 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.4'
     id 'io.spring.dependency-management' version '1.1.4'
+    id 'jacoco'
+}
+
+jacoco {
+    toolVersion = '0.8.8'
 }
 
 group = 'com.example'
@@ -64,6 +69,44 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+
+    reports {
+        xml.required = false
+        csv.required = false
+
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+
+    afterEvaluate {
+        getClassDirectories().setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "com/flab/idolu/global/filter/*"
+            ])
+        }))
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+
+            limit {
+                counter = 'BRANCH'
+                minimum = 0.8
+            }
+
+            limit {
+                counter = 'LINE'
+                minimum = 0.8
+            }
+        }
+    }
 }
 
 jar {

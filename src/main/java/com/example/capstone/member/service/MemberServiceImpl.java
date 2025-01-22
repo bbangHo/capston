@@ -59,7 +59,6 @@ public class MemberServiceImpl implements MemberService {
 
         member.changeRole();
 
-
         UUID uuid = UUID.randomUUID();
         String path = amazonS3Util.generateSellerProfileImagePath(uuid, multipartFile);
         String url = amazonS3Util.uploadFile(path, multipartFile);

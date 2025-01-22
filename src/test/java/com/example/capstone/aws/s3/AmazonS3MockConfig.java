@@ -7,11 +7,13 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.example.capstone.config.AmazonConfig;
 import io.findify.s3mock.S3Mock;
+import lombok.Getter;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
 @TestConfiguration
+@Getter
 public class AmazonS3MockConfig {
     public String bucket = "capstone-image-s3";
 
@@ -53,5 +55,11 @@ public class AmazonS3MockConfig {
         config.setItemPreviewDir("item_previews");
         config.setSellerImage("seller_image");
         return config;
+    }
+
+    @Bean
+    @Primary
+    public AmazonS3Util amazonS3Util(AmazonS3 amazonS3, AmazonConfig amazonConfig) {
+        return new AmazonS3Util(amazonS3, amazonConfig);
     }
 }
