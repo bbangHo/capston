@@ -26,7 +26,7 @@
 ➀ **기능 요약**
 - **상품/주문** 전 과정(장바구니, 배송 상태, 결제 미구현)
 - **생산자 대시보드**(상품 등록·재고/가격·정산 내역)
-- **리뷰/평점/해시태그**
+- **리뷰**
 - **검색/필터/정렬**(산지, 제철, 품목, 수산/농산 구분)
 
 ![t](https://www.canva.com/design/DAGyjt6G1jg/XsrMR_Q_8aaoSaJ7nUuKBg/view?utm_content=DAGyjt6G1jg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h3018b930a5)
